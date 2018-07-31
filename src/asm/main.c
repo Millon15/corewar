@@ -5,33 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/07/31 12:21:38 by vbrazas          ###   ########.fr       */
+/*   Created: 2018/07/31 12:20:25 by vbrazas           #+#    #+#             */
+/*   Updated: 2018/07/31 12:20:47 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <vm.h>
-/*
-int				 put_usage(const int errnum)
+int		main()
 {
-		char			*errstr;
-
-		(errnum == 0) ? errstr = strerror(errnum) : false;
-		(errnum == 1) ? errstr = "Too less arguments" : false;
-		(errnum == 2) ? errstr = "Cannot find binary of the given command" : false;
-		(errnum == 3) ? errstr = "ft_strjoin fail" : false;
-		ft_printf("ERROR: %s\n\n%s\n", errstr, \
-		"Usage: ./corewar ");
-		exit(1);
-		return (1);
-}
-*/
-int				main()//(int ac, const char **av)
-{
-//	t_core		c;
-
-//	check_and_obtain_args(ac, av, &c);
-
-
-	return (0);
+	return 0;
 }
