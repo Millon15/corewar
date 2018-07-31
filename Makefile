@@ -6,7 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/28 19:24:02 by vbrazas           #+#    #+#              #
-#    Updated: 2018/07/31 13:08:12 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/07/31 14:45:19 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ mclean:
 mfclean:
 	make mfclean -C $(ASM_PATH)
 	make mfclean -C $(VM_PATH)
+	rm -f $(ASM) $(VM)
 
 mre: mfclean all
 

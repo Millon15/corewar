@@ -6,15 +6,16 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/07/26 19:47:46 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/07/31 14:43:56 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VM_H
 # define VM_H
 
-#include <libftprintf.h>
-#include <op.h>
+# include <libftprintf.h>
+# include <string.h>
+# include <op.h>
 
 typedef struct		s_corewar
 {

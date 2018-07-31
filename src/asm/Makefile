@@ -6,20 +6,20 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/28 19:24:02 by vbrazas           #+#    #+#              #
-#    Updated: 2018/07/31 12:32:40 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/07/31 14:40:24 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = asm
+NAME = corewar
 
-SRC_PATH = 
+SRC_PATH = src/
 LIB_PATH = ../../ft_printf/
-INC_PATH = ../../includes/
 OBJ_PATH = obj/
 
 C = clang
 WFLAGS = #-Wall -Werror -Wextra
-IFLAGS = -I $(INC_PATH) -I $(LIB_PATH)
+INCS = -I ../../includes/ -I includes/
+IFLAGS = $(INCS) -I $(LIB_PATH)
 
 LIB = $(LIB_PATH)libftprintf.a
 FILES = main

@@ -6,11 +6,11 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/07/31 12:21:38 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/07/31 14:47:32 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <vm.h>
+#include <asm.h>
 /*
 int				 put_usage(const int errnum)
 {
@@ -26,12 +26,7 @@ int				 put_usage(const int errnum)
 		return (1);
 }
 */
-int				main()//(int ac, const char **av)
+int				main(int ac, const char **av)
 {
-//	t_core		c;
-
-//	check_and_obtain_args(ac, av, &c);
-
-
 	return (0);
 }
