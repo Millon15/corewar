@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/02 14:21:55 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/02 22:25:55 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,12 @@ typedef struct	s_args
 typedef struct	s_player
 {
 	int				fd;
-	t_op			header;
+	char			*filename;
+	unsigned int	magic;
+	unsigned int	prog_size;
+	char			prog_name[PROG_NAME_LENGTH + 1];
+	char			comment[COMMENT_LENGTH + 1];
+	char			source_code[MEM_SIZE];
 
 }				t_player;
 
@@ -44,16 +49,16 @@ typedef struct	s_player
 
 typedef struct	s_corewar
 {
-	unsigned int	pa;
+	int				player_amount;
 	t_player		player[MAX_PLAYERS];
 	t_args			args;
-	char			arena[MEM_SIZE];
+	unsigned char	arena[MEM_SIZE];
 	// t_carriage		*head;
 	// t_comms			p_tab[17];
-	unsigned int	cursors;
-	unsigned int	cycle;
+	// unsigned int	cursors;
+	// unsigned int	cycle;
 	// unsigned int	tot_cycle;
-	unsigned int	cycles_to_die;
+	// unsigned int	cycles_to_die;
 	// unsigned int	lives;
 	// unsigned int	check;
 	// unsigned int	bonus;
@@ -63,6 +68,7 @@ typedef struct	s_corewar
 
 }				t_vm;
 
-bool			 put_usage(const int errnum);
+bool			put_usage(const int errnum);
+void			fill_the_map(t_vm *v);
 
 #endif
