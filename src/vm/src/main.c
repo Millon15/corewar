@@ -6,52 +6,51 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/07/31 17:14:10 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/02 14:30:55 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-void			 put_usage(const int errnum)
+bool					put_usage(const int errnum)
 {
+	const bool		is_invalid_error = (errnum < 0 || errnum > 4);
 	char			*errstr;
+	const char		*errors[] = {"", "Too less arguments",
+	"There are no granted number for '-d' flag",
+	"Too many champions",
+	"MAX_PALYERS useless value"};
 
-	(errnum == -1) ? errstr = "" : false;
-	(errnum == 0) ? errstr = strerror(errnum) : false;
-	(errnum == 1) ? errstr = "Too less arguments" : false;
-	(errnum == 2) ? errstr = "There are no granted number for '-d' flag" : 0;
-	(errnum == 3) ? errstr = "Too many champions" : false;
-	(errnum == 4) ? errstr = "MAX_PALYERS useless value" : false;
-	ft_printf("ERROR: %s\n\n%s\n", errstr,
-	"Usage: ./corewar "
-	"[-d N -s N -v N | -b --stealth | -n --stealth] [-a] <champion1.cor> <...>"
-	"\t-d N\t\t: Dumps memory after N cycles then exits"
-	"\t-b\t\t: Binary output mode for corewar.42.fr"
-	"\t-n\t\t: Ncurses output mode"
-	"\t--stealth\t: Hides the real contents of the memory");
+	if (is_invalid_error)
+		errstr = "";
+	else
+		errstr = (errnum == 0) ? strerror(errnum) : ((char **)errors)[errnum];
+	ft_dprintf(2, "%s%s\n\n%s", (is_invalid_error) ? "" : "ERROR: ",
+	errstr, "Usage: ./corewar "
+	"[-d N -s N -v N | -b --stealth | -n --stealth] <champion1.cor> <...>\n"
+	"\t-d N\t\t: Dumps memory after N cycles then exits\n"
+	"\t-b\t\t: Binary output mode for corewar.42.fr\n"
+	"\t-n\t\t: Ncurses output mode\n"
+	"\t--stealth\t: Hides the real contents of the memory\n");
 	exit(1);
 }
 
-static void		open_files(int ac, const char **av, t_vm *v, int i)
+static inline void		open_files(int ac, const char **av, t_vm *v, int i)
 {
 	while (++i < ac)
 	{
 		if ((v->player[v->pa].fd = open(av[i], O_RDONLY)) == -1)
-		{
-			ft_printf("Can't read source file: %s", av[i]);
-			put_usage(-1);
-		}
+			ft_dprintf(2, "Can't read source file: %s", av[i]) && put_usage(-1);
 		(++v->pa > MAX_PLAYERS) ? put_usage(3) : false;
 	}
 }
 
-static void		check_and_obtain_args(int ac, const char **av, t_vm *v)
+static inline void		check_and_obtain_args(int ac, const char **av, t_vm *v)
 {
 	int		i;
 
 	(ac == 1) ? put_usage(1) : false;
 	(MAX_PLAYERS <= 1) ? put_usage(4) : false;
-	ft_bzero(v, sizeof(v)); // ???
 	i = 0;
 	while (++i < ac)
 	{
@@ -70,15 +69,14 @@ static void		check_and_obtain_args(int ac, const char **av, t_vm *v)
 		else
 			break ;
 	}
-	open_files(ac, av, v, i);
+	open_files(ac, av, v, --i);
 }
 
-int				main(int ac, const char **av)
+int						main(int ac, const char **av)
 {
 	t_vm		v;
 
+	ft_bzero(&v, sizeof(v));
 	check_and_obtain_args(ac, av, &v);
-
-
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/28 19:24:02 by vbrazas           #+#    #+#              #
-#    Updated: 2018/07/31 14:40:24 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/08/02 14:26:33 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LIB_PATH = ../../ft_printf/
 OBJ_PATH = obj/
 
 C = clang
-WFLAGS = #-Wall -Werror -Wextra
+WFLAGS = -Wall -Werror -Wextra
 INCS = -I ../../includes/ -I includes/
 IFLAGS = $(INCS) -I $(LIB_PATH)
 

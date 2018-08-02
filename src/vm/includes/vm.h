@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/07/31 17:13:12 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/02 14:21:55 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ typedef struct	s_corewar
 
 }				t_vm;
 
-void			 put_usage(const int);
+bool			 put_usage(const int errnum);
 
 #endif
