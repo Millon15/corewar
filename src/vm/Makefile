@@ -6,7 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 18:58:59 by vbrazas           #+#    #+#              #
-#    Updated: 2018/08/02 19:43:12 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/08/04 20:06:22 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ INC_PATH = includes/
 IFLAGS = -I ../../$(INC_PATH) -I $(INC_PATH) -I $(LIB_PATH)
 
 LIB = $(LIB_PATH)libftprintf.a
-FILES = main fill_the_map
+FILES = main utils fill_the_map
 
 SRCS = $(addprefix $(SRC_PATH), $(addsuffix .c, $(FILES)))
 OBJS = $(addprefix $(OBJ_PATH), $(SRCS:%.c=%.o))

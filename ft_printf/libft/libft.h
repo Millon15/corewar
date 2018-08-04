@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 20:15:12 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/07/31 20:55:59 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/04 16:15:15 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,20 @@
 # include <limits.h>
 # include <sys/types.h>
 # include <sys/uio.h>
+
+/*
+** A little binary print macro
+** #define BTB_PTN "%c%c%c%c%c%c%c%c"
+** #define BTB(byte)  \
+** 	(byte & 0x80 ? '1' : '0'), \
+** 	(byte & 0x40 ? '1' : '0'), \
+** 	(byte & 0x20 ? '1' : '0'), \
+** 	(byte & 0x10 ? '1' : '0'), \
+** 	(byte & 0x08 ? '1' : '0'), \
+** 	(byte & 0x04 ? '1' : '0'), \
+** 	(byte & 0x02 ? '1' : '0'), \
+** 	(byte & 0x01 ? '1' : '0')
+*/
 
 /*
 *****************************************************************************
@@ -120,14 +134,14 @@ void				ft_swap(int *, int *);
 int					*ft_range(int, int);
 void				ft_foreach(int *, int, void (*)(int));
 char				*ft_itoa_base(int, int);
-unsigned long int	ft_pow(int, int);
+char				*ft_utoa_base(size_t, const int, const bool);
+int					ft_atoi_base(const char *, int);
+size_t				ft_atou_base(const char *, int);
+ssize_t				ft_pow(ssize_t, int);
 int					ft_root(int, int);
 int					ft_fcd(int, int);
 int					ft_isprint(int);
 int					ft_iswhitespace(int);
-int					ft_atoi_base(const char *, int);
-unsigned long		ft_atou_base(const char *, int);
-char				*ft_utoa_base(unsigned long, int);
 char				*ft_strnjoin(char const *, char const *, size_t, size_t);
 ssize_t				ft_putnstr(char const *, size_t);
 ssize_t				ft_putnstr_fd(char const *, int fd, size_t);

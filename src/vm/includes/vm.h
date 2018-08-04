@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/02 22:25:55 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/04 20:11:06 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include <libftprintf.h>
 # include <string.h>
 # include <op.h>
+
+/*
+** Structure of passed args
+*/
 
 typedef struct	s_args
 {
@@ -28,7 +32,7 @@ typedef struct	s_args
 }				t_args;
 
 /*
-** C
+** Structure of the single player
 */
 
 typedef struct	s_player
@@ -44,7 +48,7 @@ typedef struct	s_player
 }				t_player;
 
 /*
-** C
+** Main corewar structure
 */
 
 typedef struct	s_corewar
@@ -68,7 +72,19 @@ typedef struct	s_corewar
 
 }				t_vm;
 
-bool			put_usage(const int errnum);
-void			fill_the_map(t_vm *v);
+/*
+** Functions that represents parts of the program
+*/
+
+void			fill_the_map(t_vm *);
+
+/*
+** Utils
+*/
+
+bool			put_usage(const int);
+int				meta_reader(const int, void *, const int);
+void			meta_printer(const void *, const int);
+unsigned int	read_raw_num(const int, const int);
 
 #endif

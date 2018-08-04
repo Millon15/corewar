@@ -6,52 +6,39 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/02 22:27:26 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/04 20:13:25 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static int			meta_reader(int fd, char read_in[], int nbytes)
+static inline void		fill_player_struct(t_vm *v)
 {
-	int		ret;
-
-	ret = read(fd, read_in, nbytes);
-	if (ret < 0)
-	{
-		put_usage(0);
-	}
-	return (ret);
-}
-
-static inline void	fill_player_struct(t_vm *v)
-{
-	ssize_t		ret;
+	int			ret;
 	int			i;
 
 	i = -1;
 	while (++i < v->player_amount)
 	{
-		ret =
-		meta_reader(v->player[i].fd, v->player[i].prog_name, PROG_NAME_LENGTH);
-		(ret < 0) ? put_usage(0) : false;
-		ret =
-		meta_reader(v->player[i].fd, v->player[i].comment, COMMENT_LENGTH);
-		(ret < 0) ? put_usage(0) : false;
-		ret =
-		meta_reader(v->player[i].fd, v->player[i].source_code, MEM_SIZE);
-		if (ret > CHAMP_MAX_SIZE)
-		{
-			ft_dprintf(2,
-			"ERROR: File %s has too large source code (%u bytes > %u bytes)\n",
-			v->player[i].filename, ret, CHAMP_MAX_SIZE);
+		v->player[i].magic = read_raw_num(v->player[i].fd, sizeof(int));
+		if (v->player[i].magic != COREWAR_EXEC_MAGIC &&
+		ft_dprintf(2, "ERROR: File %s has no magic number in its header\n",
+		v->player[i].filename))
 			exit(2);
-		}
-		v->player[i].prog_size = ret;
+		meta_reader(v->player[i].fd, v->player[i].prog_name, PROG_NAME_LENGTH);
+		lseek(v->player[i].fd, sizeof(int), SEEK_CUR);
+		v->player[i].prog_size = read_raw_num(v->player[i].fd, sizeof(int));
+		meta_reader(v->player[i].fd, v->player[i].comment, COMMENT_LENGTH);
+		lseek(v->player[i].fd, sizeof(int), SEEK_CUR);
+		ret = meta_reader(v->player[i].fd, v->player[i].source_code, MEM_SIZE);
+		if (ret > ((int)v->player[i].prog_size) && ft_dprintf(2,
+		"ERROR: File %s has too large source code (%u bytes > %u bytes)\n",
+		v->player[i].filename, v->player[i].prog_size, CHAMP_MAX_SIZE))
+			exit(2);
 	}
 }
 
-static inline void	fill_arena(t_vm *v)
+static inline void		fill_arena(t_vm *v)
 {
 	const int		increase_on = MEM_SIZE / v->player_amount;
 	unsigned char	*arena;

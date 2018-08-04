@@ -6,29 +6,29 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 20:18:32 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/05/23 17:11:23 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/04 15:58:17 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
-**	ft_atou_base function inputs (char *)s - array of chars, which only include
-**	numbers and '-' sign, numbers may be at any base from 2nd to 36th, and
-**	outputs decimal unsigned longinteger value, which represent input number.
+** ft_atou_base function inputs (char *)s - array of chars, which only include
+** numbers and '-' sign, numbers may be at any base from 2nd to 36th, and
+** outputs decimal size_tinteger value, which represent input number.
 **
-**	i[0] -- len of (char *)s iterator(i);
-**	i[1] -- len of (char *)s buffer(i_buf);
-**	i[2] -- "0123456789ABCDEF" iterator(j);
-**	i[3] -- buf[0] == '-' ? -1 : 1;
+** i[0] -- len of (char *)s iterator(i);
+** i[1] -- len of (char *)s buffer(i_buf);
+** i[2] -- "0123456789ABCDEF" iterator(j);
+** i[3] -- buf[0] == '-' ? -1 : 1;
 */
 
-unsigned long		ft_atou_base(const char *s, int base)
+size_t				ft_atou_base(const char *s, int base)
 {
 	int				i[4];
-	unsigned long	res;
+	size_t			res;
 	char			*buf;
-	const	char	st[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	const char		st[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	if (base < 2 || base > 36)
 		return (0);

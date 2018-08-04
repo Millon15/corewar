@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/02 22:43:22 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/04 20:05:32 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,25 +74,25 @@ static inline void		check_and_obtain_args(int ac, char **av, t_vm *v)
 	open_files(ac, av, v, --i);
 }
 
-void					print_the_arena(t_vm *v)
+void					print_arena_to_stdout(t_vm *v)
 {
 	int				i;
-	unsigned char	*arena;
 
 	i = -1;
 	ft_putstr("Introducing contestants...\n");
 	while (++i < v->player_amount)
-		ft_printf("* Player %d, wheighting %d bytes, \"%s\" (\"%s\")\n", i + 1,
-		v->player[i].prog_size, v->player[i].prog_name, v->player[i].comment);
-	i = -1;
-	arena = v->arena;
-	ft_putstr("0x0000 : ");
-	while (++i < MEM_SIZE)
-	{
-		(!(i % 64) && i != 0) ? ft_printf("\n%#.4x : ", i) :
-		ft_printf("%0.2x ", arena[i]);
-	}
-	ft_putchar('\n');
+		ft_printf("* Player %d, wheighting %d bytes, \"%s\" (\"%s\") !\n",
+		i + 1, v->player[i].prog_size, 
+		v->player[i].prog_name, v->player[i].comment);
+	// i = -1;
+	// ft_printf("0x0000 : %0.2x ", v->arena[++i]);
+	// while (++i < MEM_SIZE)
+	// {
+	// 	(!(i % 64)) ? ft_printf("\n%#.4x : %0.2x ", i, v->arena[i]) :
+	// 	ft_printf("%0.2x ", v->arena[i]);
+	// }
+	// ft_putchar('\n');
+	meta_printer(v->arena, MEM_SIZE);
 }
 
 int						main(int ac, char **av)
@@ -102,6 +102,6 @@ int						main(int ac, char **av)
 	ft_bzero(&v, sizeof(v));
 	check_and_obtain_args(ac, av, &v);
 	fill_the_map(&v);
-	print_the_arena(&v);
+	print_arena_to_stdout(&v);
 	return (0);
 }
