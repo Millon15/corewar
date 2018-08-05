@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/04 20:11:06 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/05 20:36:57 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	s_args
 typedef struct	s_player
 {
 	int				fd;
+	bool			is_alive;
 	char			*filename;
 	unsigned int	magic;
 	unsigned int	prog_size;
@@ -46,6 +47,23 @@ typedef struct	s_player
 	char			source_code[MEM_SIZE];
 
 }				t_player;
+
+/*
+** Carriage structure
+** unsigned char	*where;	// iterator of the v->arena
+** int				whom;	// index of the v->players
+*/
+
+typedef struct s_carriage	t_car;
+
+struct			s_carriage
+{
+	unsigned char	*where;
+	int				whom;
+	t_car			*prev;
+	t_car			*next;
+
+};
 
 /*
 ** Main corewar structure
@@ -57,9 +75,9 @@ typedef struct	s_corewar
 	t_player		player[MAX_PLAYERS];
 	t_args			args;
 	unsigned char	arena[MEM_SIZE];
-	// t_carriage		*head;
+	unsigned int	cursors;
+	t_car			*head;
 	// t_comms			p_tab[17];
-	// unsigned int	cursors;
 	// unsigned int	cycle;
 	// unsigned int	tot_cycle;
 	// unsigned int	cycles_to_die;
@@ -76,15 +94,33 @@ typedef struct	s_corewar
 ** Functions that represents parts of the program
 */
 
-void			fill_the_map(t_vm *);
+void			fill_players(t_vm *v);
+void			fill_arena(t_vm *v);
+void			print_arena_to_stdout(t_vm *v);
+void			open_files(int ac, char **av, t_vm *v, int i);
+void			check_and_obtain_args(int ac, char **av, t_vm *v);
+
+/*
+** Carriage related functions
+*/
+
+t_car			*get_last_car(t_vm *v);
+void			init_car(unsigned char *where, int whom, t_vm *v);
 
 /*
 ** Utils
 */
 
-bool			put_usage(const int);
-int				meta_reader(const int, void *, const int);
-void			meta_printer(const void *, const int);
-unsigned int	read_raw_num(const int, const int);
+int				meta_reader(const int fd, void *read_in, const int nbytes);
+void			meta_printer(const void *to_print, const int nbytes);
+unsigned int	read_raw_num(const int fd, const int chars_to_read);
+
+/*
+** Put Error functions
+*/
+
+bool			put_usage(const int errnum);
+bool			put_error(const int errnum, const char *errstr,
+	const int i1, const int i2);
 
 #endif
