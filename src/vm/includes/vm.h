@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/05 20:36:57 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/07 20:24:42 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,25 @@ typedef struct	s_player
 ** int				whom;	// index of the v->players
 */
 
-typedef struct s_carriage	t_car;
+typedef struct s_carriage					t_car;
+typedef struct s_carriage_virtual_table		t_car_vt;
 
 struct			s_carriage
 {
-	unsigned char	*where;
 	int				whom;
+	unsigned char	reg[REG_NUMBER][REG_SIZE];
+	unsigned char	*pc;
+	bool			carry;
 	t_car			*prev;
 	t_car			*next;
 
+	t_car_vt		vt;
+
+};
+
+struct			s_carriage_virtual_table
+{
+	void		(*perform_next_comm)(t_car *self);
 };
 
 /*
@@ -74,10 +84,14 @@ typedef struct	s_corewar
 	int				player_amount;
 	t_player		player[MAX_PLAYERS];
 	t_args			args;
+
 	unsigned char	arena[MEM_SIZE];
-	unsigned int	cursors;
 	t_car			*head;
-	// t_comms			p_tab[17];
+
+
+	// t_comms			p_tab[REG_NUMBER];
+
+	// unsigned int	cursors;
 	// unsigned int	cycle;
 	// unsigned int	tot_cycle;
 	// unsigned int	cycles_to_die;
@@ -86,7 +100,6 @@ typedef struct	s_corewar
 	// unsigned int	bonus;
 	// unsigned int	winner;
 	// unsigned int	last_alive;
-	char		**files;
 
 }				t_vm;
 
@@ -106,6 +119,7 @@ void			check_and_obtain_args(int ac, char **av, t_vm *v);
 
 t_car			*get_last_car(t_vm *v);
 void			init_car(unsigned char *where, int whom, t_vm *v);
+void			init_car_vt(t_car *car);
 
 /*
 ** Utils

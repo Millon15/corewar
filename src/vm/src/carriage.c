@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/05 20:10:24 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/07 19:57:49 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,16 @@ t_car			*get_last_car(t_vm *v)
 
 void			init_car(unsigned char *where, int whom, t_vm *v)
 {
-	t_car		*prev;
+	const t_car		*prev = (v->head == NULL) ? NULL : get_last_car(v);
+	t_car			**tmp;
 
-	if (v->head == NULL)
-	{
-		v->head = malloc(sizeof(t_car));
-		v->head->prev = NULL;
-		v->head->where = where;
-		v->head->whom = whom;
-		v->head->next = NULL;
-	}
-	else
-	{
-		prev = get_last_car(v);
-		prev->next = malloc(sizeof(t_car));
-		prev->next->prev = prev;
-		prev->next->where = where;
-		prev->next->whom = whom;
-		prev->next->next = NULL;
-	}
+	tmp = (v->head == NULL) ? &v->head : &((get_last_car(v))->next);
+	(*tmp) = malloc(sizeof(t_car));
+	init_car_vt(*tmp);
+	(*tmp)->prev = (t_car*)prev;
+	(*tmp)->whom = whom;
+	(*tmp)->pc = where;
+	(*tmp)->carry = true;
+	(*tmp)->next = NULL;
 	v->cursors++;
 }

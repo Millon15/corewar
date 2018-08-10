@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/05 21:16:16 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/07 19:53:29 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,20 @@
 
 static inline void		do_all_stuff(t_vm *v)
 {
-	t_car		*tmp;
+	t_car			*tmp;
+	unsigned int	cycle_to_die;
 
-	while (true)
+	cycle_to_die = CYCLE_TO_DIE;
+	while (cycle_to_die > 0)
 	{
 		tmp = v->head;
 		while (tmp)
 		{
-			// tmp.where;
+			tmp->vt.perform_next_comm(&tmp);
 			tmp = tmp->next;
 		}
+		// if ()
+			cycle_to_die -= CYCLE_DELTA;
 	}
 }
 
