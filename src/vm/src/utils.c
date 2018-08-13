@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 19:40:49 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/05 16:45:48 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/13 22:15:29 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,22 @@ unsigned int	read_raw_num(const int fd, const int chars_to_read)
 	{
 		res <<= 8;
 		res |= buf[b++];
+	}
+	return (res);
+}
+
+unsigned int	get_raw_num(const unsigned char *ar_ptr,
+	const int bytes_to_read)
+{
+	unsigned int		res;
+	int					b;
+
+	res = 0;
+	b = 0;
+	while (b < bytes_to_read)
+	{
+		res <<= 8;
+		res |= ar_ptr[b++];
 	}
 	return (res);
 }

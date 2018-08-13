@@ -1,18 +1,18 @@
-# **************************************************************************** #
-#                                                                              #
+# **************************************************************************** #                                                                          #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 18:58:59 by vbrazas           #+#    #+#              #
-#    Updated: 2018/08/05 21:16:50 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/08/13 19:52:44 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = corewar
 
 SRC_PATH = src/
+OP_PATH = $(SRC_PATH)operations/
 LIB_PATH = ../../ft_printf/
 OBJ_PATH = .obj/
 
@@ -24,10 +24,12 @@ IFLAGS = -I ../../$(INC_PATH) -I $(INC_PATH) -I $(LIB_PATH)
 
 HFILES = vm
 FILES = vm errors utils args_parsing fill_the_map carriage
+OPERATIONS = add aff and ld  ldi lfork live lld lldi op_fork or st sti sub xor zjmp
 LIB = $(LIB_PATH)libftprintf.a
 
 HDRS = $(addprefix $(INC_PATH), $(addsuffix .h, $(HFILES)))
 SRCS = $(addprefix $(SRC_PATH), $(addsuffix .c, $(FILES)))
+SRCS += $(addprefix $(OP_PATH), $(addsuffix .c, $(OPERATIONS)))
 OBJS = $(addprefix $(OBJ_PATH), $(SRCS:%.c=%.o))
 
 
@@ -40,7 +42,7 @@ $(LIB):
 	make -C $(LIB_PATH)
 
 $(OBJ_PATH):
-	mkdir -p $(OBJ_PATH)$(SRC_PATH)
+	mkdir -p $(OBJ_PATH)$(OP_PATH)
 $(OBJ_PATH)%.o: %.c $(HDRS)
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
