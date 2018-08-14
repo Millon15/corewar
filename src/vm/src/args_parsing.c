@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 20:02:05 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/14 20:27:19 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ inline void		check_and_obtain_args(int ac, char **av, t_vm *v)
 			(av[++i] == NULL) ? put_usage(2) : false;
 			v->args.is_dump = true;
 			v->args.dump_value = (unsigned int)ft_atoi(av[i]);
+			(v->args.dump_value <= 0) ? put_usage(2) : false;
 		}
 		else
 			break ;

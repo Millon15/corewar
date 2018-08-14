@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 18:51:54 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/14 20:48:30 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_player			t_player;
 typedef struct s_corewar		t_vm;
 typedef struct s_function		t_op;
 typedef struct s_carriage		t_car;
+typedef struct s_info			t_info;
 
 /*
 ** Structure of passed args
@@ -29,11 +30,11 @@ typedef struct s_carriage		t_car;
 
 struct				s_args
 {
-	unsigned int	is_binary : 1;
-	unsigned int	is_ncurses : 1;
-	unsigned int	is_stealth : 1;
-	unsigned int	is_dump : 1;
-	unsigned int	dump_value;
+	int				is_binary : 1;
+	int				is_ncurses : 1;
+	int				is_stealth : 1;
+	int				is_dump : 1;
+	int				dump_value;
 
 };
 
@@ -60,15 +61,15 @@ struct				s_player
 
 struct				s_function
 {
-	char				*name;
-	unsigned char		nb_arg;
-	unsigned char		args[3];
-	unsigned char		opcode;
-	unsigned int		cycles;
-	char				*description;
-	bool				octal;
-	bool				label;
-	void				(*f)(t_car *car, t_vm *v);
+	char			*name;
+	unsigned char	nb_arg;
+	unsigned char	args[3];
+	unsigned char	opcode;
+	unsigned int	cycles;
+	char			*description;
+	bool			octal;
+	bool			label;
+	void			(*f)(t_car *car, t_vm *v);
 
 };
 
@@ -85,11 +86,29 @@ struct				s_carriage
 	unsigned int	arg_val[3];
 	bool			carry;
 	int				cycles_to_wait;
-	int				cur_op_t;
+	int				cur_t_op;
 	void			(*perform_next_comm)(t_car *self, t_vm *v);
 
 	t_car			*prev;
 	t_car			*next;
+};
+
+/*
+** Info structure
+*/
+
+struct				s_info
+{
+	t_car			*cur_car;
+	int				cursors;
+	int				cur_cycle;
+	int				cycle_to_die;
+	// unsigned int	lives;
+	// unsigned int	check;
+	// unsigned int	bonus;
+	// unsigned int	winner;
+	// unsigned int	last_alive;
+
 };
 
 /*
@@ -100,20 +119,12 @@ struct				s_corewar
 {
 	int				player_amount;
 	t_player		player[MAX_PLAYERS];
-	t_args			args;
 
 	unsigned char	arena[MEM_SIZE];
 	t_car			*head;
 
-	unsigned int	cursors;
-	// unsigned int	cycle;
-	// unsigned int	tot_cycle;
-	// unsigned int	cycles_to_die;
-	// unsigned int	lives;
-	// unsigned int	check;
-	// unsigned int	bonus;
-	// unsigned int	winner;
-	// unsigned int	last_alive;
+	t_args			args;
+	t_info			info;
 
 };
 
@@ -123,7 +134,7 @@ struct				s_corewar
 
 void				fill_players(t_vm *v);
 void				fill_arena(t_vm *v);
-void				print_arena_to_stdout(t_vm *v);
+void				dump_arena(t_vm *v);
 void				open_files(int ac, char **av, t_vm *v, int i);
 void				check_and_obtain_args(int ac, char **av, t_vm *v);
 

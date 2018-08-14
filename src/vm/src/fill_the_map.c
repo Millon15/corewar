@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_the_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/12 21:09:14 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/14 20:54:09 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ inline void		fill_arena(t_vm *v)
 	}
 }
 
-inline void		print_arena_to_stdout(t_vm *v)
+inline void		dump_arena(t_vm *v)
 {
 	int				i;
 
@@ -62,4 +62,5 @@ inline void		print_arena_to_stdout(t_vm *v)
 		i + 1, v->player[i].prog_size,
 		v->player[i].prog_name, v->player[i].comment);
 	meta_printer(v->arena, MEM_SIZE);
+	exit(0);
 }

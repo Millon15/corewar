@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 19:55:55 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/14 20:36:06 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,15 @@ static int		vnp_codage(t_car *self, const t_op *cur)
 
 void			perform_next_comm(t_car *self, t_vm *v)
 {
-	while (self->cycles_to_wait < 0 && ++self->cur_op_t < REG_NUMBER)
-		if (g_func_tab[self->cur_op_t].opcode == *self->pc)
-			self->cycles_to_wait = g_func_tab[self->cur_op_t].cycles;
+	while (self->cycles_to_wait < 0 && ++self->cur_t_op < REG_NUMBER)
+		if (g_func_tab[self->cur_t_op].opcode == *self->pc)
+			self->cycles_to_wait = g_func_tab[self->cur_t_op].cycles;
 	if (self->cycles_to_wait-- == 0)
 	{
-		if (vnp_codage(self, &g_func_tab[self->cur_op_t]) < 0)
+		if (vnp_codage(self, &g_func_tab[self->cur_t_op]) < 0)
 			return ;
-		g_func_tab[self->cur_op_t].f(self, v);
-		self->cur_op_t = -1;
+		g_func_tab[self->cur_t_op].f(self, v);
+		self->cur_t_op = -1;
 	}
 }
 
@@ -123,9 +123,9 @@ void			init_car(unsigned char *where, int whom, t_vm *v)
 	(*tmp)->prev = (t_car*)prev;
 	(*tmp)->whom = whom;
 	(*tmp)->cycles_to_wait = -1;
-	(*tmp)->cur_op_t = -1;
+	(*tmp)->cur_t_op = -1;
 	(*tmp)->pc = where;
 	(*tmp)->carry = true;
 	(*tmp)->next = NULL;
-	v->cursors++;
+	v->info.cursors++;
 }

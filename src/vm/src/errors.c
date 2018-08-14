@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 16:45:51 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/07 19:24:59 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/14 20:24:55 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ bool		put_usage(const int errnum)
 	char			*errstr;
 	char			*usage;
 	const char		*errors[] = {"", "Too less arguments",
-	"There are no granted number for '-d' flag",
-	"Too many champions"};
+	"Wrong parameter passed to '-d' argument", "Too many champions"};
 
 	if (!is_invalid_error)
 		errstr = (errnum == 0) ? strerror(errnum) : ((char **)errors)[errnum];
