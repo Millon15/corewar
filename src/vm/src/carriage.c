@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/13 22:24:12 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/14 19:55:55 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int		vnp_args(t_car *self, const t_op *cur)
 			padding = 1;
 		else
 			return (-1);
-		self->args[i] = get_raw_num(self->pc, padding);
+		self->arg_val[i] = get_raw_num(self->pc, padding);
 		self->pc += padding * sizeof(t_arg_type);
 	}
 	return (0);
@@ -88,22 +88,15 @@ static int		vnp_codage(t_car *self, const t_op *cur)
 
 void			perform_next_comm(t_car *self, t_vm *v)
 {
-	static int	i = -1;
-	static bool	fallos = true;
-	static int	cycles_to_wait = 0;
-
-	while (fallos && ++i < REG_NUMBER)
-		if (g_func_tab[i].opcode == *self->pc)
-		{
-			cycles_to_wait = g_func_tab[i].cycles;
-			fallos = false;
-		}
-	if (cycles_to_wait-- == 0)
+	while (self->cycles_to_wait < 0 && ++self->cur_op_t < REG_NUMBER)
+		if (g_func_tab[self->cur_op_t].opcode == *self->pc)
+			self->cycles_to_wait = g_func_tab[self->cur_op_t].cycles;
+	if (self->cycles_to_wait-- == 0)
 	{
-		if (vnp_codage(self, &g_func_tab[i]) < 0)
+		if (vnp_codage(self, &g_func_tab[self->cur_op_t]) < 0)
 			return ;
-		g_func_tab[i].f(self, v);
-		fallos = true;
+		g_func_tab[self->cur_op_t].f(self, v);
+		self->cur_op_t = -1;
 	}
 }
 
@@ -129,6 +122,8 @@ void			init_car(unsigned char *where, int whom, t_vm *v)
 	(*tmp)->perform_next_comm = &perform_next_comm;
 	(*tmp)->prev = (t_car*)prev;
 	(*tmp)->whom = whom;
+	(*tmp)->cycles_to_wait = -1;
+	(*tmp)->cur_op_t = -1;
 	(*tmp)->pc = where;
 	(*tmp)->carry = true;
 	(*tmp)->next = NULL;

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/13 22:23:06 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/14 18:51:54 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ struct				s_carriage
 	unsigned int	reg[REG_NUMBER];
 	unsigned char	*pc;
 	unsigned int	args[3];
+	unsigned int	arg_val[3];
 	bool			carry;
+	int				cycles_to_wait;
+	int				cur_op_t;
 	void			(*perform_next_comm)(t_car *self, t_vm *v);
 
 	t_car			*prev;

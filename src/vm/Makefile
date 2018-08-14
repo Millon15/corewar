@@ -24,7 +24,7 @@ IFLAGS = -I ../../$(INC_PATH) -I $(INC_PATH) -I $(LIB_PATH)
 
 HFILES = vm
 FILES = vm errors utils args_parsing fill_the_map carriage
-OPERATIONS = add aff and ld  ldi lfork live lld lldi op_fork or st sti sub xor zjmp
+OPERATIONS = add aff and ld ldi lfork live lld lldi op_fork or st sti sub xor zjmp
 LIB = $(LIB_PATH)libftprintf.a
 
 HDRS = $(addprefix $(INC_PATH), $(addsuffix .h, $(HFILES)))
