@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 20:36:06 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/14 21:32:11 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,9 @@ void			init_car(unsigned char *where, int whom, t_vm *v)
 	(*tmp)->cycles_to_wait = -1;
 	(*tmp)->cur_t_op = -1;
 	(*tmp)->pc = where;
+	(*tmp)->ar_start = where;
 	(*tmp)->carry = true;
 	(*tmp)->next = NULL;
+	(*tmp)->live = 0;
 	v->info.cursors++;
 }

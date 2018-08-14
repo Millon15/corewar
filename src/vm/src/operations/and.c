@@ -6,11 +6,14 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:48:50 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/13 19:48:51 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/14 21:23:30 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
 void and(t_car *self, t_vm *v)
-{}
+{
+	self->arg_val[2] = self->args[0] & self->args[1];
+	self->carry = self->arg_val[2] ? 0 : 1;
+}
