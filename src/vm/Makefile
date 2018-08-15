@@ -23,7 +23,7 @@ INC_PATH = includes/
 IFLAGS = -I ../../$(INC_PATH) -I $(INC_PATH) -I $(LIB_PATH)
 
 HFILES = vm
-FILES = vm errors utils args_parsing fill_the_map carriage
+FILES = vm errors utils args_parsing fill_the_map carriage main_cycle_funcs carriage_utils
 OPERATIONS = add aff and ld ldi lfork live lld lldi op_fork or st sti sub xor zjmp
 LIB = $(LIB_PATH)libftprintf.a
 

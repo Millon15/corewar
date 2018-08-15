@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 21:32:11 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/15 21:50:27 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,18 +100,6 @@ void			perform_next_comm(t_car *self, t_vm *v)
 	}
 }
 
-t_car			*get_last_car(t_vm *v)
-{
-	t_car		*tmp;
-
-	if (v->head == NULL)
-		return (NULL);
-	tmp = v->head;
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-}
-
 void			init_car(unsigned char *where, int whom, t_vm *v)
 {
 	const t_car		*prev = (v->head == NULL) ? NULL : get_last_car(v);
@@ -128,6 +116,6 @@ void			init_car(unsigned char *where, int whom, t_vm *v)
 	(*tmp)->ar_start = where;
 	(*tmp)->carry = true;
 	(*tmp)->next = NULL;
-	(*tmp)->live = 0;
+	(*tmp)->nb_lives = 0;
 	v->info.cursors++;
 }

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 22:15:05 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/15 19:03:45 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void op_fork(t_car *self, t_vm *v)
 	else
 		pc = &self->pc[self->arg_val[0]];
 	tmp = *self;
+	tmp.next = NULL;
 	while (self)
 		self = self->next;
 	*self = tmp;

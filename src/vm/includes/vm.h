@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 21:30:48 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/15 22:15:25 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ struct				s_carriage
 	bool			carry;
 	int				cycles_to_wait;
 	int				cur_t_op;
-	bool			live;
+	int				nb_lives;
 	void			(*perform_next_comm)(t_car *self, t_vm *v);
 
 	t_car			*prev;
@@ -145,6 +145,8 @@ void				check_and_obtain_args(int ac, char **av, t_vm *v);
 */
 
 t_car				*get_last_car(t_vm *v);
+void				copy_car_to_end(t_car *cur_car, t_vm *v);
+void				delete_this_car(t_car *cur_car, t_vm *v);
 void				init_car(unsigned char *where, int whom, t_vm *v);
 
 /*
@@ -189,6 +191,10 @@ bool				put_error(const int errnum, const char *errstr,
 /*
 ** do al stuf; if you nkow da wae!
 */
+
+void				kill_process(t_car *car, t_vm *v);
+bool				nbr_live_exec(t_car *car);
+void				make_live_nil(t_car *car);
 
 static const t_op	g_func_tab[17] =
 {
