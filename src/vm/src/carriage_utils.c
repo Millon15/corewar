@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/15 22:17:13 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/16 15:27:46 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ void			copy_car_to_end(t_car *cur_car, t_vm *v)
 	last->next->prev = last;
 	last->next->whom = cur_car->whom;
 	last->next->cycles_to_wait = cur_car->cycles_to_wait;
-	last->next->cur_t_op = cur_car->cur_t_op;
+	last->next->cur_operation = cur_car->cur_operation;
 	last->next->pc = cur_car->pc;
-	last->next->ar_start = cur_car->ar_start;
 	last->next->carry = cur_car->carry;
 	last->next->nb_lives = cur_car->nb_lives;
 	last->next->next = NULL;

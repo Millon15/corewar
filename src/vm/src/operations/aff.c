@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:52:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 22:14:19 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/16 15:16:30 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,4 +15,4 @@
 void		aff(t_car *self, t_vm *v)
 {
 	ft_printf("%c", self->arg_val[0] % 256);
-} 
+}

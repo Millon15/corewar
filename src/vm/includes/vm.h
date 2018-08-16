@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/15 22:15:25 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/16 15:26:18 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,11 @@ struct				s_carriage
 	int				whom;
 	unsigned int	reg[REG_NUMBER];
 	unsigned char	*pc;
-	unsigned char	*ar_start;
 	unsigned int	args[3];
 	unsigned int	arg_val[3];
 	bool			carry;
 	int				cycles_to_wait;
-	int				cur_t_op;
+	int				cur_operation;
 	int				nb_lives;
 	void			(*perform_next_comm)(t_car *self, t_vm *v);
 
@@ -136,7 +135,7 @@ struct				s_corewar
 
 void				fill_players(t_vm *v);
 void				fill_arena(t_vm *v);
-void				dump_arena(t_vm *v);
+void				print_arena(t_vm *v);
 void				open_files(int ac, char **av, t_vm *v, int i);
 void				check_and_obtain_args(int ac, char **av, t_vm *v);
 

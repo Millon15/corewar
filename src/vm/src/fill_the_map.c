@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 20:54:09 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/15 21:32:38 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ inline void		fill_arena(t_vm *v)
 	}
 }
 
-inline void		dump_arena(t_vm *v)
+inline void		print_arena(t_vm *v)
 {
 	int				i;
 
@@ -61,6 +61,7 @@ inline void		dump_arena(t_vm *v)
 		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
 		i + 1, v->player[i].prog_size,
 		v->player[i].prog_name, v->player[i].comment);
-	meta_printer(v->arena, MEM_SIZE);
+	if (v->args.is_dump)
+		meta_printer(v->arena, MEM_SIZE);
 	exit(0);
 }
