@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/16 15:27:46 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/16 22:03:44 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void			copy_car_to_end(t_car *cur_car, t_vm *v)
 
 	last = get_last_car(v);
 	last->next = malloc(sizeof(t_car));
-	last->next->perform_next_comm = cur_car->perform_next_comm;
 	last->next->prev = last;
 	last->next->whom = cur_car->whom;
 	last->next->cycles_to_wait = cur_car->cycles_to_wait;

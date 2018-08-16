@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/16 15:27:05 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/16 22:47:41 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static inline void		do_all_stuff(t_vm *v)
 		I.cur_car = v->head;
 		while (I.cur_car)
 		{
-			I.cur_car->perform_next_comm(I.cur_car, v);
+			perform_next_comm(I.cur_car, v);
 			I.cur_car = I.cur_car->next;
 		}
 		if ((nbr_live_exec(v->head)) ||

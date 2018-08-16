@@ -6,13 +6,13 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 20:27:19 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/16 22:04:26 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-inline void		open_files(int ac, char **av, t_vm *v, int i)
+static inline void		open_files(int ac, char **av, t_vm *v, int i)
 {
 	while (++i < ac)
 	{
@@ -23,7 +23,7 @@ inline void		open_files(int ac, char **av, t_vm *v, int i)
 	}
 }
 
-inline void		check_and_obtain_args(int ac, char **av, t_vm *v)
+inline void				check_and_obtain_args(int ac, char **av, t_vm *v)
 {
 	int		i;
 
