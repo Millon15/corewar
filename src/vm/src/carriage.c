@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/17 15:31:12 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/17 15:43:41 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ void			perform_next_comm(t_car *self, t_vm *v)
 			return ;
 		}
 		g_func_tab[self->cur_operation].f(self, v);
-		ft_printf("Oper name: %s\n", g_func_tab[self->cur_operation].name);
 		self->cur_operation = -1;
 	}
 }

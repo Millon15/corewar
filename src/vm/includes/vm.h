@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/16 22:21:00 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/17 15:43:05 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,36 @@ typedef struct s_corewar		t_vm;
 typedef struct s_function		t_op;
 typedef struct s_carriage		t_car;
 typedef struct s_info			t_info;
+typedef struct s_curses			t_curses;
+
+/*
+** Structure of passed args
+*/
+
+# include <ncurses.h>
+# include <time.h>
+
+# define EXIT_KEY		27
+# define RUN			' '
+# define PASS_OVER		's'
+
+# define RUN_SLOWER		'q'
+# define RUN_QUICKER	'r'
+# define RUN_SLOWER2	'w'
+# define RUN_QUICKER2	'e'
+# define SQBIG_VAL		10
+# define SQSMALL_VAL	1
+
+struct				s_curses
+{
+	WINDOW			*wmain;
+	WINDOW			*winfo;
+	clock_t			t;
+	char			c;
+	bool			is_run;
+	unsigned int	cycles_in_second;
+
+};
 
 /*
 ** Structure of passed args
@@ -136,6 +166,8 @@ void				check_and_obtain_args(int ac, char **av, t_vm *v);
 void				fill_players(t_vm *v);
 void				fill_arena(t_vm *v);
 void				print_arena(t_vm *v);
+
+void				pass_one_cycle(t_vm *v);
 void				perform_next_comm(t_car *self, t_vm *v);
 
 /*
