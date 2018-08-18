@@ -6,7 +6,11 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2018/08/17 15:44:03 by vbrazas          ###   ########.fr        #
+=======
+#    Updated: 2018/08/18 21:36:57 by vbrazas          ###   ########.fr        #
+>>>>>>> ncurses onbuild2
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +18,7 @@ NAME = corewar
 
 SRC_PATH = src/
 OP_PATH = $(SRC_PATH)operations/
+V_PATH = $(SRC_PATH)visualizer/
 LIB_PATH = ../../ft_printf/
 OBJ_PATH = .obj/
 
@@ -22,29 +27,32 @@ CFLAGS = #-Wall -Werror -Wextra
 
 INC_PATH = includes/
 IFLAGS = -I ../../$(INC_PATH) -I $(INC_PATH) -I $(LIB_PATH)
+LFLAGS = -lncurses
 
 HFILES =		vm
 FILES =			vm errors utils args_parsing fill_the_map carriage carriage_utils main_cycle_funcs
 OPERATIONS =	add aff and ld ldi lfork live lld lldi op_fork or st sti sub xor zjmp
+VISUALIZER =	v_main v_curses
 
 LIB = $(LIB_PATH)libftprintf.a
 
 HDRS = $(addprefix $(INC_PATH), $(addsuffix .h, $(HFILES)))
 SRCS = $(addprefix $(SRC_PATH), $(addsuffix .c, $(FILES)))
 SRCS += $(addprefix $(OP_PATH), $(addsuffix .c, $(OPERATIONS)))
+SRCS += $(addprefix $(V_PATH), $(addsuffix .c, $(VISUALIZER)))
 OBJS = $(addprefix $(OBJ_PATH), $(SRCS:%.c=%.o))
 
 
 all: $(NAME)
 
 $(NAME): $(LIB) $(OBJ_PATH) $(OBJS)
-	$(CC) $(CFLAGS) $(IFLAGS) $(OBJS) $(LIB) -o $(NAME) 
-
+	$(CC) $(CFLAGS) $(IFLAGS) $(LFLAGS) $(OBJS) $(LIB) -o $(NAME)
 $(LIB): 
 	make -C $(LIB_PATH)
 
 $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)$(OP_PATH)
+	mkdir -p $(OBJ_PATH)$(V_PATH)
 $(OBJ_PATH)%.o: %.c $(HDRS)
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 

@@ -6,11 +6,16 @@
 /*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 16:45:51 by vbrazas           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2018/08/18 15:52:43 by akupriia         ###   ########.fr       */
+=======
+/*   Updated: 2018/08/18 19:21:13 by vbrazas          ###   ########.fr       */
+>>>>>>> ncurses onbuild2
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
+#include <string.h>
 
 bool		put_usage(const int errnum)
 {

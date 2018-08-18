@@ -6,7 +6,11 @@
 /*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2018/08/18 16:08:47 by akupriia         ###   ########.fr       */
+=======
+/*   Updated: 2018/08/18 21:28:54 by vbrazas          ###   ########.fr       */
+>>>>>>> ncurses onbuild2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +18,6 @@
 # define VM_H
 
 # include <libftprintf.h>
-# include <string.h>
 # include <op.h>
 
 #define MOVE_PC(aptr, pc, how_much)	(aptr + (pc - aptr + how_much) % MEM_SIZE)
@@ -31,7 +34,7 @@ typedef struct s_curses			t_curses;
 ** Structure of passed args
 */
 
-# include <ncurses.h>
+# include <curses.h>
 # include <time.h>
 
 # define EXIT_KEY		27
@@ -162,7 +165,7 @@ struct				s_corewar
 };
 
 /*
-** Functions that represents parts of the program
+** Functions that represents main parts of the program
 */
 
 void				check_and_obtain_args(int ac, char **av, t_vm *v);
@@ -172,6 +175,15 @@ void				print_arena(t_vm *v);
 
 void				pass_one_cycle(t_vm *v);
 void				perform_next_comm(t_car *self, t_vm *v);
+
+/*
+** Visualizer on ncurse functions
+*/
+
+void				visualize_the_game(t_vm *v);
+void				init_visualizer(t_vm *v);
+void				init_windows(t_curses *e, t_vm *v);
+void				print_one_cycle(t_curses *e, t_vm *v);
 
 /*
 ** Carriage related functions
