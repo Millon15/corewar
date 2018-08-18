@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/17 15:43:41 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/18 20:48:30 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,17 @@ static const t_op	g_func_tab[17] =
 	{0, 0, {0}, 0, 0, 0, 0, 0, NULL}
 };
 
-#define MOVE_PC(aptr, pc, how_much)	(aptr + (pc - aptr + how_much) % MEM_SIZE)
-
-static bool		pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v)
+static bool		pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v, int n)
 {
 	int	i;
 	int	padding;
+	int	num;
 
 	i = -1;
 	padding = 0;
-	while (++i < cur->nb_arg)
+	// num = !n ? cur->nb_arg : n;
+	num = cur->nb_arg;
+	while (++i < num)
 	{
 		if (self->args[i] == T_DIR)
 			padding = (cur->label) ? 2 : 4;
@@ -56,7 +57,8 @@ static bool		pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v)
 			padding = 2;
 		else if (self->args[i] == T_REG)
 			padding = 1;
-		self->pc = MOVE_PC(v->arena, self->pc, padding);
+		// self->pc = MOVE_PC(v->arena, self->pc, padding);
+		self->pc_padding += padding;		
 	}
 	return (true);
 }
@@ -65,12 +67,14 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 {
 	int						padding;
 	int						i;
+	int						pc_padding;
 
 	i = -1;
+	pc_padding = 0;
 	while (++i < cur->nb_arg)
 	{
 		if (!(self->args[i] == cur->args[i] - (self->args[i] ^ cur->args[i])) &&
-		(pass_arg_if_invalid(self, cur, v)))
+		(pass_arg_if_invalid(self, cur, v, 0)))
 			return (-1);
 		if (self->args[i] == T_DIR)
 			padding = (cur->label) ? 2 : 4;
@@ -78,10 +82,30 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 			padding = 2;
 		else if (self->args[i] == T_REG)
 			padding = 1;
-		else if (pass_arg_if_invalid(self, cur, v))
+		else if (pass_arg_if_invalid(self, cur, v, 0))
 			return (-1);
-		self->arg_val[i] = get_raw_num(self->pc, padding);
-		self->pc = MOVE_PC(v->arena, self->pc, padding);
+		self->arg_val[i] = get_raw_num(self->pc + self->pc_padding + pc_padding, padding);
+		// ft_printf("self->arg_val[%d] :%0.2x, self->pc_padding: %d\n",i, self->arg_val[i], self->pc_padding);
+		// self->pc = MOVE_PC(v->arena, self->pc, padding);
+		pc_padding += padding;
+	}
+	self->pc_padding += pc_padding;
+	// ft_printf("!!!self->arg_val[%d] :%0.2x!!!, self->pc_padding: %d\n", i- 1, self->arg_val[i - 1], self->pc_padding);	
+	return (0);
+}
+
+int				duplicate_args(const t_op *cur)
+{
+	int i;
+
+	i = 0;
+	while (i < 3)
+	{
+		if (cur->args[i] == (T_DIR | T_IND) ||
+		cur->args[i] == (T_REG | T_IND) || cur->args[i] == (T_IND | T_DIR)
+		|| cur->args[i] == (T_REG | T_IND | T_DIR))
+			return (1);
+		i++;
 	}
 	return (0);
 }
@@ -93,11 +117,26 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	int						i;
 
 	i = 0;
-	self->pc = MOVE_PC(v->arena, self->pc, 1);
-	codage = (cur->octal) ? (*self->pc >> 2) : 0;
-	self->pc = MOVE_PC(v->arena, self->pc, 1);
-	if (codage == 0x0)
+	if (!(MEM_SIZE - (self->pc - v->arena)))
+		codage = (cur->octal) ? (*v->arena >> 2) : 0;
+	else
+	{
+		codage = (cur->octal) ? (*(self->pc + 1) >> 2) : 0;
+		// ft_printf("*(self->pc + 1) %0.2x: ", *(self->pc + 1));
+	}
+	self->pc_padding = 1;
+	// ft_printf("codage: %d\n", codage);
+	if (codage == 0x0 && duplicate_args(cur))
 		return (-1);
+	else if (codage == 0x0)
+	{
+		i = -1;
+		while (++i < cur->nb_arg)
+			self->args[i] = cur->args[i];
+		return (vnp_args(self, cur, v));
+	}
+	else
+		self->pc_padding++;
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
 
@@ -122,12 +161,13 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 		i++;
 	}
 	if (i != cur->nb_arg)
-		return (-1 * pass_arg_if_invalid(self, cur, v));
+		return (-1 * pass_arg_if_invalid(self, cur, v, i));
 	return (vnp_args(self, cur, v));
 }
 
 void			perform_next_comm(t_car *self, t_vm *v)
 {
+	int i = 0;
 	while (self->cycles_to_wait < 0 && ++self->cur_operation < REG_NUMBER)
 		if (g_func_tab[self->cur_operation].opcode == *self->pc)
 			self->cycles_to_wait = g_func_tab[self->cur_operation].cycles;
@@ -139,12 +179,25 @@ void			perform_next_comm(t_car *self, t_vm *v)
 	}
 	if (self->cycles_to_wait-- == 0)
 	{
+		// i = 0;
+		// ft_putstr("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>\nOur pc is: \n");
+		// while (i < 20)
+		// 	ft_printf("%0.2x ", self->pc[i++]);
+		// ft_putchar('\n');
+		// ft_putstr("The end of our pc\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>\n");
+		ft_printf("oper name: %s\n", g_func_tab[self->cur_operation].name);
 		if (vnp_codage(self, &g_func_tab[self->cur_operation], v) < 0)
 		{
 			self->cur_operation = -1;
 			return ;
 		}
 		g_func_tab[self->cur_operation].f(self, v);
+		// i = 0;
+		// ft_putstr("-------------------------------------->\nOur pc is: \n");
+		// while (i < 20)
+		// 	ft_printf("%0.2x ", self->pc[i++]);
+		// ft_putchar('\n');
+		// ft_putstr("The end of our pc\n-------------------------------------->\n");
 		self->cur_operation = -1;
 	}
 }
@@ -164,5 +217,6 @@ void			init_car(unsigned char *where, int whom, t_vm *v)
 	(*tmp)->carry = true;
 	(*tmp)->next = NULL;
 	(*tmp)->nb_lives = 0;
+	(*tmp)->pc_padding = 0;
 	v->info.cursors++;
 }

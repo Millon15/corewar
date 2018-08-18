@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/17 15:43:18 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/18 16:03:01 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ inline void				pass_one_cycle(t_vm *v)
 static inline void		play_the_game(t_vm *v)
 {
 	I.cycle_to_die = CYCLE_TO_DIE;
-	if (v->args.is_ncurses)
-		visualize_the_game(v);
-	else
-		while (I.cycle_to_die > 0)
+	/*if (v->args.is_ncurses)
+	**	visualize_the_game(v);
+	**else
+	*/	while (I.cycle_to_die > 0)
 			pass_one_cycle(v);
 }
 

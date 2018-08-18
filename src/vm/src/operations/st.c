@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   st.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/16 15:20:52 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/18 16:29:01 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void		st(t_car *self, t_vm *v)
 	if (self->args[1] == T_IND)
 	{
 		self->arg_val[1] %= IDX_MOD;
-		if (self->arg_val[1] > ft_strlen((char*)self->pc))
-			pc = &v->arena[self->arg_val[0] - ft_strlen((char*)self->pc)];
+		if (self->arg_val[1] > MEM_SIZE - (self->pc - v->arena))
+			pc = &v->arena[self->arg_val[0] - MEM_SIZE - (self->pc - v->arena)];
 		else
 			pc = &self->pc[self->arg_val[1]];
 		*pc = self->arg_val[0];
 	}
 	else if (self->args[1] == T_REG)
 		self->reg[self->arg_val[1]] = self->arg_val[0];
+		self->pc = MOVE_PC(v->arena, self->pc, self->pc_padding);
+		self->pc_padding = 0;
 }

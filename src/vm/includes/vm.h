@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/17 15:43:05 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/18 16:08:47 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <libftprintf.h>
 # include <string.h>
 # include <op.h>
+
+#define MOVE_PC(aptr, pc, how_much)	(aptr + (pc - aptr + how_much) % MEM_SIZE)
 
 typedef struct s_args			t_args;
 typedef struct s_player			t_player;
@@ -118,6 +120,7 @@ struct				s_carriage
 	int				cycles_to_wait;
 	int				cur_operation;
 	int				nb_lives;
+	int				pc_padding;
 
 	t_car			*prev;
 	t_car			*next;
