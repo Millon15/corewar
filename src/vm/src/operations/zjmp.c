@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/18 16:26:37 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/18 21:17:04 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,14 @@ void		zjmp(t_car *self, t_vm *v)
 	if (self->carry == false)
 		return ;
 	self->arg_val[0] %= IDX_MOD;
-	if (self->arg_val[0] > MEM_SIZE - (self->pc - v->arena))
-		self->pc = &v->arena[self->arg_val[0] - MEM_SIZE - (self->pc - v->arena)];
+	if (self->arg_val[0] > &v->arena[((int)v->player[0].prog_size)] - self->pc)
+		self->pc = MOVE_PC(v->arena, self->pc, self->pc_padding);
 	else
-		self->pc += self->arg_val[0];
+	{
+		if (self->arg_val[0] > MEM_SIZE - (self->pc - v->arena))
+			self->pc = &v->arena[self->arg_val[0] - MEM_SIZE - (self->pc - v->arena)];
+		else
+			self->pc += self->arg_val[0];
+	}
 	self->pc_padding = 0;
 }
