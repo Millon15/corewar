@@ -6,33 +6,11 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-<<<<<<< HEAD:src/vm/src/visuzlizer.c
-/*   Updated: 2018/08/17 15:43:11 by vbrazas          ###   ########.fr       */
-=======
-/*   Updated: 2018/08/18 19:23:08 by vbrazas          ###   ########.fr       */
->>>>>>> ncurses onbuild2:src/vm/src/visualizer/v_main.c
+/*   Updated: 2018/08/19 08:32:04 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
-
-static inline void		run_cycle(t_curses *e, t_vm *v)
-{
-	while (e->is_run)
-	{
-		if (e->t != (clock() / CLOCKS_PER_SEC / e->cycles_in_second))
-		{
-			print_one_cycle(e, v);
-			e->t = clock() / CLOCKS_PER_SEC;
-		}
-		e->c = getch();
-		if (e->c == RUN)
-		{
-			e->is_run = false;
-			return ;
-		}
-	}
-}
 
 static bool				quicker_slower(t_curses *e, t_vm *v)
 {
@@ -43,8 +21,8 @@ static bool				quicker_slower(t_curses *e, t_vm *v)
 	}
 	else if (e->c == RUN_SLOWER)
 	{
-		e->cycles_in_second =
-		(e->cycles_in_second <= SQBIG_VAL) ?
+		e->cycles_in_second =					\
+		(e->cycles_in_second <= SQBIG_VAL) ?	\
 		(e->cycles_in_second - SQBIG_VAL) : 1;
 		return (true);
 	}
@@ -55,8 +33,8 @@ static bool				quicker_slower(t_curses *e, t_vm *v)
 	}
 	else if (e->c == RUN_SLOWER2)
 	{
-		e->cycles_in_second =
-		(e->cycles_in_second <= SQSMALL_VAL) ?
+		e->cycles_in_second =					\
+		(e->cycles_in_second <= SQSMALL_VAL) ?	\
 		(e->cycles_in_second - SQSMALL_VAL) : 1;
 		return (true);
 	}
@@ -66,19 +44,27 @@ static bool				quicker_slower(t_curses *e, t_vm *v)
 void					visualize_the_game(t_vm *v)
 {
 	t_curses			e;
+	int row = 50;
 
 	init_windows(&e, v);
-	while (true)
+	while ((e.c = getch()) != EXIT_KEY)
 	{
-		run_cycle(&e, v);
-		e.c = getch();
 		if (e.c == RUN)
-			e.is_run = true;
+		{
+			mvwprintw(e.infow, row++, 4, "%d", e.t); wrefresh(e.infow);
+			e.is_run = !e.is_run;
+		}
 		else if (e.c == PASS_OVER)
 			print_one_cycle(&e, v);
-		else if (quicker_slower(&e, v))
-			continue ;
-		else if (e.c == EXIT_KEY)
-			break ;
+		if (e.is_run && e.t != (clock() / CLOCKS_PER_SEC / e.cycles_in_second))
+		{
+			mvwprintw(e.infow, row++, 4, "2"); wrefresh(e.infow);
+			print_one_cycle(&e, v);
+			e.t = clock() / CLOCKS_PER_SEC;
+		}
+		// else if (quicker_slower(&e, v))
+		// 	continue ;
 	}
+	endwin();
+	system("clear; reset;");
 }

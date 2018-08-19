@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/18 16:03:01 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/19 08:08:48 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-#define I				v->info
-
-inline void				pass_one_cycle(t_vm *v)
+void					pass_one_cycle(t_vm *v)
 {
 	if (v->args.is_dump && v->args.dump_value == I.cur_cycle)
 		print_arena(v);
@@ -27,7 +25,7 @@ inline void				pass_one_cycle(t_vm *v)
 	if ((nbr_live_exec(v->head)) ||
 	(MAX_CHECKS * I.cycle_to_die <= I.cur_cycle))
 	{
-		ft_printf("NB_LIVES(when I.cycle_to_die -= CYCLE_DELTA) : %d\n", v->head->nb_lives);
+		// ft_printf("NB_LIVES(when I.cycle_to_die -= CYCLE_DELTA) : %d\n", v->head->nb_lives);
 		I.cycle_to_die -= CYCLE_DELTA;
 		make_live_nil(v->head);
 	}
@@ -37,10 +35,10 @@ inline void				pass_one_cycle(t_vm *v)
 static inline void		play_the_game(t_vm *v)
 {
 	I.cycle_to_die = CYCLE_TO_DIE;
-	/*if (v->args.is_ncurses)
-	**	visualize_the_game(v);
-	**else
-	*/	while (I.cycle_to_die > 0)
+	if (v->args.is_ncurses)
+		visualize_the_game(v);
+	else
+		while (I.cycle_to_die > 0)
 			pass_one_cycle(v);
 }
 

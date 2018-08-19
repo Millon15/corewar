@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   v_curses.c                                         :+:      :+:    :+:   */
+/*   v_init.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/18 21:37:13 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/19 08:19:07 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-void			init_visualizer(t_vm *v)
+static inline void		init_visualizer(void)
 {
 	initscr();
 	keypad(stdscr, true);
 	nodelay(stdscr, true);
 	curs_set(false);
-	clear();
-	noecho();
 	cbreak();
-	// start_color();
-	// init_color(COLOR_WHITE, 220, 220, 220);
+	noecho();
+	use_default_colors();
+	start_color();
+	init_color(COLOR_WHITE, 220, 220, 220);
+	init_pair(BORDER, COLOR_CYAN, COLOR_CYAN);
 	// init_pair(0, COLOR_YELLOW, COLOR_BLACK);
 	// init_pair(1, COLOR_BLUE, COLOR_BLACK);
 	// init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
@@ -40,21 +41,20 @@ void			init_visualizer(t_vm *v)
 	// init_pair(14, COLOR_GREEN, COLOR_BLACK);
 }
 
-void			init_windows(t_curses *e, t_vm *v)
+void					init_windows(t_curses *e, t_vm *v)
 {
-	const int	size_y = 100;
-	const int	size_x = 200;
-
-	e->wmain = newwin(size_y, size_x, 0, 0);
-	e->winfo = newwin(size_y, (int)(size_x / 2.5), 0, size_x);
+	init_visualizer();
+	e->mainw = newwin(WHEIGHT, MW_WIDTH, 0, 0);
+	e->infow = newwin(WHEIGHT, IW_WIDTH, 0, MW_WIDTH - 1);
+	wattron(e->mainw, COLOR_PAIR(BORDER));
+	wattron(e->infow, COLOR_PAIR(BORDER));
+	wborder(e->mainw, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC);
+	wborder(e->infow, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC);
+	wattroff(e->mainw, COLOR_PAIR(BORDER));
+	wattroff(e->infow, COLOR_PAIR(BORDER));
 	e->t = clock() / CLOCKS_PER_SEC;
 	e->is_run = false;
 	e->cycles_in_second = 50;
+	refresh();
 	print_one_cycle(e, v);
-}
-
-void			print_one_cycle(t_curses *e, t_vm *v)
-{
-	box(e->wmain, 0, 0);
-	box(e->winfo, 0, 0);
 }

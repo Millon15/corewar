@@ -6,11 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2018/08/17 15:44:03 by vbrazas          ###   ########.fr        #
-=======
-#    Updated: 2018/08/18 21:36:57 by vbrazas          ###   ########.fr        #
->>>>>>> ncurses onbuild2
+#    Updated: 2018/08/19 01:40:53 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +28,7 @@ LFLAGS = -lncurses
 HFILES =		vm
 FILES =			vm errors utils args_parsing fill_the_map carriage carriage_utils main_cycle_funcs
 OPERATIONS =	add aff and ld ldi lfork live lld lldi op_fork or st sti sub xor zjmp
-VISUALIZER =	v_main v_curses
+VISUALIZER =	v_main v_init v_print
 
 LIB = $(LIB_PATH)libftprintf.a
 

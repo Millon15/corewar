@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/08/18 16:08:47 by akupriia         ###   ########.fr       */
-=======
-/*   Updated: 2018/08/18 21:28:54 by vbrazas          ###   ########.fr       */
->>>>>>> ncurses onbuild2
+/*   Updated: 2018/08/19 01:59:28 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +16,8 @@
 # include <libftprintf.h>
 # include <op.h>
 
-#define MOVE_PC(aptr, pc, how_much)	(aptr + (pc - aptr + how_much) % MEM_SIZE)
+# define MOVE_PC(aptr, pc, how_much)	(aptr + (pc - aptr + how_much) % MEM_SIZE)
+# define I								v->info
 
 typedef struct s_args			t_args;
 typedef struct s_player			t_player;
@@ -31,7 +28,7 @@ typedef struct s_info			t_info;
 typedef struct s_curses			t_curses;
 
 /*
-** Structure of passed args
+** ncurses visualizer info
 */
 
 # include <curses.h>
@@ -48,14 +45,42 @@ typedef struct s_curses			t_curses;
 # define SQBIG_VAL		10
 # define SQSMALL_VAL	1
 
+# define BORDC			'*'
+# define WHEIGHT		(MEM_SIZE / 64 + 4)
+# define MW_WIDTH		(64 * 3 + 7)
+# define IW_WIDTH		(MW_WIDTH / 2)
+# define CL_PADD		20
+
+# define ALIGN_CENTER(w, l)		((w - l) / 2)
+
+# define BORDER			1
+
 struct				s_curses
 {
-	WINDOW			*wmain;
-	WINDOW			*winfo;
+	WINDOW			*mainw;
+	WINDOW			*infow;
 	clock_t			t;
 	char			c;
 	bool			is_run;
 	unsigned int	cycles_in_second;
+
+};
+
+/*
+** Info structure
+*/
+
+struct				s_info
+{
+	t_car			*cur_car;
+	unsigned int	cursors;
+	unsigned int	cur_cycle;
+	unsigned int	cycle_to_die;
+	// unsigned int	lives;
+	// unsigned int	check;
+	// unsigned int	bonus;
+	// unsigned int	winner;
+	// unsigned int	last_alive;
 
 };
 
@@ -130,24 +155,6 @@ struct				s_carriage
 };
 
 /*
-** Info structure
-*/
-
-struct				s_info
-{
-	t_car			*cur_car;
-	int				cursors;
-	int				cur_cycle;
-	int				cycle_to_die;
-	// unsigned int	lives;
-	// unsigned int	check;
-	// unsigned int	bonus;
-	// unsigned int	winner;
-	// unsigned int	last_alive;
-
-};
-
-/*
 ** Main corewar structure
 */
 
@@ -177,11 +184,10 @@ void				pass_one_cycle(t_vm *v);
 void				perform_next_comm(t_car *self, t_vm *v);
 
 /*
-** Visualizer on ncurse functions
+** Visualizer functions
 */
 
 void				visualize_the_game(t_vm *v);
-void				init_visualizer(t_vm *v);
 void				init_windows(t_curses *e, t_vm *v);
 void				print_one_cycle(t_curses *e, t_vm *v);
 
