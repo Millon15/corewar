@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_cycle_funcs.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/15 22:19:11 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/19 19:46:11 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,18 @@ bool		nbr_live_exec(t_car *car)
 	return (false);
 }
 
-void		make_live_nil(t_car *car)
+void		make_live_nil(t_vm *v)
 {
+	int		i;
+	t_car	*car;
+
+	i = -1;
+	car = v->head;
 	while (car)
 	{
 		car->nb_lives = 0;
 		car = car->next;
 	}
+	while (++i < v->player_amount)
+		v->player[i].lives_in_cp = 0;
 }

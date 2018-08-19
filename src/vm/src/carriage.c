@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/18 22:21:52 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/19 19:30:23 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void			perform_next_comm(t_car *self, t_vm *v)
 	}
 }
 
-void			init_car(unsigned char *where, int whom, t_vm *v)
+void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
 {
 	const t_car		*prev = (v->head == NULL) ? NULL : get_last_car(v);
 	t_car			**tmp;
@@ -218,5 +218,6 @@ void			init_car(unsigned char *where, int whom, t_vm *v)
 	(*tmp)->next = NULL;
 	(*tmp)->nb_lives = 0;
 	(*tmp)->pc_padding = 0;
+	(*tmp)->reg[1] = whom;
 	v->info.cursors++;
 }

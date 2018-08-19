@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/19 08:08:48 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/19 19:45:09 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void					pass_one_cycle(t_vm *v)
 	{
 		// ft_printf("NB_LIVES(when I.cycle_to_die -= CYCLE_DELTA) : %d\n", v->head->nb_lives);
 		I.cycle_to_die -= CYCLE_DELTA;
-		make_live_nil(v->head);
+		make_live_nil(v);
 	}
 	I.cur_cycle++;
 }

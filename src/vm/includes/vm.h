@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/19 01:59:28 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/19 19:57:18 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,12 @@ struct				s_args
 struct				s_player
 {
 	int				fd;
+	unsigned int	name;
+	unsigned int	lives_in_cp;
 	bool			is_alive;
 	char			*filename;
 	unsigned int	magic;
+	unsigned int	points;
 	unsigned int	prog_size;
 	char			prog_name[PROG_NAME_LENGTH + 1];
 	char			comment[COMMENT_LENGTH + 1];
@@ -139,7 +142,7 @@ struct				s_function
 
 struct				s_carriage
 {
-	int				whom;
+	unsigned int	whom;
 	unsigned int	reg[REG_NUMBER];
 	unsigned char	*pc;
 	unsigned int	args[3];
@@ -198,7 +201,7 @@ void				print_one_cycle(t_curses *e, t_vm *v);
 t_car				*get_last_car(t_vm *v);
 void				copy_car_to_end(t_car *cur_car, t_vm *v);
 void				delete_this_car(t_car *cur_car, t_vm *v);
-void				init_car(unsigned char *where, int whom, t_vm *v);
+void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
 
 /*
 ** Operations functions
@@ -245,6 +248,6 @@ bool				put_error(const int errnum, const char *errstr,
 
 void				kill_process(t_car *car, t_vm *v);
 bool				nbr_live_exec(t_car *car);
-void				make_live_nil(t_car *car);
+void				make_live_nil(t_vm *v);
 
 #endif

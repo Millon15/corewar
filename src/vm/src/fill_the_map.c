@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_the_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/17 15:43:30 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/19 19:41:09 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 inline void		fill_players(t_vm *v)
 {
-	int			ret;
-	int			i;
+	int					ret;
+	int					i;
+	const unsigned int	ui_max = -1;
 
 	i = -1;
 	while (++i < v->player_amount)
 	{
+		v->player[i].name = ui_max - i;
+		v->player[i].lives_in_cp = 0;
+		v->player[i].points = 0;
 		v->player[i].magic = read_raw_num(v->player[i].fd, sizeof(int));
 		if (v->player[i].magic != COREWAR_EXEC_MAGIC)
 			put_error(1, v->player[i].filename, 0, 0);
@@ -45,7 +49,7 @@ inline void		fill_arena(t_vm *v)
 	arena = v->arena;
 	while (++i < v->player_amount)
 	{
-		init_car(arena, i, v);
+		init_car(arena, v->player[i].name, v);
 		ft_memcpy(arena, v->player[i].source_code, v->player[i].prog_size);
 		arena += increase_on * sizeof(char);
 	}

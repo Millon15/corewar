@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   v_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/19 08:32:04 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/19 21:01:07 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ void					visualize_the_game(t_vm *v)
 	{
 		if (e.c == RUN)
 		{
-			mvwprintw(e.infow, row++, 4, "%d", e.t); wrefresh(e.infow);
+			// mvwprintw(e.infow, row++, 4, "%d", e.t); wrefresh(e.infow);
 			e.is_run = !e.is_run;
 		}
 		else if (e.c == PASS_OVER)
 			print_one_cycle(&e, v);
 		if (e.is_run && e.t != (clock() / CLOCKS_PER_SEC / e.cycles_in_second))
 		{
-			mvwprintw(e.infow, row++, 4, "2"); wrefresh(e.infow);
+			// mvwprintw(e.infow, row++, 4, "2"); wrefresh(e.infow);
 			print_one_cycle(&e, v);
 			e.t = clock() / CLOCKS_PER_SEC;
 		}
