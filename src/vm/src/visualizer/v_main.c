@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   v_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/19 21:01:07 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/19 21:59:36 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool				quicker_slower(t_curses *e, t_vm *v)
 	{
 		e->cycles_in_second =					\
 		(e->cycles_in_second <= SQBIG_VAL) ?	\
-		(e->cycles_in_second - SQBIG_VAL) : 1;
+		1 : (e->cycles_in_second - SQBIG_VAL);
 		return (true);
 	}
 	else if (e->c == RUN_QUICKER2)
@@ -35,7 +35,7 @@ static bool				quicker_slower(t_curses *e, t_vm *v)
 	{
 		e->cycles_in_second =					\
 		(e->cycles_in_second <= SQSMALL_VAL) ?	\
-		(e->cycles_in_second - SQSMALL_VAL) : 1;
+		1 : (e->cycles_in_second - SQSMALL_VAL);
 		return (true);
 	}
 	return (false);
@@ -44,27 +44,36 @@ static bool				quicker_slower(t_curses *e, t_vm *v)
 void					visualize_the_game(t_vm *v)
 {
 	t_curses			e;
-	int row = 50;
 
 	init_windows(&e, v);
 	while ((e.c = getch()) != EXIT_KEY)
 	{
 		if (e.c == RUN)
 		{
-			// mvwprintw(e.infow, row++, 4, "%d", e.t); wrefresh(e.infow);
 			e.is_run = !e.is_run;
+			mvwprintw(e.infow, WHEIGHT - 4, ALIGN_CENTER(IW_WIDTH, 13),
+			"%-*s", CL_PADD, (e.is_run) ? "** RUNNING **" : "** PAUSED **");
+			wrefresh(e.infow);
 		}
 		else if (e.c == PASS_OVER)
-			print_one_cycle(&e, v);
-		if (e.is_run && e.t != (clock() / CLOCKS_PER_SEC / e.cycles_in_second))
 		{
-			// mvwprintw(e.infow, row++, 4, "2"); wrefresh(e.infow);
 			print_one_cycle(&e, v);
-			e.t = clock() / CLOCKS_PER_SEC;
+			pass_one_cycle(v);
 		}
-		// else if (quicker_slower(&e, v))
-		// 	continue ;
+		if (e.is_run && clock() >= (e.t + CLOCKS_PER_SEC / e.cycles_in_second))
+		{
+			print_one_cycle(&e, v);
+			pass_one_cycle(v);
+			e.t = clock();
+		}
+		else if (quicker_slower(&e, v))
+		{
+			mvwprintw(e.infow, ROW_INFO, 4, "Cycles/second limit:\t%-*d",
+			CL_PADD, e.cycles_in_second);
+			wrefresh(e.infow);
+		}
 	}
+	wattroff(e->mainw, COLOR_PAIR(INFO) | A_BOLD);
 	endwin();
-	system("clear; reset;");
+	system("reset;");
 }

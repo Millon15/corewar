@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/19 19:57:18 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/19 21:32:13 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,20 @@ typedef struct s_curses			t_curses;
 # define EXIT_KEY		27
 # define RUN			' '
 # define PASS_OVER		's'
-
 # define RUN_SLOWER		'q'
 # define RUN_QUICKER	'r'
 # define RUN_SLOWER2	'w'
 # define RUN_QUICKER2	'e'
-# define SQBIG_VAL		10
-# define SQSMALL_VAL	1
 
 # define BORDC			'*'
+# define SQBIG_VAL		10
+# define SQSMALL_VAL	1
 # define WHEIGHT		(MEM_SIZE / 64 + 4)
 # define MW_WIDTH		(64 * 3 + 7)
 # define IW_WIDTH		(MW_WIDTH / 2)
 # define CL_PADD		20
+# define ROW_MAIN		1
+# define ROW_INFO		2
 
 # define ALIGN_CENTER(w, l)		((w - l) / 2)
 
