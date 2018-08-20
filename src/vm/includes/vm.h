@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/20 16:24:44 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/20 21:16:55 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 # include <libftprintf.h>
 # include <op.h>
 
-# define MOVE_PC(aptr, pc, how_much)	(aptr + (pc - aptr + how_much) % MEM_SIZE)
-# define I								v->info
+# define MOVE_PC(aptr, pc, hm)	(aptr + (pc - aptr + hm) % MEM_SIZE)
+# define I						v->info
+# define MOD(x)					((x) >= 0 ? (x) : (-x))
 
 typedef struct s_args			t_args;
 typedef struct s_player			t_player;
@@ -207,7 +208,7 @@ void				deinit_windows(t_curses *e, t_vm *v);
 */
 
 t_car				*get_last_car(t_vm *v);
-void				copy_car_to_end(t_car *cur_car, t_vm *v);
+void				copy_car_to_end(t_car *cur_car, t_vm *v, unsigned char *pc);
 void				delete_this_car(t_car *cur_car, t_vm *v);
 void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   v_print.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/20 17:46:56 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/20 22:32:39 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void					print_main(t_curses *e, t_vm *v)
 	int				row;
 	int				i;
 	unsigned char	prev_color;
+	t_car			*tmp;
 
 	row = ROW_MAIN;
 	i = 0;
@@ -38,6 +39,11 @@ void					print_main(t_curses *e, t_vm *v)
 		else
 			wprintw(e->mainw, "%0.2x ", v->arena[i]);
 	}
+	// tmp = v->head;
+	// while (tmp)
+	// {
+	// 	mv
+	// }
 	wattroff(e->mainw, COLOR_PAIR(prev_color));
 	wrefresh(e->mainw);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/16 22:03:44 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/20 21:16:59 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_car			*get_last_car(t_vm *v)
 	return (tmp);
 }
 
-void			copy_car_to_end(t_car *cur_car, t_vm *v)
+void			copy_car_to_end(t_car *cur_car, t_vm *v, unsigned char *pc)
 {
 	t_car		*last;
 
@@ -34,7 +34,7 @@ void			copy_car_to_end(t_car *cur_car, t_vm *v)
 	last->next->whom = cur_car->whom;
 	last->next->cycles_to_wait = cur_car->cycles_to_wait;
 	last->next->cur_operation = cur_car->cur_operation;
-	last->next->pc = cur_car->pc;
+	last->next->pc = pc;
 	last->next->carry = cur_car->carry;
 	last->next->nb_lives = cur_car->nb_lives;
 	last->next->next = NULL;

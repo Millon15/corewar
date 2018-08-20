@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ld.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:36 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/18 16:25:23 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/20 21:25:36 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,10 @@
 
 void		ld(t_car *self, t_vm *v)
 {
-	int				i;
 	unsigned char	*pc;
 
-	i = 0;
-	while (self->args[i] != T_REG)
-		i++;
-	if (i > 2)
-		return ;
 	if (self->args[0] == T_DIR)
-		self->reg[self->arg_val[i]] = self->arg_val[0];
+		self->reg[self->arg_val[1]] = self->arg_val[0];
 	else if (self->args[0] == T_IND)
 	{
 		self->arg_val[0] %= IDX_MOD;
@@ -31,10 +25,9 @@ void		ld(t_car *self, t_vm *v)
 			pc = &v->arena[self->arg_val[0] - MEM_SIZE - (self->pc - v->arena)];
 		else
 			pc = &self->pc[self->arg_val[0]];
-		self->reg[self->arg_val[i]] = get_raw_num(pc, 4);
-		self->carry = self->reg[self->arg_val[i]] ? false : true;
+		self->reg[self->arg_val[1]] = get_raw_num(pc, 4);
 	}
-	// ft_printf("@@@@@@pc->padding: %d\n", self->pc_padding);
+	self->carry = self->reg[self->arg_val[1]] ? false : true;
 	self->pc = MOVE_PC(v->arena, self->pc, self->pc_padding);
 	self->pc_padding = 0;
 }
