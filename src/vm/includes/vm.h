@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/19 21:32:13 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/20 08:57:26 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ typedef struct s_curses			t_curses;
 # define RUN_QUICKER2	'e'
 
 # define BORDC			'*'
+# define SQMAX_VAL		1000
 # define SQBIG_VAL		10
 # define SQSMALL_VAL	1
 # define WHEIGHT		(MEM_SIZE / 64 + 4)
 # define MW_WIDTH		(64 * 3 + 7)
-# define IW_WIDTH		(MW_WIDTH / 2)
+# define IW_WIDTH		(MW_WIDTH / 2.5)
 # define CL_PADD		20
 # define ROW_MAIN		1
 # define ROW_INFO		2
@@ -55,6 +56,14 @@ typedef struct s_curses			t_curses;
 # define ALIGN_CENTER(w, l)		((w - l) / 2)
 
 # define BORDER			1
+# define MAIN			2
+# define INFO			3
+# define COLOR_DARK		8
+// # define COLOR_SILVER	9
+# define P1				10
+# define P2				11
+# define P3				12
+# define P4				13
 
 struct				s_curses
 {
@@ -174,7 +183,7 @@ struct				s_corewar
 	t_info			info;
 
 };
-
+int fd;
 /*
 ** Functions that represents main parts of the program
 */
@@ -192,8 +201,11 @@ void				perform_next_comm(t_car *self, t_vm *v);
 */
 
 void				visualize_the_game(t_vm *v);
+void				print_one_cycle(t_curses *e, t_vm *v, bool is_pass_cycle);
+void				print_main(t_curses *e, t_vm *v);
+void				print_info(t_curses *e, t_vm *v, bool is_print_full_info);
 void				init_windows(t_curses *e, t_vm *v);
-void				print_one_cycle(t_curses *e, t_vm *v);
+void				deinit_windows(t_curses *e, t_vm *v);
 
 /*
 ** Carriage related functions
