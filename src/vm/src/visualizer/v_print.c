@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/19 22:52:20 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/20 17:46:56 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,39 @@
 
 void					print_main(t_curses *e, t_vm *v)
 {
-	int			row;
-	int			i;
+	int				row;
+	int				i;
+	unsigned char	prev_color;
 
 	row = ROW_MAIN;
-	mvwprintw(e->mainw, ++row, 4, "%0.2x ", v->arena[i]);
 	i = 0;
+	prev_color = v->color[0];
+	wattron(e->mainw, COLOR_PAIR(prev_color));
+	mvwprintw(e->mainw, ++row, 4, "%0.2x ", v->arena[i]);
 	while (++i < MEM_SIZE)
 	{
+		if (prev_color != v->color[i])
+		{
+			wattroff(e->mainw, COLOR_PAIR(
+			(prev_color == 0x0) ? MAIN : v->color[i]) | A_DIM);
+			prev_color = v->color[i];
+			wattron(e->mainw, COLOR_PAIR(
+			(v->color[i] == 0x0) ? MAIN : v->color[i]) | A_DIM);
+		}
 		if (!(i % 64))
 			mvwprintw(e->mainw, ++row, 4, "%0.2x ", v->arena[i]);
 		else
 			wprintw(e->mainw, "%0.2x ", v->arena[i]);
 	}
+	wattroff(e->mainw, COLOR_PAIR(prev_color));
 	wrefresh(e->mainw);
 }
 
 static inline void		print_full_info(t_curses *e, t_vm *v, int row, int i)
 {
-	mvwprintw(e->infow, (row += 3), 4, "Cycle\t:\t\t%-*d",
+	mvwprintw(e->infow, (row += 2), 4, "Cycle\t:\t%-*d",
 	CL_PADD, I.cur_cycle);
-	mvwprintw(e->infow, (row += 2), 4, "Processes\t:\t\t%-*d",
+	mvwprintw(e->infow, (row += 2), 4, "Processes\t:\t%-*d",
 	CL_PADD, I.cursors);
 	row++;
 	while (++i < v->player_amount)
@@ -75,9 +87,7 @@ void					print_info(t_curses *e, t_vm *v,
 
 void					print_one_cycle(t_curses *e, t_vm *v, bool is_pass_cycle)
 {
-	ft_dprintf(fd, "LLL\n");
 	print_main(e, v);
-	ft_dprintf(fd, "LLL\n");
 	print_info(e, v, true);
 	if (is_pass_cycle)
 		pass_one_cycle(v);

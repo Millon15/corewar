@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/20 08:57:26 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/20 16:24:44 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 typedef struct s_args			t_args;
 typedef struct s_player			t_player;
 typedef struct s_corewar		t_vm;
-typedef struct s_function		t_op;
+typedef struct s_operations		t_op;
 typedef struct s_carriage		t_car;
 typedef struct s_info			t_info;
 typedef struct s_curses			t_curses;
@@ -59,11 +59,10 @@ typedef struct s_curses			t_curses;
 # define MAIN			2
 # define INFO			3
 # define COLOR_DARK		8
-// # define COLOR_SILVER	9
-# define P1				10
-# define P2				11
-# define P3				12
-# define P4				13
+# define P1_COLOR		10
+# define P2_COLOR		11
+# define P3_COLOR		12
+# define P4_COLOR		13
 
 struct				s_curses
 {
@@ -73,7 +72,6 @@ struct				s_curses
 	char			c;
 	bool			is_run;
 	unsigned int	cycles_in_second;
-
 };
 
 /*
@@ -91,7 +89,6 @@ struct				s_info
 	// unsigned int	bonus;
 	// unsigned int	winner;
 	// unsigned int	last_alive;
-
 };
 
 /*
@@ -105,7 +102,6 @@ struct				s_args
 	int				is_stealth : 1;
 	int				is_dump : 1;
 	int				dump_value;
-
 };
 
 /*
@@ -125,14 +121,14 @@ struct				s_player
 	char			prog_name[PROG_NAME_LENGTH + 1];
 	char			comment[COMMENT_LENGTH + 1];
 	char			source_code[MEM_SIZE];
-
+	unsigned char	color;
 };
 
 /*
-** Functions structure
+** Operations structure
 */
 
-struct				s_function
+struct				s_operations
 {
 	char			*name;
 	unsigned char	nb_arg;
@@ -143,7 +139,6 @@ struct				s_function
 	bool			octal;
 	bool			label;
 	void			(*f)(t_car *car, t_vm *v);
-
 };
 
 /*
@@ -177,13 +172,13 @@ struct				s_corewar
 	t_player		player[MAX_PLAYERS];
 
 	unsigned char	arena[MEM_SIZE];
+	unsigned char	color[MEM_SIZE];
 	t_car			*head;
 
 	t_args			args;
 	t_info			info;
-
 };
-int fd;
+
 /*
 ** Functions that represents main parts of the program
 */

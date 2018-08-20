@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/20 09:13:05 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/20 16:33:10 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ void					visualize_the_game(t_vm *v)
 {
 	t_curses			e;
 
-	fd = open("ggg", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	ft_dprintf(fd, "AAA\n");
 	init_windows(&e, v);
-	ft_dprintf(fd, "AAA\n");
 	while ((e.c = getch()) != EXIT_KEY)
 	{
 		if (e.c == RUN)
@@ -58,7 +55,5 @@ void					visualize_the_game(t_vm *v)
 		else if (quicker_slower(&e, v))
 			print_info(&e, v, false);
 	}
-	ft_dprintf(fd, "AAA\n");
 	deinit_windows(&e, v);
-	ft_dprintf(fd, "AAA\n");
 }

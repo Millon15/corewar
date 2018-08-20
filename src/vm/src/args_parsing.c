@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/16 22:04:26 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/20 17:00:54 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static inline void		open_files(int ac, char **av, t_vm *v, int i)
 		v->player[v->player_amount].filename = av[i];
 		(++v->player_amount > MAX_PLAYERS) ? put_usage(3) : false;
 	}
+	(v->player_amount <= 0) ? put_usage(4) : false;
 }
 
 inline void				check_and_obtain_args(int ac, char **av, t_vm *v)

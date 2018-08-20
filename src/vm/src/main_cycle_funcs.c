@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_cycle_funcs.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/19 19:46:11 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/20 15:21:15 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ void		make_live_nil(t_vm *v)
 	int		i;
 	t_car	*car;
 
-	i = -1;
 	car = v->head;
 	while (car)
 	{
 		car->nb_lives = 0;
 		car = car->next;
 	}
+	i = -1;
 	while (++i < v->player_amount)
 		v->player[i].lives_in_cp = 0;
 }

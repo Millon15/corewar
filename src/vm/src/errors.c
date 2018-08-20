@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 16:45:51 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/18 22:15:54 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/20 16:59:35 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 
 bool		put_usage(const int errnum)
 {
-	const bool		is_invalid_error = errnum < 0 || errnum > 3;
+	const bool		is_invalid_error = errnum < 0 || errnum > 4;
 	char			*errstr;
 	char			*usage;
 	const char		*errors[] = {"", "Too less arguments",
-	"Wrong parameter passed to '-d' argument", "Too many champions"};
+	"Wrong parameter passed to '-d' argument", "Too many champions",
+	"At least one player needed for the game"};
 
 	if (!is_invalid_error)
 		errstr = (errnum == 0) ? strerror(errnum) : ((char **)errors)[errnum];
