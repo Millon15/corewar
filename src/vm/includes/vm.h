@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 02:18:40 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/23 02:48:04 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void				deinit_windows(t_curses *e, t_vm *v);
 ** Info structure
 */
 
+# define I			(v->info)
+
 struct				s_info
 {
 	unsigned int	cursors;
@@ -151,6 +153,8 @@ struct				s_operations
 /*
 ** Structure of the single player
 */
+
+# define P(x)		(v->player[x])
 
 struct				s_player
 {
@@ -202,7 +206,6 @@ void				move_pc(t_car *self, t_vm *v, unsigned int padding);
 ** Main corewar structure
 */
 
-# define I				v->info
 
 struct				s_corewar
 {

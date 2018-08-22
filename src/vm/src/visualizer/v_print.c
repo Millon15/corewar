@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 02:18:25 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/23 02:44:19 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,7 @@
 
 static inline void		update_colors(t_curses *e, t_vm *v)
 {
-	int				i;
-	unsigned char	*from;
-	unsigned char	*to;
-	t_car			*cur_pl_car;
 
-	i = -1;
-	while (++i < MAX_PLAYERS)
-		e->pcolor[i] = PCOLORS + i;//COLOR_PAIR(PCOLORS + i);
-	i = -1;
-	while (++i < MAX_PLAYERS)
-		e->ccolor[i] = CCOLORS + i;//COLOR_PAIR(CCOLORS + i);
-	i = -1;
-	cur_pl_car = v->head;
-	while (cur_pl_car && ++i < v->player_amount)
-	{
-		from = e->acolor + (cur_pl_car->pc - v->arena);
-		to = e->acolor + v->player[i].prog_size;
-		*from = e->ccolor[i];
-		while (++from < to)
-			*from = e->pcolor[i];
-		cur_pl_car = cur_pl_car->next;
-	}
 }
 
 static inline void		print_main(t_curses *e, t_vm *v)
@@ -62,19 +41,19 @@ static inline void		print_main(t_curses *e, t_vm *v)
 
 static inline void		print_full_info(t_curses *e, t_vm *v, int row, int i)
 {
-	mvwprintw(e->infow, (row += 2), 4, "Cycle\t:\t%-*d",
-	CLEAR_LINE_PADD, I.cur_cycle);
-	mvwprintw(e->infow, (row += 2), 4, "Processes\t:\t%-*d",
-	CLEAR_LINE_PADD, I.cursors);
-	row++;
 	while (++i < v->player_amount)
 	{
-		mvwprintw(e->infow, (row += 2), 4, "Player -%d : %s %s",
-		i + 1, v->player[i].prog_name, v->player[i].comment);
+		mvwprintw(e->infow, (row += 2), 4, "Player -%d :", i + 1);
+		wattroff(e->infow, COLOR_PAIR(INFO) | A_BOLD);
+		wattron(e->infow, COLOR_PAIR(e->pcolor[i]) | A_BOLD);
+		mvwprintw(e->infow, row, CLEAR_LINE_PADD, "%s %s",
+		P(i).prog_name, P(i).comment);
+		wattroff(e->infow, COLOR_PAIR(e->pcolor[i]) | A_BOLD);
+		wattron(e->infow, COLOR_PAIR(INFO) | A_BOLD);
 		mvwprintw(e->infow, ++row, 6, "Last live\t\t\t:\t%-*d",
-		CLEAR_LINE_PADD, v->player[i].points);
+		CLEAR_LINE_PADD, P(i).points);
 		mvwprintw(e->infow, ++row, 6, "Lives in current period\t:\t%-*d",
-		CLEAR_LINE_PADD, v->player[i].lives_in_cp);
+		CLEAR_LINE_PADD, P(i).lives_in_cp);
 	}
 	mvwprintw(e->infow, (row += 3), 4, "CYCLE_TO_DIE:\t%-*d",
 	CLEAR_LINE_PADD, I.cycle_to_die);
@@ -98,6 +77,11 @@ void					print_info(t_curses *e, t_vm *v,
 	"%-*s", CLEAR_LINE_PADD, (e->is_run) ? "** RUNNING **" : "** PAUSED **");
 	mvwprintw(e->infow, row, 4, "Cycles/second limit :\t%-*d",
 	CLEAR_LINE_PADD, e->cycles_in_second);
+	mvwprintw(e->infow, (row += 2), 4, "Cycle\t:\t%-*d",
+	CLEAR_LINE_PADD, I.cur_cycle);
+	mvwprintw(e->infow, (row += 2), 4, "Processes\t:\t%-*d",
+	CLEAR_LINE_PADD, I.cursors);
+	row++;
 	if (is_print_full_info)
 		print_full_info(e, v, row, i);
 	wrefresh(e->infow);
