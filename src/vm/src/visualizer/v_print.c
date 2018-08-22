@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/20 17:46:56 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/22 23:27:48 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,20 @@ void					print_main(t_curses *e, t_vm *v)
 {
 	int				row;
 	int				i;
-	unsigned char	prev_color;
+	t_car			*car;
 
 	row = ROW_MAIN;
 	i = 0;
-	prev_color = v->color[0];
-	wattron(e->mainw, COLOR_PAIR(prev_color));
 	mvwprintw(e->mainw, ++row, 4, "%0.2x ", v->arena[i]);
 	while (++i < MEM_SIZE)
 	{
-		if (prev_color != v->color[i])
-		{
-			wattroff(e->mainw, COLOR_PAIR(
-			(prev_color == 0x0) ? MAIN : v->color[i]) | A_DIM);
-			prev_color = v->color[i];
-			wattron(e->mainw, COLOR_PAIR(
-			(v->color[i] == 0x0) ? MAIN : v->color[i]) | A_DIM);
-		}
+		wattron(e->mainw, e->acolor[i]);
 		if (!(i % 64))
 			mvwprintw(e->mainw, ++row, 4, "%0.2x ", v->arena[i]);
 		else
 			wprintw(e->mainw, "%0.2x ", v->arena[i]);
+		wattroff(e->mainw, e->acolor[i]);
 	}
-	wattroff(e->mainw, COLOR_PAIR(prev_color));
 	wrefresh(e->mainw);
 }
 

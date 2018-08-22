@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lld.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:31 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/18 16:28:57 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/22 20:49:01 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ void		lld(t_car *self, t_vm *v)
 		self->reg[self->arg_val[i]] = get_raw_num(pc, 4);
 		self->carry = self->reg[self->arg_val[i]] ? false : true;
 	}
-	self->pc = MOVE_PC(v->arena, self->pc, self->pc_padding);
+	move_pc(self, v, self->pc_padding);
 	self->pc_padding = 0;
 }

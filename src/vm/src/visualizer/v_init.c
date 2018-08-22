@@ -6,11 +6,40 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/20 17:49:08 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/22 23:28:39 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
+
+static inline void		init_colors(t_curses *e, t_vm *v)
+{
+	int				i;
+	unsigned char	*from;
+	unsigned char	*to;
+	t_car			*cur_pl_car;
+
+	e->acolor = ft_memalloc(sizeof(unsigned char) * MEM_SIZE);
+	e->pcolor = ft_memalloc(sizeof(short) * MAX_PLAYERS);
+	e->ccolor = ft_memalloc(sizeof(short) * MAX_PLAYERS);
+	i = -1;
+	while (++i < MAX_PLAYERS)
+		e->pcolor[i] = COLOR_PAIR(PCOLORS + i);
+	i = -1;
+	while (++i < MAX_PLAYERS)
+		e->ccolor[i] = COLOR_PAIR(CCOLORS + i);
+	i = -1;
+	cur_pl_car = v->head;
+	while (cur_pl_car && ++i < v->player_amount)
+	{
+		from = e->acolor + (cur_pl_car->pc - v->arena);
+		to = e->acolor + v->player[i].prog_size;
+		*from = e->ccolor[i];
+		while (++from < to)
+			*from = e->pcolor[i];
+		cur_pl_car = cur_pl_car->next;
+	}
+}
 
 static inline void		init_visualizer(void)
 {
@@ -26,15 +55,22 @@ static inline void		init_visualizer(void)
 	init_pair(BORDER, COLOR_MAGENTA, COLOR_MAGENTA);
 	init_pair(MAIN, COLOR_WHITE, COLOR_BLACK);
 	init_pair(INFO, COLOR_WHITE, COLOR_BLACK);
-	init_pair(P1_COLOR, COLOR_GREEN, COLOR_BLACK);
-	init_pair(P2_COLOR, COLOR_BLUE, COLOR_BLACK);
-	init_pair(P3_COLOR, COLOR_RED, COLOR_BLACK);
-	init_pair(P4_COLOR, COLOR_CYAN, COLOR_BLACK);
+	PCOLORS = P1_COLOR;
+	init_pair(PCOLORS + 0, COLOR_GREEN, COLOR_BLACK);
+	init_pair(PCOLORS + 1, COLOR_BLUE, COLOR_BLACK);
+	init_pair(PCOLORS + 2, COLOR_RED, COLOR_BLACK);
+	init_pair(PCOLORS + 3, COLOR_CYAN, COLOR_BLACK);
+	CCOLORS = C1_COLOR;
+	init_pair(CCOLORS + 0, COLOR_BLACK, COLOR_GREEN);
+	init_pair(CCOLORS + 1, COLOR_BLACK, COLOR_BLUE);
+	init_pair(CCOLORS + 2, COLOR_BLACK, COLOR_RED);
+	init_pair(CCOLORS + 3, COLOR_BLACK, COLOR_CYAN);
 }
 
 void					init_windows(t_curses *e, t_vm *v)
 {
 	init_visualizer();
+	init_colors(e, v);
 	e->mainw = newwin(WHEIGHT, MW_WIDTH, 0, 0);
 	wattron(e->mainw, COLOR_PAIR(BORDER));
 	wborder(e->mainw, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC);
@@ -56,6 +92,9 @@ void					deinit_windows(t_curses *e, t_vm *v)
 	wattroff(e->infow, COLOR_PAIR(INFO) | A_BOLD);
 	delwin(e->mainw);
 	delwin(e->infow);
+	free(e->acolor);
+	free(e->pcolor);
+	free(e->ccolor);
 	endwin();
 	system("reset");
 }

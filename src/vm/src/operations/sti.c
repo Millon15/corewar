@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sti.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/18 16:29:02 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/22 20:49:17 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ void		sti(t_car *self, t_vm *v)
 	else
 		pc = &self->pc[arg_sum];
 	*pc = self->arg_val[0];
-	self->pc = MOVE_PC(v->arena, self->pc, self->pc_padding);
+	move_pc(self, v, self->pc_padding);
 	self->pc_padding = 0;
 }

@@ -6,7 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-#    Updated: 2018/08/20 17:03:51 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/08/22 22:31:28 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,15 +26,15 @@ IFLAGS = -I ../../$(INC_PATH) -I $(INC_PATH) -I $(LIB_PATH)
 LFLAGS = -lncurses
 
 HFILES =		vm
-FILES =			vm errors utils args_parsing fill_the_map carriage carriage_utils main_cycle_funcs
 OPERATIONS =	add aff and ld ldi lfork live lld lldi op_fork or st sti sub xor zjmp
+FILES =			vm errors utils args_parsing fill_the_map carriage carriage_utils main_cycle_funcs
 VISUALIZER =	v_main v_init v_print
 
 LIB = $(LIB_PATH)libftprintf.a
 
 HDRS = $(addprefix $(INC_PATH), $(addsuffix .h, $(HFILES)))
-SRCS = $(addprefix $(SRC_PATH), $(addsuffix .c, $(FILES)))
-SRCS += $(addprefix $(OP_PATH), $(addsuffix .c, $(OPERATIONS)))
+SRCS = $(addprefix $(OP_PATH), $(addsuffix .c, $(OPERATIONS)))
+SRCS += $(addprefix $(SRC_PATH), $(addsuffix .c, $(FILES)))
 SRCS += $(addprefix $(V_PATH), $(addsuffix .c, $(VISUALIZER)))
 OBJS = $(addprefix $(OBJ_PATH), $(SRCS:%.c=%.o))
 

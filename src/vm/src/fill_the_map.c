@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/20 17:00:03 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/22 21:40:42 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void		fill_players(t_vm *v)
 	int					ret;
 	int					i;
 	const unsigned int	ui_max = -1;
-	static const char	pcolors[] = {P1_COLOR, P2_COLOR, P3_COLOR, P4_COLOR};
 
 	i = -1;
 	while (++i < v->player_amount)
@@ -37,7 +36,6 @@ void		fill_players(t_vm *v)
 		(ret > ((int)v->player[i].prog_size)) ? put_error(2,
 		v->player[i].filename, v->player[i].prog_size, CHAMP_MAX_SIZE) : 0;
 		v->player[i].is_alive = true;
-		(v->args.is_ncurses) ? v->player[i].color = pcolors[i] : false;
 	}
 }
 
@@ -46,7 +44,6 @@ void		fill_arena(t_vm *v)
 	const int		increase_on = MEM_SIZE / v->player_amount;
 	unsigned char	*arena;
 	int				i;
-	int				cl;
 
 	i = -1;
 	arena = v->arena;
@@ -55,12 +52,6 @@ void		fill_arena(t_vm *v)
 		init_car(arena, v->player[i].name, v);
 		ft_memcpy(arena, v->player[i].source_code, v->player[i].prog_size);
 		arena += increase_on * sizeof(char);
-		if (v->args.is_ncurses)
-		{
-			cl = 0;
-			while (cl < v->player[i].prog_size)
-				v->color[cl++] = v->player[i].color;
-		}
 	}
 }
 

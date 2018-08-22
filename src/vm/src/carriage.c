@@ -3,41 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   carriage.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/19 19:30:23 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/22 23:10:34 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static const t_op	g_func_tab[17] =
-{
-	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0, &live},
-	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0, &ld},
-	{"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 0, &st},
-	{"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition", 1, 0, &add},
-	{"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "soustraction", 1, 0, &sub},
-	{"and", 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6,
-		"et (and  r1, r2, r3   r1&r2 -> r3", 1, 0, &and},
-	{"or", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6,
-		"ou  (or   r1, r2, r3   r1 | r2 -> r3", 1, 0, &or},
-	{"xor", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 8, 6,
-		"ou (xor  r1, r2, r3   r1^r2 -> r3", 1, 0, &xor},
-	{"zjmp", 1, {T_DIR}, 9, 20, "jump if zero", 0, 1, &zjmp},
-	{"ldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25,
-		"load index", 1, 1, &ldi},
-	{"sti", 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 11, 25,
-		"store index", 1, 1, &sti},
-	{"fork", 1, {T_DIR}, 12, 800, "fork", 0, 1, &op_fork},
-	{"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load", 1, 0, &lld},
-	{"lldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 14, 50,
-		"long load index", 1, 1, &lldi},
-	{"lfork", 1, {T_DIR}, 15, 1000, "long fork", 0, 1, &lfork},
-	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0, &aff},
-	{0, 0, {0}, 0, 0, 0, 0, 0, NULL}
-};
+// static const t_op	g_func_tab[17] =
+// {
+// 	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0, &live},
+// 	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0, &ld},
+// 	{"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 0, &st},
+// 	{"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition", 1, 0, &add},
+// 	{"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "soustraction", 1, 0, &sub},
+// 	{"and", 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6,
+// 		"et (and  r1, r2, r3   r1&r2 -> r3", 1, 0, &and},
+// 	{"or", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6,
+// 		"ou  (or   r1, r2, r3   r1 | r2 -> r3", 1, 0, &or},
+// 	{"xor", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 8, 6,
+// 		"ou (xor  r1, r2, r3   r1^r2 -> r3", 1, 0, &xor},
+// 	{"zjmp", 1, {T_DIR}, 9, 20, "jump if zero", 0, 1, &zjmp},
+// 	{"ldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25,
+// 		"load index", 1, 1, &ldi},
+// 	{"sti", 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 11, 25,
+// 		"store index", 1, 1, &sti},
+// 	{"fork", 1, {T_DIR}, 12, 800, "fork", 0, 1, &op_fork},
+// 	{"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load", 1, 0, &lld},
+// 	{"lldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 14, 50,
+// 		"long load index", 1, 1, &lldi},
+// 	{"lfork", 1, {T_DIR}, 15, 1000, "long fork", 0, 1, &lfork},
+// 	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0, &aff},
+// 	{0, 0, {0}, 0, 0, 0, 0, 0, NULL}
+// };
 
 static bool		pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v, int n)
 {
@@ -57,7 +57,6 @@ static bool		pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v, int n)
 			padding = 2;
 		else if (self->args[i] == T_REG)
 			padding = 1;
-		// self->pc = MOVE_PC(v->arena, self->pc, padding);
 		self->pc_padding += padding;		
 	}
 	return (true);
@@ -85,12 +84,9 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 		else if (pass_arg_if_invalid(self, cur, v, 0))
 			return (-1);
 		self->arg_val[i] = get_raw_num(self->pc + self->pc_padding + pc_padding, padding);
-		// ft_printf("self->arg_val[%d] :%0.2x, self->pc_padding: %d\n",i, self->arg_val[i], self->pc_padding);
-		// self->pc = MOVE_PC(v->arena, self->pc, padding);
 		pc_padding += padding;
 	}
 	self->pc_padding += pc_padding;
-	// ft_printf("!!!self->arg_val[%d] :%0.2x!!!, self->pc_padding: %d\n", i- 1, self->arg_val[i - 1], self->pc_padding);	
 	return (0);
 }
 
@@ -167,13 +163,40 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 
 void			perform_next_comm(t_car *self, t_vm *v)
 {
+	t_op	g_func_tab[17] =
+	{
+		{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0, &live},
+		{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0, &ld},
+		{"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 0, &st},
+		{"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition", 1, 0, &add},
+		{"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "soustraction", 1, 0, &sub},
+		{"and", 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6,
+			"et (and  r1, r2, r3   r1&r2 -> r3", 1, 0, &and},
+		{"or", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6,
+			"ou  (or   r1, r2, r3   r1 | r2 -> r3", 1, 0, &or},
+		{"xor", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 8, 6,
+			"ou (xor  r1, r2, r3   r1^r2 -> r3", 1, 0, &xor},
+		{"zjmp", 1, {T_DIR}, 9, 20, "jump if zero", 0, 1, &zjmp},
+		{"ldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25,
+			"load index", 1, 1, &ldi},
+		{"sti", 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 11, 25,
+			"store index", 1, 1, &sti},
+		{"fork", 1, {T_DIR}, 12, 800, "fork", 0, 1, &op_fork},
+		{"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load", 1, 0, &lld},
+		{"lldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 14, 50,
+			"long load index", 1, 1, &lldi},
+		{"lfork", 1, {T_DIR}, 15, 1000, "long fork", 0, 1, &lfork},
+		{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0, &aff},
+		{0, 0, {0}, 0, 0, 0, 0, 0, NULL}
+	};
+
 	int i = 0;
 	while (self->cycles_to_wait < 0 && ++self->cur_operation < REG_NUMBER)
 		if (g_func_tab[self->cur_operation].opcode == *self->pc)
 			self->cycles_to_wait = g_func_tab[self->cur_operation].cycles;
 	if (self->cur_operation >= REG_NUMBER || *self->pc == 0)
 	{
-		self->pc = MOVE_PC(v->arena, self->pc, 1);
+		move_pc(self, v, 1);
 		self->cur_operation = -1;
 		return ;
 	}
@@ -209,15 +232,14 @@ void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
 
 	tmp = (v->head == NULL) ? &v->head : &((get_last_car(v))->next);
 	(*tmp) = malloc(sizeof(t_car));
-	(*tmp)->prev = (t_car*)prev;
-	(*tmp)->whom = whom;
+	(*tmp)->carry = true;
 	(*tmp)->cycles_to_wait = -1;
 	(*tmp)->cur_operation = -1;
-	(*tmp)->pc = where;
-	(*tmp)->carry = true;
-	(*tmp)->next = NULL;
 	(*tmp)->nb_lives = 0;
 	(*tmp)->pc_padding = 0;
+	(*tmp)->pc = where;
 	(*tmp)->reg[1] = whom;
+	(*tmp)->prev = (t_car*)prev;
+	(*tmp)->next = NULL;
 	v->info.cursors++;
 }

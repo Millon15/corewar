@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   zjmp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/19 19:19:14 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/22 21:15:47 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void		zjmp(t_car *self, t_vm *v)
 	if (self->carry == false)
 		return ;
 	self->arg_val[0] %= IDX_MOD;
-	if (self->arg_val[0] > &v->arena[((int)v->player[ui_max - self->whom].prog_size)] - self->pc)
-		self->pc = MOVE_PC(v->arena, self->pc, self->pc_padding);
+	if (self->arg_val[0] > &v->arena[((int)v->player[ui_max - WHOM(self)].prog_size)] - self->pc)
+	move_pc(self, v, self->pc_padding);
 	else
 	{
 		if (self->arg_val[0] > MEM_SIZE - (self->pc - v->arena))

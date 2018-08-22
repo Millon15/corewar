@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lfork.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:41 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/18 16:28:55 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/08/22 20:48:55 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void		lfork(t_car *self, t_vm *v)
 	else
 		pc = &self->pc[self->arg_val[0]];
 	copy_car_to_end(self, v);
-	self->pc = MOVE_PC(v->arena, self->pc, self->pc_padding);
+	move_pc(self, v, self->pc_padding);
 	self->pc_padding = 0;
 }
