@@ -6,40 +6,11 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/22 23:28:39 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/23 02:14:40 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
-
-static inline void		init_colors(t_curses *e, t_vm *v)
-{
-	int				i;
-	unsigned char	*from;
-	unsigned char	*to;
-	t_car			*cur_pl_car;
-
-	e->acolor = ft_memalloc(sizeof(unsigned char) * MEM_SIZE);
-	e->pcolor = ft_memalloc(sizeof(short) * MAX_PLAYERS);
-	e->ccolor = ft_memalloc(sizeof(short) * MAX_PLAYERS);
-	i = -1;
-	while (++i < MAX_PLAYERS)
-		e->pcolor[i] = COLOR_PAIR(PCOLORS + i);
-	i = -1;
-	while (++i < MAX_PLAYERS)
-		e->ccolor[i] = COLOR_PAIR(CCOLORS + i);
-	i = -1;
-	cur_pl_car = v->head;
-	while (cur_pl_car && ++i < v->player_amount)
-	{
-		from = e->acolor + (cur_pl_car->pc - v->arena);
-		to = e->acolor + v->player[i].prog_size;
-		*from = e->ccolor[i];
-		while (++from < to)
-			*from = e->pcolor[i];
-		cur_pl_car = cur_pl_car->next;
-	}
-}
 
 static inline void		init_visualizer(void)
 {
@@ -69,13 +40,17 @@ static inline void		init_visualizer(void)
 
 void					init_windows(t_curses *e, t_vm *v)
 {
+	// fd = open("log", O_WRONLY | O_TRUNC | O_CREAT, 0644); // debug
+
 	init_visualizer();
-	init_colors(e, v);
-	e->mainw = newwin(WHEIGHT, MW_WIDTH, 0, 0);
+	e->acolor = ft_memalloc(sizeof(unsigned char) * MEM_SIZE);
+	e->pcolor = ft_memalloc(sizeof(short) * MAX_PLAYERS);
+	e->ccolor = ft_memalloc(sizeof(short) * MAX_PLAYERS);
+	e->mainw = newwin(COMMON_HEIGHT, START_MW_WIDTH, 0, 0);
 	wattron(e->mainw, COLOR_PAIR(BORDER));
 	wborder(e->mainw, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC);
 	wattroff(e->mainw, COLOR_PAIR(BORDER));
-	e->infow = newwin(WHEIGHT, IW_WIDTH, 0, MW_WIDTH - 1);
+	e->infow = newwin(COMMON_HEIGHT, START_IW_WIDTH, 0, START_MW_WIDTH - 1);
 	wattron(e->infow, COLOR_PAIR(BORDER));
 	wborder(e->infow, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC);
 	wattroff(e->infow, COLOR_PAIR(BORDER));
@@ -92,9 +67,24 @@ void					deinit_windows(t_curses *e, t_vm *v)
 	wattroff(e->infow, COLOR_PAIR(INFO) | A_BOLD);
 	delwin(e->mainw);
 	delwin(e->infow);
+	endwin();
+
+	// for (int k = 0; k < 4; k++)
+	// 	ft_dprintf(fd, "PCOLOR_%d : %d\nCCOLOR_%d : %d\n", k, e->pcolor[k], k, e->ccolor[k]);
+	// ft_dprintf(fd, "ACOLOR:\n%3d ", e->acolor[0]);
+	// for (int i = 1; i < MEM_SIZE; i++)
+	// {
+	// 	if (!(i % 64))
+	// 		ft_dprintf(fd, "%3d\n", e->acolor[i]);
+	// 	else
+	// 		ft_dprintf(fd, "%3d ", e->acolor[i]);
+	// }
+	// ft_dprintf(fd, "\n");
+
 	free(e->acolor);
 	free(e->pcolor);
 	free(e->ccolor);
-	endwin();
 	system("reset");
+
+	// system("cat log");
 }
