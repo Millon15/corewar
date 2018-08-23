@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 18:18:12 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/23 18:38:52 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <libftprintf.h>
 # include <op.h>
+
+# define MOD(x)					((x) >= 0 ? (x) : (-x))
 
 typedef struct s_args			t_args;
 typedef struct s_player			t_player;
@@ -52,10 +54,10 @@ typedef struct s_curses			t_curses;
 
 # define ALIGN_CENTER(w, l)		((w - l) / 2)
 
-# define BORDER			1
-# define MAIN			2
-# define INFO			3
-# define COLOR_DARK		8
+# define BORDER					1
+# define MAIN					2
+# define INFO					3
+# define COLOR_DARK				8
 
 enum	PLAYER_COLORS
 {
@@ -194,7 +196,7 @@ struct				s_carriage
 };
 
 t_car				*get_last_car(t_vm *v);
-void				copy_car_to_end(t_car *cur_car, t_vm *v);
+void				copy_car_to_end(t_car *cc, t_vm *v, unsigned char *pc);
 void				delete_this_car(t_car *cur_car, t_vm *v);
 void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
 void				move_pc(t_car *self, t_vm *v, unsigned int padding);

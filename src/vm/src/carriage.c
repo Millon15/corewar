@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 18:18:13 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/23 18:40:21 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,11 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 		pc_padding += padding;
 	}
 	self->pc_padding += pc_padding;
+
+	// i = -1;
+	// while (++i < cur->nb_arg)
+	// 	ft_printf("%dL: %0.2x\n", i, self->arg_val[i]);
+	// ft_printf("!!!self->arg_val[%d] :%0.2x!!!, self->pc_padding: %d\n", i- 1, self->arg_val[i - 1], self->pc_padding);	
 	return (0);
 }
 
@@ -146,6 +151,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	i = 0;
 	while (i < 3 && cod[i] != 0x0)
 	{
+		// ft_printf("cod[%d] : %0.2d\n", i, cod[i]);
 		if ((cod[i] & REG_CODE) == REG_CODE)
 			self->args[i] = T_REG;
 		else if ((cod[i] & DIR_CODE) == DIR_CODE)

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 18:17:24 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/23 18:31:22 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_car			*get_last_car(t_vm *v)
 	return (tmp);
 }
 
-void			copy_car_to_end(t_car *cur_car, t_vm *v)
+void			copy_car_to_end(t_car *cur_car, t_vm *v, unsigned char *pc)
 {
 	t_car		*last;
 
@@ -35,7 +35,7 @@ void			copy_car_to_end(t_car *cur_car, t_vm *v)
 	last->next->cur_operation = cur_car->cur_operation;
 	last->next->nb_lives = cur_car->nb_lives;
 	last->next->pc_padding = cur_car->pc_padding;
-	last->next->pc = cur_car->pc;
+	last->next->pc = pc;
 	last->next->reg[1] = cur_car->reg[1];
 	last->next->prev = last;
 	last->next->next = NULL;

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:31 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/22 20:49:01 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/23 18:33:31 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void		lld(t_car *self, t_vm *v)
 		else
 			pc = &self->pc[self->arg_val[0]];
 		self->reg[self->arg_val[i]] = get_raw_num(pc, 4);
-		self->carry = self->reg[self->arg_val[i]] ? false : true;
 	}
+	self->carry = self->reg[self->arg_val[i]] ? false : true;
 	move_pc(self, v, self->pc_padding);
 	self->pc_padding = 0;
 }

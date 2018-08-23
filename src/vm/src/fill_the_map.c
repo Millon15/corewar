@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/22 21:40:42 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/23 18:35:54 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@ void		fill_players(t_vm *v)
 {
 	int					ret;
 	int					i;
-	const unsigned int	ui_max = -1;
 
 	i = -1;
 	while (++i < v->player_amount)
 	{
-		v->player[i].name = ui_max - i;
+		v->player[i].name = UINT_MAX - i;
 		v->player[i].lives_in_cp = 0;
 		v->player[i].points = 0;
 		v->player[i].magic = read_raw_num(v->player[i].fd, sizeof(int));
