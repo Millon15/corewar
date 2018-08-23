@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 18:38:52 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/24 02:55:32 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ enum	CARRAGE_COLORS
 
 }		CCOLORS;
 
-// int																			fd;
+// int															fd; // debug
 
 struct				s_curses
 {
@@ -85,8 +85,6 @@ struct				s_curses
 	unsigned int	cycles_in_second;
 
 	unsigned char	*acolor;
-	short			*pcolor;
-	short			*ccolor;
 
 	WINDOW			*mainw;
 	WINDOW			*infow;
@@ -187,6 +185,7 @@ struct				s_carriage
 	int				pc_padding;
 
 	unsigned char	*pc;
+	unsigned char	*prev_pc;
 	unsigned int	reg[REG_NUMBER];
 	unsigned int	args[3];
 	unsigned int	arg_val[3];

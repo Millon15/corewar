@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 02:48:02 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/24 02:55:20 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,20 @@ static inline void		init_colors(t_curses *e, t_vm *v)
 	int				i;
 	unsigned char	*from;
 	unsigned char	*to;
-	t_car			*cur_pl_car;
+	t_car			*car;
 
 	e->acolor = ft_memalloc(sizeof(unsigned char) * MEM_SIZE);
-	e->pcolor = ft_memalloc(sizeof(short) * MAX_PLAYERS);
-	e->ccolor = ft_memalloc(sizeof(short) * MAX_PLAYERS);
 	i = -1;
-	while (++i < MAX_PLAYERS)
-		e->pcolor[i] = PCOLORS + i;//COLOR_PAIR(PCOLORS + i); // Why we cannot do it???
-	i = -1;
-	while (++i < MAX_PLAYERS)
-		e->ccolor[i] = CCOLORS + i;//COLOR_PAIR(CCOLORS + i); // Why we cannot do it???
-	i = -1;
-	cur_pl_car = v->head;
-	while (cur_pl_car && ++i < v->player_amount)
+	car = v->head;
+	while (car && ++i < v->player_amount)
 	{
-		from = e->acolor + (cur_pl_car->pc - v->arena);
+		from = e->acolor + (car->pc - v->arena);
 		to = from + P(i).prog_size;
-		*from = e->ccolor[i];
+		*from = CCOLORS + i;
+		car->prev_pc = e->acolor;
 		while (++from < to)
-			*from = e->pcolor[i];
-		cur_pl_car = cur_pl_car->next;
+			*from = PCOLORS + i;
+		car = car->next;
 	}
 }
 
@@ -109,8 +102,6 @@ void					deinit_windows(t_curses *e, t_vm *v)
 	// ft_dprintf(fd, "\n");
 
 	free(e->acolor);
-	free(e->pcolor);
-	free(e->ccolor);
 	system("reset");
 
 	// system("cat log"); // debug

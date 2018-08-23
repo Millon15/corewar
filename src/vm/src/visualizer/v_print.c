@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 18:35:31 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/24 02:57:51 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,22 @@
 
 static inline void		update_colors(t_curses *e, t_vm *v)
 {
+	unsigned char	*cur_place;
+	t_car			*car;
 
+	car = v->head;
+	while (car)
+	{
+		cur_place = e->acolor + (car->pc - v->arena);
+		if (car->prev_pc != cur_place)
+		{
+			// ft_dprintf(fd, "%d\n", car->reg[1]);
+			*cur_place = C1_COLOR;//CCOLORS + car->reg[1];
+			*car->prev_pc = P1_COLOR;//PCOLORS + car->reg[1];
+			car->prev_pc = cur_place;
+		}
+		car = car->next;
+	}
 }
 
 static inline void		print_main(t_curses *e, t_vm *v)
@@ -45,10 +60,10 @@ static inline void		print_full_info(t_curses *e, t_vm *v, int row, int i)
 	{
 		mvwprintw(e->infow, (row += 2), 4, "Player -%d :", i + 1);
 		wattroff(e->infow, COLOR_PAIR(INFO) | A_BOLD);
-		wattron(e->infow, COLOR_PAIR(e->pcolor[i]) | A_BOLD);
+		wattron(e->infow, COLOR_PAIR(PCOLORS + i) | A_BOLD);
 		mvwprintw(e->infow, row, CLEAR_LINE_PADD, "%s %s",
 		P(i).prog_name, P(i).comment);
-		wattroff(e->infow, COLOR_PAIR(e->pcolor[i]) | A_BOLD);
+		wattroff(e->infow, COLOR_PAIR(PCOLORS + i) | A_BOLD);
 		wattron(e->infow, COLOR_PAIR(INFO) | A_BOLD);
 		mvwprintw(e->infow, ++row, 6, "Last live\t\t\t:\t%-*d",
 		CLEAR_LINE_PADD, P(i).points);
@@ -87,7 +102,8 @@ void					print_info(t_curses *e, t_vm *v,
 	wrefresh(e->infow);
 }
 
-void					print_one_cycle(t_curses *e, t_vm *v, bool is_pass_cycle)
+void					print_one_cycle(t_curses *e, t_vm *v,
+	bool is_pass_cycle)
 {
 	print_main(e, v);
 	print_info(e, v, true);
