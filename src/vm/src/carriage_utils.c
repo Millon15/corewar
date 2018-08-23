@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/22 22:47:37 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/23 18:17:24 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ void			delete_this_car(t_car *cur_car, t_vm *v)
 void			move_pc(t_car *self, t_vm *v, unsigned int padding)
 {
 	self->pc = (v->arena + (self->pc - v->arena + padding) % MEM_SIZE);
-	if (v->args.is_ncurses);
-		// self->pc_color = v->player[WHOM(self)]->color;
+	// if (v->args.is_ncurses);
+	// 	// self->pc_color = v->player[WHOM(self)]->color;
 }

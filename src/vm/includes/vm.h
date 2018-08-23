@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 02:48:04 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/23 18:18:12 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,17 +136,14 @@ struct				s_args
 
 struct				s_operations
 {
-	bool			octal;
-	bool			label;
-
+	char			*name;
 	unsigned char	nb_arg;
+	unsigned char	args[3];
 	unsigned char	opcode;
 	unsigned int	cycles;
-
-	char			*name;
 	char			*description;
-	unsigned char	args[3];
-
+	bool			octal;
+	bool			label;
 	void			(*f)(t_car *car, t_vm *v);
 };
 
