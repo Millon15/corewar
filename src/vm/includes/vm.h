@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/24 02:55:32 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/24 21:32:00 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 # include <libftprintf.h>
 # include <op.h>
 
-# define MOD(x)					((x) >= 0 ? (x) : (-x))
+# include <stdio.h>
+int																	fd; // debug
+# define MOD(x)					((x) >= 0 ? (x) : (-1 * x))
 
 typedef struct s_args			t_args;
 typedef struct s_player			t_player;
@@ -75,8 +77,6 @@ enum	CARRAGE_COLORS
 	C4_COLOR
 
 }		CCOLORS;
-
-// int															fd; // debug
 
 struct				s_curses
 {
@@ -186,6 +186,7 @@ struct				s_carriage
 
 	unsigned char	*pc;
 	unsigned char	*prev_pc;
+	unsigned char	prev_pc_color;
 	unsigned int	reg[REG_NUMBER];
 	unsigned int	args[3];
 	unsigned int	arg_val[3];
@@ -195,7 +196,7 @@ struct				s_carriage
 };
 
 t_car				*get_last_car(t_vm *v);
-void				copy_car_to_end(t_car *cc, t_vm *v, unsigned char *pc);
+void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
 void				delete_this_car(t_car *cur_car, t_vm *v);
 void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
 void				move_pc(t_car *self, t_vm *v, unsigned int padding);

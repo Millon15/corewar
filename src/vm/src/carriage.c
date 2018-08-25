@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 18:40:21 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/24 22:14:00 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 
 void			perform_next_comm(t_car *self, t_vm *v)
 {
-	int i = 0;
-	while (self->cycles_to_wait < 0 && ++self->cur_operation < REG_NUMBER)
+	while (self->cycles_to_wait <= 0 && ++self->cur_operation < REG_NUMBER)
 		if (g_func_tab[self->cur_operation].opcode == *self->pc)
 			self->cycles_to_wait = g_func_tab[self->cur_operation].cycles;
 	if (self->cur_operation >= REG_NUMBER || *self->pc == 0)
@@ -179,9 +178,17 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		self->cur_operation = -1;
 		return ;
 	}
-	if (self->cycles_to_wait-- == 0)
+	if (--self->cycles_to_wait == 0)
 	{
-		// i = 0;
+
+		if (I.cur_cycle == 2683)
+		{
+			dprintf(fd, "oper name: %s\n", g_func_tab[self->cur_operation].name);
+			dprintf(fd, "cycles num: %d\n", g_func_tab[self->cur_operation].cycles);
+		}
+		dprintf(fd, "cur_car: %p | I.cur_cycle: %u\n", self->prev, I.cur_cycle);
+
+		// int i = 0;
 		// ft_putstr("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>\nOur pc is: \n");
 		// while (i < 20)
 		// 	ft_printf("%0.2x ", self->pc[i++]);
@@ -202,23 +209,4 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		// ft_putstr("The end of our pc\n-------------------------------------->\n");
 		self->cur_operation = -1;
 	}
-}
-
-void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
-{
-	const t_car		*prev = (v->head == NULL) ? NULL : get_last_car(v);
-	t_car			**tmp;
-
-	tmp = (v->head == NULL) ? &v->head : &((get_last_car(v))->next);
-	(*tmp) = malloc(sizeof(t_car));
-	(*tmp)->carry = true;
-	(*tmp)->cycles_to_wait = -1;
-	(*tmp)->cur_operation = -1;
-	(*tmp)->nb_lives = 0;
-	(*tmp)->pc_padding = 0;
-	(*tmp)->pc = where;
-	(*tmp)->reg[1] = whom;
-	(*tmp)->prev = (t_car*)prev;
-	(*tmp)->next = NULL;
-	v->info.cursors++;
 }

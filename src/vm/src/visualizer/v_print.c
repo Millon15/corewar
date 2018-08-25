@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/24 02:57:51 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/24 22:13:32 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static inline void		update_colors(t_curses *e, t_vm *v)
 		cur_place = e->acolor + (car->pc - v->arena);
 		if (car->prev_pc != cur_place)
 		{
-			// ft_dprintf(fd, "%d\n", car->reg[1]);
-			*cur_place = C1_COLOR;//CCOLORS + car->reg[1];
-			*car->prev_pc = P1_COLOR;//PCOLORS + car->reg[1];
+			*car->prev_pc = car->prev_pc_color;
+			car->prev_pc_color = *cur_place;
 			car->prev_pc = cur_place;
+			*cur_place = C1_COLOR;//CCOLORS + car->reg[1];
 		}
 		car = car->next;
 	}
@@ -62,7 +62,7 @@ static inline void		print_full_info(t_curses *e, t_vm *v, int row, int i)
 		wattroff(e->infow, COLOR_PAIR(INFO) | A_BOLD);
 		wattron(e->infow, COLOR_PAIR(PCOLORS + i) | A_BOLD);
 		mvwprintw(e->infow, row, CLEAR_LINE_PADD, "%s %s",
-		P(i).prog_name, P(i).comment);
+		P(i).prog_name, "");//P(i).comment);
 		wattroff(e->infow, COLOR_PAIR(PCOLORS + i) | A_BOLD);
 		wattron(e->infow, COLOR_PAIR(INFO) | A_BOLD);
 		mvwprintw(e->infow, ++row, 6, "Last live\t\t\t:\t%-*d",

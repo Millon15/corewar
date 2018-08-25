@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/24 02:55:20 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/24 21:05:53 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ static inline void		init_colors(t_curses *e, t_vm *v)
 	car = v->head;
 	while (car && ++i < v->player_amount)
 	{
+
 		from = e->acolor + (car->pc - v->arena);
 		to = from + P(i).prog_size;
 		*from = CCOLORS + i;
 		car->prev_pc = e->acolor;
+		car->prev_pc_color = PCOLORS + i;
 		while (++from < to)
 			*from = PCOLORS + i;
 		car = car->next;
@@ -62,7 +64,7 @@ static inline void		init_visualizer(void)
 
 void					init_windows(t_curses *e, t_vm *v)
 {
-	// fd = open("log", O_WRONLY | O_TRUNC | O_CREAT, 0644); // debug
+	fd = open("log", O_WRONLY | O_TRUNC | O_CREAT, 0644); // debug
 
 	init_visualizer();
 	init_colors(e, v);
@@ -104,5 +106,6 @@ void					deinit_windows(t_curses *e, t_vm *v)
 	free(e->acolor);
 	system("reset");
 
-	// system("cat log"); // debug
+	close(fd); // debug
+	system("cat log"); // debug
 }
