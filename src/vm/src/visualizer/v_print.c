@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/24 22:13:32 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/31 16:05:38 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static inline void		update_colors(t_curses *e, t_vm *v)
 			*car->prev_pc = car->prev_pc_color;
 			car->prev_pc_color = *cur_place;
 			car->prev_pc = cur_place;
-			*cur_place = C1_COLOR;//CCOLORS + car->reg[1];
+			*cur_place = CCOLORS + (car->reg[1] * -1 - 1);
 		}
 		car = car->next;
 	}
@@ -91,7 +91,7 @@ void					print_info(t_curses *e, t_vm *v,
 	mvwprintw(e->infow, COMMON_HEIGHT - 4, ALIGN_CENTER(START_IW_WIDTH, 13),
 	"%-*s", CLEAR_LINE_PADD, (e->is_run) ? "** RUNNING **" : "** PAUSED **");
 	mvwprintw(e->infow, row, 4, "Cycles/second limit :\t%-*d",
-	CLEAR_LINE_PADD, e->cycles_in_second);
+	CLEAR_LINE_PADD, e->cycles_per_second);
 	mvwprintw(e->infow, (row += 2), 4, "Cycle\t:\t%-*d",
 	CLEAR_LINE_PADD, I.cur_cycle);
 	mvwprintw(e->infow, (row += 2), 4, "Processes\t:\t%-*d",

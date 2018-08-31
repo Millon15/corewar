@@ -6,11 +6,16 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 18:08:30 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/31 15:27:19 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
+
+void					end_the_game(t_vm *v)
+{
+	exit(0);
+}
 
 void					pass_one_cycle(t_vm *v)
 {
@@ -51,5 +56,6 @@ int						main(int ac, char **av)
 	fill_players(&v);
 	fill_arena(&v);
 	play_the_game(&v);
+	end_the_game(&v);
 	return (0);
 }

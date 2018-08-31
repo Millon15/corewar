@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/24 21:05:53 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/31 16:05:59 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void					init_windows(t_curses *e, t_vm *v)
 	wattron(e->infow, COLOR_PAIR(INFO) | A_BOLD);
 	e->t = clock();
 	e->is_run = false;
-	e->cycles_in_second = 50;
+	e->cycles_per_second = START_CYCLES_PER_SEC;
 	refresh();
 	print_one_cycle(e, v, false);
 }
