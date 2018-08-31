@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/31 22:53:26 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/01 02:27:03 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 # include <stdio.h>
 int																	fd; // debug
-# define MOD(x)					((x) >= 0 ? (x) : (-1 * x))
+# define MOD(x)					((x) >= 0 ? (x) : (-1 * (x)))
 
 typedef struct s_args			t_args;
 typedef struct s_player			t_player;
@@ -47,14 +47,16 @@ typedef struct s_curses			t_curses;
 # define SQMAX_VAL				1000
 # define SQBIG_VAL				10
 # define SQSMALL_VAL			1
+# define CLEAR_LINE_PADD		20
+# define CLOCK_FORMULA			(e.t + CLOCKS_PER_SEC / e.cycles_per_second)
 # define COMMON_HEIGHT			(MEM_SIZE / 64 + 4)
 # define START_MW_WIDTH			(64 * 3 + 7)
 # define START_IW_WIDTH			(START_MW_WIDTH / 2.5)
-# define CLEAR_LINE_PADD		20
+# define START_CYCLES_PER_SEC	50
 # define START_ROW_MAIN			2
 # define START_ROW_INFO			2
 
-# define ALIGN_CENTER(w, l)		((w - l) / 2)
+# define ALIGN_CENTER(w, h)		((w - h) / 2)
 
 # define BORDER					1
 # define MAIN					2
@@ -82,7 +84,7 @@ struct				s_curses
 {
 	bool			is_run;
 	char			c;
-	unsigned int	cycles_in_second;
+	unsigned int	cycles_per_second;
 
 	unsigned char	*acolor;
 
@@ -108,7 +110,7 @@ struct				s_info
 {
 	unsigned int	cursors;
 	unsigned int	cur_cycle;
-	unsigned int	cycle_to_die;
+	int				cycle_to_die;
 	t_car			*cur_car;
 	// unsigned int	lives;
 	// unsigned int	check;
@@ -151,7 +153,7 @@ struct				s_operations
 ** Structure of the single player
 */
 
-# define P(x)		(v->player[x])
+# define P(x)		(v->player[(x)])
 
 struct				s_player
 {
@@ -174,7 +176,7 @@ struct				s_player
 ** Carriage structure
 */
 
-# define WHOM(t_car)	t_car->reg[1]
+# define WHOM(t_car)	((t_car)->reg[1])
 
 struct				s_carriage
 {
@@ -226,6 +228,7 @@ void				print_arena(t_vm *v);
 
 void				pass_one_cycle(t_vm *v);
 void				perform_next_comm(t_car *self, t_vm *v);
+void				end_the_game(t_vm *v);
 
 /*
 ** Operations functions

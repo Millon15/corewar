@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/25 23:28:34 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/01 02:26:55 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
+
+void					end_the_game(t_vm *v)
+{
+	exit(0);
+}
 
 void					pass_one_cycle(t_vm *v)
 {
@@ -61,5 +66,6 @@ int						main(int ac, char **av)
 	fill_players(&v);
 	fill_arena(&v);
 	play_the_game(&v);
+	end_the_game(&v);
 	return (0);
 }
