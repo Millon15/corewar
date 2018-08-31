@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/24 22:14:00 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/31 22:57:14 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,19 +169,20 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 
 void			perform_next_comm(t_car *self, t_vm *v)
 {
-	while (self->cycles_to_wait <= 0 && ++self->cur_operation < REG_NUMBER)
+	while (self->cycles_to_wait < 0 && ++self->cur_operation < REG_NUMBER)
 		if (g_func_tab[self->cur_operation].opcode == *self->pc)
 			self->cycles_to_wait = g_func_tab[self->cur_operation].cycles;
 	if (self->cur_operation >= REG_NUMBER || *self->pc == 0)
 	{
 		move_pc(self, v, 1);
 		self->cur_operation = -1;
+		self->cycles_to_wait = -1;
 		return ;
 	}
 	if (--self->cycles_to_wait == 0)
 	{
 
-		if (I.cur_cycle == 2683)
+		if (I.cur_cycle == 2754)
 		{
 			dprintf(fd, "oper name: %s\n", g_func_tab[self->cur_operation].name);
 			dprintf(fd, "cycles num: %d\n", g_func_tab[self->cur_operation].cycles);
@@ -197,7 +198,10 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		// ft_printf("oper name: %s\n", g_func_tab[self->cur_operation].name);
 		if (vnp_codage(self, &g_func_tab[self->cur_operation], v) < 0)
 		{
+			ft_memset(&self->args, 0, sizeof(self->args));
+			ft_memset(&self->arg_val, 0, sizeof(self->arg_val));
 			self->cur_operation = -1;
+			self->cycles_to_wait = -1;
 			return ;
 		}
 		g_func_tab[self->cur_operation].f(self, v);
@@ -205,8 +209,11 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		// ft_putstr("-------------------------------------->\nOur pc is: \n");
 		// while (i < 20)
 		// 	ft_printf("%0.2x ", self->pc[i++]);
-		// ft_putchar('\n');
+		// ft_putchar('\n')-;
 		// ft_putstr("The end of our pc\n-------------------------------------->\n");
+		ft_memset(&self->args, 0, sizeof(self->args));
+		ft_memset(&self->arg_val, 0, sizeof(self->arg_val));
 		self->cur_operation = -1;
+		self->cycles_to_wait = -1;
 	}
 }

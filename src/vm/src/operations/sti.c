@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sti.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/24 20:27:12 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/31 23:01:47 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,31 @@ static void		set_value(t_car *self, t_vm *v, int arg_sum)
 	}
 }
 
+static void		set_val(t_car *self, t_vm *v, int arg_sum)
+{
+	int		ind;
+	// int		size;
+	
+	ind = -1;
+	// size = determ_size(self->reg[T_REG]);
+	if (arg_sum > MEM_SIZE - (self->pc - v->arena))
+	{
+		while (++ind < 4)
+		{
+			v->arena[arg_sum - (MEM_SIZE - (self->pc - v->arena)) + ind] = (self->reg[self->arg_val[0]] << ind * 2) >> 6;     //??????????????????????????
+			// v->color[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind] = v->player[UINT_MAX - self->whom].color;
+		}
+	}
+	else
+	{
+		while (++ind < 4)
+		{
+			self->pc[arg_sum + ind] = (self->reg[self->arg_val[0]] << ind * 2) >> 6;
+			// v->color[self->pc - v->arena + arg_sum + ind] = v->player[UINT_MAX - self->whom].color;
+		}
+	}
+}
+
 void			sti(t_car *self, t_vm *v)
 {
 	unsigned char	*pc;
@@ -66,10 +91,20 @@ void			sti(t_car *self, t_vm *v)
 	}
 	else
 		arg_sum = self->arg_val[1] + self->arg_val[2];
-	arg_sum %= IDX_MOD;	
-	arg_sum -= IDX_MOD;
-	set_value(self, v, arg_sum);
-	int i = arg_sum;
+	if (arg_sum > IDX_MOD)
+	{
+		arg_sum %= IDX_MOD;	
+		arg_sum -= IDX_MOD;
+		set_value(self, v, arg_sum);
+	}
+	else
+	{
+		if (arg_sum == IDX_MOD)
+			arg_sum %= IDX_MOD;
+		set_val(self, v, arg_sum);
+	}
+	
+	// int i = arg_sum;
 	// ft_printf("STI_pc reg_value is: %0.2x\n", self->reg[self->arg_val[0]]);
 	// ft_printf("STI_pc is: ");
 	// while (i < arg_sum + 10)

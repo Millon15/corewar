@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/24 22:12:40 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/31 22:56:20 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,16 @@ t_car			*get_last_car(t_vm *v)
 void			copy_car(t_car *cur_car, t_vm *v, unsigned char *pc)
 {
 	t_car		*last;
+	int			i;
 
 	init_car(pc, cur_car->reg[1], v);
 	last = get_last_car(v);
+	last->carry = cur_car->carry;
 	last->prev_pc = cur_car->prev_pc;
+	i = -1;
+	while (++i < REG_NUMBER + 1)
+		last->reg[i] = cur_car->reg[i];
+	// ft_memcpy(&last->reg, &cur_car->reg, sizeof(last->reg));
 	last->prev_pc_color = PCOLORS + ((int)cur_car->reg[1] * -1) - 1;
 }
 
@@ -68,6 +74,9 @@ void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
 	(*tmp)->pc = where;
 	(*tmp)->prev_pc = NULL;
 	(*tmp)->prev_pc_color = 0;
+	ft_memset(&(*tmp)->args, 0, sizeof((*tmp)->args));
+	ft_memset(&(*tmp)->arg_val, 0, sizeof((*tmp)->arg_val));
+	ft_memset(&(*tmp)->reg, 0, sizeof((*tmp)->reg));
 	(*tmp)->reg[1] = whom;
 	(*tmp)->prev = (t_car*)prev;
 	(*tmp)->next = NULL;

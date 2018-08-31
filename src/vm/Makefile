@@ -3,40 +3,40 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
+#    By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-#    Updated: 2018/08/24 16:56:23 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/08/31 22:03:33 by akupriia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = corewar
+NAME := corewar
 
-SRC_PATH = src/
-OP_PATH = $(SRC_PATH)operations/
-V_PATH = $(SRC_PATH)visualizer/
-LIB_PATH = ../../ft_printf/
-OBJ_PATH = .obj/
+SRC_PATH := src/
+OP_PATH := $(SRC_PATH)operations/
+V_PATH := $(SRC_PATH)visualizer/
+LIB_PATH := ../../ft_printf/
+OBJ_PATH := .obj/
 
-CC = clang
-CFLAGS = -g#-Wall -Werror -Wextra
+CC := clang
+CFLAGS := -g#-Wall -Werror -Wextra
 
-INC_PATH = includes/
-IFLAGS = -I ../../$(INC_PATH) -I $(INC_PATH) -I $(LIB_PATH)
-LFLAGS = -lncurses
+INC_PATH := includes/
+IFLAGS := -I ../../$(INC_PATH) -I $(INC_PATH) -I $(LIB_PATH)
+LFLAGS := -lncurses
 
-HFILES =		vm
-OPERATIONS =	add aff and ld ldi lfork live lld lldi op_fork or st sti sub xor zjmp
-FILES =			vm errors utils args_parsing fill_the_map carriage carriage_utils main_cycle_funcs
-VISUALIZER =	v_main v_init v_print
+HFILES :=		vm
+OPERATIONS :=	add aff and ld ldi lfork live lld lldi op_fork or st sti sub xor zjmp
+FILES :=			vm errors utils args_parsing fill_the_map carriage carriage_utils main_cycle_funcs
+VISUALIZER :=	v_main v_init v_print
 
-LIB = $(LIB_PATH)libftprintf.a
+LIB := $(LIB_PATH)libftprintf.a
 
-HDRS = $(addprefix $(INC_PATH), $(addsuffix .h, $(HFILES)))
-SRCS = $(addprefix $(OP_PATH), $(addsuffix .c, $(OPERATIONS)))
+HDRS := $(addprefix $(INC_PATH), $(addsuffix .h, $(HFILES)))
+SRCS := $(addprefix $(OP_PATH), $(addsuffix .c, $(OPERATIONS)))
 SRCS += $(addprefix $(SRC_PATH), $(addsuffix .c, $(FILES)))
 SRCS += $(addprefix $(V_PATH), $(addsuffix .c, $(VISUALIZER)))
-OBJS = $(addprefix $(OBJ_PATH), $(SRCS:%.c=%.o))
+OBJS := $(addprefix $(OBJ_PATH), $(SRCS:%.c=%.o))
 
 
 all: $(NAME)

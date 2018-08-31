@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   op_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/24 21:57:31 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/31 20:15:45 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
+
+static int	mod(int x)
+{
+	return (x >= 0 ? x : -x);
+}
 
 void		op_fork(t_car *self, t_vm *v)
 {
@@ -18,13 +23,13 @@ void		op_fork(t_car *self, t_vm *v)
 	unsigned char	*pc;
 	t_car			tmp;
 
-	ft_dprintf(fd, "%d | %d | MOD : %d | to_subtract: %d\n", self->arg_val[0], IDX_MOD, (MOD(self->arg_val[0] - IDX_MOD)), to_subtract);
+	ft_dprintf(fd, "self->arg_val[0]: %d | IDX_MOD: %d | MOD(self->arg_val[0] - IDX_MOD) : %d | to_subtract: %d\n", self->arg_val[0], IDX_MOD, (mod(self->arg_val[0] - IDX_MOD)), to_subtract);
 	if (self->arg_val[0] > IDX_MOD)
 	{
 		self->arg_val[0] %= IDX_MOD;
 		if (MOD((int)self->arg_val[0] - IDX_MOD) > to_subtract)
 		{
-			ft_dprintf(fd, "%d | %d | MOD : %d | to_subtract: %d\n", self->arg_val[0], IDX_MOD, (MOD(self->arg_val[0] - IDX_MOD)), to_subtract);
+			ft_dprintf(fd, "%d | %d | MOD : %d | to_subtract: %d\n", self->arg_val[0], IDX_MOD, (mod(self->arg_val[0] - IDX_MOD)), to_subtract);
 			pc = &v->arena[MEM_SIZE + (self->arg_val[0] - IDX_MOD) - to_subtract];
 		}
 		else
@@ -32,6 +37,8 @@ void		op_fork(t_car *self, t_vm *v)
 	}
 	else
 	{
+		if (self->arg_val[0] == IDX_MOD)
+			self->arg_val[0] %= IDX_MOD;
 		if (self->arg_val[0] > to_subtract)
 			pc = &v->arena[self->arg_val[0] - to_subtract];
 		else

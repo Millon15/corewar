@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/23 18:08:30 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/25 23:28:34 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void					pass_one_cycle(t_vm *v)
 {
+	int		cycle;
+	int		fl;
+
+	fl = false;
+	cycle = I.cycle_to_die;
 	if (v->args.is_dump && v->args.dump_value == I.cur_cycle)
 		print_arena(v);
 	I.cur_car = v->head;
@@ -23,12 +28,17 @@ void					pass_one_cycle(t_vm *v)
 		I.cur_car = I.cur_car->next;
 	}
 	if ((nbr_live_exec(v->head)) ||
-	(MAX_CHECKS * I.cycle_to_die <= I.cur_cycle))
+	(MAX_CHECKS * cycle <= I.cur_cycle))
 	{
+		if (fl == true)
+			exit(0);
 		// ft_printf("NB_LIVES(when I.cycle_to_die -= CYCLE_DELTA) : %d\n", v->head->nb_lives);
 		I.cycle_to_die -= CYCLE_DELTA;
+		cycle += I.cycle_to_die;
 		make_live_nil(v);
 	}
+	if (I.cycle_to_die <= CYCLE_DELTA)
+		fl = true;
 	I.cur_cycle++;
 }
 

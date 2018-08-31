@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/24 21:32:00 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/08/31 22:53:26 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ struct				s_carriage
 	unsigned char	*pc;
 	unsigned char	*prev_pc;
 	unsigned char	prev_pc_color;
-	unsigned int	reg[REG_NUMBER];
+	unsigned int	reg[REG_NUMBER + 1];
 	unsigned int	args[3];
 	unsigned int	arg_val[3];
 
