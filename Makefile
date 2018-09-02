@@ -3,24 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+         #
+#    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/28 19:24:02 by vbrazas           #+#    #+#              #
-#    Updated: 2018/09/02 18:14:19 by akupriia         ###   ########.fr        #
+#    Updated: 2018/09/02 22:12:10 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ASM := asm
 VM := corewar
 
-SRC_PATH := src/
-ASM_PATH := $(SRC_PATH)asm/
-VM_PATH := $(SRC_PATH)vm/
+ASM_PATH := compiler/
+VM_PATH := vm/
 
 
 all:
-	# make -C $(ASM_PATH)
-	# cp $(ASM_PATH)$(ASM) .
+	make -C $(ASM_PATH)
+	cp $(ASM_PATH)$(ASM) .
 	make -C $(VM_PATH)
 	cp $(VM_PATH)$(VM) .
 
