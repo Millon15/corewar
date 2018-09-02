@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   live.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:10 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/22 20:48:58 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/02 21:30:53 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		live(t_car *self, t_vm *v)
 	{
 		if (self->arg_val[0] == v->player[i].name)
 		{
-			(v->player[i]).is_alive = 1;
+			(v->player[i]).is_alive = true;
 			(v->player[i]).points = I.cur_cycle;
 			(v->player[i]).lives_in_cp++;
 		}

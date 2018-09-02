@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/01 02:26:55 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/02 21:51:37 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,24 @@
 void					end_the_game(t_vm *v)
 {
 	exit(0);
+}
+
+bool					cars_lost(t_vm *v, t_car *car)
+{
+	int	cnt;
+
+	cnt = 0;
+	while (car)
+	{
+		car = car->next;
+		cnt++;
+	}
+	if (cnt != I.cursors)
+	{
+		ft_printf("Shit! Cars in list: %d | cars in real: %d\n", cnt, I.cursors);
+		return (false);
+	}
+	return (true);
 }
 
 void					pass_one_cycle(t_vm *v)
@@ -27,6 +45,8 @@ void					pass_one_cycle(t_vm *v)
 	if (v->args.is_dump && v->args.dump_value == I.cur_cycle)
 		print_arena(v);
 	I.cur_car = v->head;
+	if (cars_lost(v, I.cur_car) == false)
+		end_the_game(v);
 	while (I.cur_car)
 	{
 		perform_next_comm(I.cur_car, v);
