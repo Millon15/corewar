@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/31 20:15:45 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/02 17:03:59 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ void		op_fork(t_car *self, t_vm *v)
 	unsigned char	*pc;
 	t_car			tmp;
 
-	ft_dprintf(fd, "self->arg_val[0]: %d | IDX_MOD: %d | MOD(self->arg_val[0] - IDX_MOD) : %d | to_subtract: %d\n", self->arg_val[0], IDX_MOD, (mod(self->arg_val[0] - IDX_MOD)), to_subtract);
+	//ft_dprintf(fd, "self->arg_val[0]: %d | IDX_MOD: %d | MOD(self->arg_val[0] - IDX_MOD) : %d | to_subtract: %d\n", self->arg_val[0], IDX_MOD, (mod(self->arg_val[0] - IDX_MOD)), to_subtract);
 	if (self->arg_val[0] > IDX_MOD)
 	{
 		self->arg_val[0] %= IDX_MOD;
 		if (MOD((int)self->arg_val[0] - IDX_MOD) > to_subtract)
 		{
-			ft_dprintf(fd, "%d | %d | MOD : %d | to_subtract: %d\n", self->arg_val[0], IDX_MOD, (mod(self->arg_val[0] - IDX_MOD)), to_subtract);
+			//ft_dprintf(fd, "%d | %d | MOD : %d | to_subtract: %d\n", self->arg_val[0], IDX_MOD, (mod(self->arg_val[0] - IDX_MOD)), to_subtract);
 			pc = &v->arena[MEM_SIZE + (self->arg_val[0] - IDX_MOD) - to_subtract];
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/31 22:57:14 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:31:14 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,10 +184,10 @@ void			perform_next_comm(t_car *self, t_vm *v)
 
 		if (I.cur_cycle == 2754)
 		{
-			dprintf(fd, "oper name: %s\n", g_func_tab[self->cur_operation].name);
-			dprintf(fd, "cycles num: %d\n", g_func_tab[self->cur_operation].cycles);
+			// dprintf(fd, "oper name: %s\n", g_func_tab[self->cur_operation].name);
+			// dprintf(fd, "cycles num: %d\n", g_func_tab[self->cur_operation].cycles);
 		}
-		dprintf(fd, "cur_car: %p | I.cur_cycle: %u\n", self->prev, I.cur_cycle);
+		// dprintf(fd, "cur_car: %p | I.cur_cycle: %u\n", self->prev, I.cur_cycle);
 
 		// int i = 0;
 		// ft_putstr("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>\nOur pc is: \n");

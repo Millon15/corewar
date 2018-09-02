@@ -6,7 +6,7 @@
 #    By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/28 19:24:02 by vbrazas           #+#    #+#              #
-#    Updated: 2018/08/31 22:03:10 by akupriia         ###   ########.fr        #
+#    Updated: 2018/09/02 18:14:19 by akupriia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ all:
 mre:
 	make mre -C $(ASM_PATH)
 	make mre -C $(VM_PATH)
+	cp $(VM_PATH)$(VM) .
 clean:
 	make clean -C $(ASM_PATH)
 	make clean -C $(VM_PATH)

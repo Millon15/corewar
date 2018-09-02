@@ -6,71 +6,68 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/31 23:01:47 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/02 20:19:22 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-// int				determ_size(unsigned int val)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (val)
-// 	{
-// 		i++;		
-// 		val /= 256;
-// 	}
-// 	return (i);
-// }
-
 static void		set_value(t_car *self, t_vm *v, int arg_sum)
 {
-	int		ind;
-	// int		size;
+	int				ind;
+	size_t			size;
+	unsigned int	res;
 	
+	res = self->reg[self->arg_val[0]];
+	size = sizeof(res);
+	ft_printf("size: %d\n", size);
 	ind = -1;
-	// size = determ_size(self->reg[T_REG]);
 	if (MOD(arg_sum) > self->pc - v->arena)
 	{
-		while (++ind < 4)
+		while (++ind < size)
 		{
-			v->arena[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind] = (self->reg[self->arg_val[0]] << ind * 2) >> 6;     //??????????????????????????
-			// v->color[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind] = v->player[UINT_MAX - self->whom].color;
+			v->arena[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind] = 0;
+			v->arena[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind] |= (res << (8 * ind)) >> (8 * (size - 1));
+			ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]],v->arena[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind]);
 		}
 	}
 	else
 	{
-		while (++ind < 4)
+		while (++ind < size)
 		{
-			v->arena[self->pc - v->arena + arg_sum + ind] = (self->reg[self->arg_val[0]] << ind * 2) >> 6;
-			// v->color[self->pc - v->arena + arg_sum + ind] = v->player[UINT_MAX - self->whom].color;
+			v->arena[self->pc - v->arena + arg_sum + ind] = 0;
+			v->arena[self->pc - v->arena + arg_sum + ind] |= (res << (8 * ind)) >> (8 * (size - 1));
+			ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[self->pc - v->arena + arg_sum + ind]);
 		}
 	}
 }
 
 static void		set_val(t_car *self, t_vm *v, int arg_sum)
 {
-	int		ind;
-	// int		size;
-	
+	int				ind;
+	int				size;
+	unsigned int	res;
+
+	res = self->reg[self->arg_val[0]];
+	size = sizeof(res);
+	ft_printf("size: %d\n", size);
 	ind = -1;
-	// size = determ_size(self->reg[T_REG]);
 	if (arg_sum > MEM_SIZE - (self->pc - v->arena))
 	{
-		while (++ind < 4)
+		while (++ind < size)
 		{
-			v->arena[arg_sum - (MEM_SIZE - (self->pc - v->arena)) + ind] = (self->reg[self->arg_val[0]] << ind * 2) >> 6;     //??????????????????????????
-			// v->color[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind] = v->player[UINT_MAX - self->whom].color;
+			v->arena[arg_sum - (MEM_SIZE - (self->pc - v->arena)) + ind] = 0;
+			v->arena[arg_sum - (MEM_SIZE - (self->pc - v->arena)) + ind] |= (res << (8 * ind)) >> (8 * (size - 1));   //??????????????????????????
+			ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[arg_sum - (MEM_SIZE - (self->pc - v->arena)) + ind]);
 		}
 	}
 	else
 	{
-		while (++ind < 4)
+		while (++ind < size)
 		{
-			self->pc[arg_sum + ind] = (self->reg[self->arg_val[0]] << ind * 2) >> 6;
-			// v->color[self->pc - v->arena + arg_sum + ind] = v->player[UINT_MAX - self->whom].color;
+			self->pc[arg_sum + ind] = 0;
+			self->pc[arg_sum + ind] |= (res << (8 * ind)) >> (8 * (size - 1));
+			ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], self->pc[arg_sum + ind]);
 		}
 	}
 }
@@ -109,7 +106,7 @@ void			sti(t_car *self, t_vm *v)
 	// ft_printf("STI_pc is: ");
 	// while (i < arg_sum + 10)
 	// 	ft_printf("%0.2x ", self->pc[i++]);
-	// ft_putchar('\n');
+	ft_putchar('\n');
 	move_pc(self, v, self->pc_padding);
 	self->pc_padding = 0;
 }
