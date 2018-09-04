@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/01 02:27:03 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/04 20:20:31 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 # include <libftprintf.h>
 # include <op.h>
 
-# include <stdio.h>
-int																	fd; // debug
-# define MOD(x)					((x) >= 0 ? (x) : (-1 * (x)))
+int			mod(int x);
 
 typedef struct s_args			t_args;
 typedef struct s_player			t_player;
@@ -48,6 +46,7 @@ typedef struct s_curses			t_curses;
 # define SQBIG_VAL				10
 # define SQSMALL_VAL			1
 # define CLEAR_LINE_PADD		20
+# define MW_ROW_LENGHT			64
 # define CLOCK_FORMULA			(e.t + CLOCKS_PER_SEC / e.cycles_per_second)
 # define COMMON_HEIGHT			(MEM_SIZE / 64 + 4)
 # define START_MW_WIDTH			(64 * 3 + 7)
@@ -86,7 +85,7 @@ struct				s_curses
 	char			c;
 	unsigned int	cycles_per_second;
 
-	unsigned char	*acolor;
+	int				*acolor;
 
 	WINDOW			*mainw;
 	WINDOW			*infow;
@@ -177,18 +176,20 @@ struct				s_player
 */
 
 # define WHOM(t_car)	((t_car)->reg[1])
+# define PL_IND(t_car)	(((int)(t_car)->reg[1] * -1) - 1)
 
 struct				s_carriage
 {
 	bool			carry;
+	bool			is_fork;
 	int				cycles_to_wait;
 	int				cur_operation;
 	int				nb_lives;
 	int				pc_padding;
+	int				*color_pc;
+	int				color;
 
 	unsigned char	*pc;
-	unsigned char	*prev_pc;
-	unsigned char	prev_pc_color;
 	unsigned int	reg[REG_NUMBER + 1];
 	unsigned int	args[3];
 	unsigned int	arg_val[3];
@@ -206,7 +207,6 @@ void				move_pc(t_car *self, t_vm *v, unsigned int padding);
 /*
 ** Main corewar structure
 */
-
 
 struct				s_corewar
 {

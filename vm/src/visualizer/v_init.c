@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/01 02:26:22 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/03 17:12:38 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,22 @@
 static inline void		init_colors(t_curses *e, t_vm *v)
 {
 	int				i;
-	unsigned char	*from;
-	unsigned char	*to;
+	int				*from;
+	int				*to;
 	t_car			*car;
 
-	e->acolor = ft_memalloc(sizeof(unsigned char) * MEM_SIZE);
+	e->acolor = ft_memalloc(sizeof(int) * MEM_SIZE);
 	i = -1;
 	car = v->head;
 	while (car && ++i < v->player_amount)
 	{
-
 		from = e->acolor + (car->pc - v->arena);
 		to = from + P(i).prog_size;
-		*from = CCOLORS + i;
-		car->prev_pc = e->acolor;
-		car->prev_pc_color = PCOLORS + i;
+		*from = COLOR_PAIR(CCOLORS + i);
+		car->color_pc = from;
+		car->color = COLOR_PAIR(PCOLORS + i);
 		while (++from < to)
-			*from = PCOLORS + i;
+			*from = car->color;
 		car = car->next;
 	}
 }
@@ -64,8 +63,6 @@ static inline void		init_visualizer(void)
 
 void					init_windows(t_curses *e, t_vm *v)
 {
-	fd = open("log", O_WRONLY | O_TRUNC | O_CREAT, 0644); // debug
-
 	init_visualizer();
 	init_colors(e, v);
 	e->mainw = newwin(COMMON_HEIGHT, START_MW_WIDTH, 0, 0);
@@ -90,22 +87,6 @@ void					deinit_windows(t_curses *e, t_vm *v)
 	delwin(e->mainw);
 	delwin(e->infow);
 	endwin();
-
-	// for (int k = 0; k < 4; k++)
-	// 	ft_dprintf(fd, "PCOLOR_%d : %d\nCCOLOR_%d : %d\n", k, e->pcolor[k], k, e->ccolor[k]);
-	// ft_dprintf(fd, "ACOLOR:\n%3d ", e->acolor[0]);
-	// for (int i = 1; i < MEM_SIZE; i++)
-	// {
-	// 	if (!(i % 64))
-	// 		ft_dprintf(fd, "%3d\n", e->acolor[i]);
-	// 	else
-	// 		ft_dprintf(fd, "%3d ", e->acolor[i]);
-	// }
-	// ft_dprintf(fd, "\n");
-
 	free(e->acolor);
 	system("reset");
-
-	close(fd); // debug
-	system("cat log"); // debug
 }

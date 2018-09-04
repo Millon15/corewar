@@ -6,27 +6,27 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/01 02:26:26 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/03 17:16:35 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline void		update_colors(t_curses *e, t_vm *v)
+static inline void		update_carriage_colors(t_curses *e, t_vm *v)
 {
-	unsigned char	*cur_place;
-	t_car			*car;
+	int					*cur_place;
+	t_car				*car;
 
 	car = v->head;
 	while (car)
 	{
-		cur_place = e->acolor + (car->pc - v->arena);
-		if (car->prev_pc != cur_place)
+		cur_place = e->acolor + (int)(car->pc - v->arena);
+		if (car->color_pc != cur_place)
 		{
-			*car->prev_pc = car->prev_pc_color;
-			car->prev_pc_color = *cur_place;
-			car->prev_pc = cur_place;
-			*cur_place = CCOLORS + (car->reg[1] * -1 - 1);
+			*car->color_pc = car->color;
+			car->color = *cur_place;
+			car->color_pc = cur_place;
+			*cur_place = COLOR_PAIR(CCOLORS + PL_IND(car));
 		}
 		car = car->next;
 	}
@@ -34,21 +34,20 @@ static inline void		update_colors(t_curses *e, t_vm *v)
 
 static inline void		print_main(t_curses *e, t_vm *v)
 {
-	int				row;
-	int				i;
-	t_car			*car;
+	int					row;
+	int					i;
 
-	row = START_ROW_MAIN - 1;
 	i = -1;
-	update_colors(e, v);
+	row = START_ROW_MAIN - 1;
+	update_carriage_colors(e, v);
 	while (++i < MEM_SIZE)
 	{
-		wattron(e->mainw, COLOR_PAIR(e->acolor[i]));
-		if (!(i % 64))
+		wattron(e->mainw, e->acolor[i]);
+		if (!(i % MW_ROW_LENGHT))
 			mvwprintw(e->mainw, ++row, 4, "%0.2x", v->arena[i]);
 		else
 			wprintw(e->mainw, "%0.2x", v->arena[i]);
-		wattroff(e->mainw, COLOR_PAIR(e->acolor[i]));
+		wattroff(e->mainw, e->acolor[i]);
 		wprintw(e->mainw, " ");
 	}
 	wrefresh(e->mainw);

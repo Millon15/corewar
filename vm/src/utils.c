@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 19:40:49 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/22 21:21:47 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/04 18:25:07 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void			meta_printer(const void *to_print, const int nbytes)
 		ft_printf("%0.2x ", p[i]);
 	}
 	ft_putchar('\n');
+	exit(0);
 }
 
 unsigned int	read_raw_num(const int fd, const int chars_to_read)

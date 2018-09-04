@@ -6,7 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/28 19:24:02 by vbrazas           #+#    #+#              #
-#    Updated: 2018/09/02 22:12:10 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/09/03 00:06:13 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,10 @@ all:
 
 mre:
 	make mre -C $(ASM_PATH)
+	cp $(ASM_PATH)$(ASM) .
 	make mre -C $(VM_PATH)
 	cp $(VM_PATH)$(VM) .
+
 clean:
 	make clean -C $(ASM_PATH)
 	make clean -C $(VM_PATH)

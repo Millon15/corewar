@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sti.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/02 20:19:22 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/04 20:20:05 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static void		set_value(t_car *self, t_vm *v, int arg_sum)
 	
 	res = self->reg[self->arg_val[0]];
 	size = sizeof(res);
-	ft_printf("size: %d\n", size);
+	// ft_printf("size: %d\n", size);
 	ind = -1;
-	if (MOD(arg_sum) > self->pc - v->arena)
+	if (mod(arg_sum) > self->pc - v->arena)
 	{
 		while (++ind < size)
 		{
 			v->arena[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind] = 0;
 			v->arena[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind] |= (res << (8 * ind)) >> (8 * (size - 1));
-			ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]],v->arena[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind]);
+			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]],v->arena[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind]);
 		}
 	}
 	else
@@ -37,7 +37,7 @@ static void		set_value(t_car *self, t_vm *v, int arg_sum)
 		{
 			v->arena[self->pc - v->arena + arg_sum + ind] = 0;
 			v->arena[self->pc - v->arena + arg_sum + ind] |= (res << (8 * ind)) >> (8 * (size - 1));
-			ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[self->pc - v->arena + arg_sum + ind]);
+			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[self->pc - v->arena + arg_sum + ind]);
 		}
 	}
 }
@@ -50,7 +50,7 @@ static void		set_val(t_car *self, t_vm *v, int arg_sum)
 
 	res = self->reg[self->arg_val[0]];
 	size = sizeof(res);
-	ft_printf("size: %d\n", size);
+	// ft_printf("size: %d\n", size);
 	ind = -1;
 	if (arg_sum > MEM_SIZE - (self->pc - v->arena))
 	{
@@ -58,7 +58,7 @@ static void		set_val(t_car *self, t_vm *v, int arg_sum)
 		{
 			v->arena[arg_sum - (MEM_SIZE - (self->pc - v->arena)) + ind] = 0;
 			v->arena[arg_sum - (MEM_SIZE - (self->pc - v->arena)) + ind] |= (res << (8 * ind)) >> (8 * (size - 1));   //??????????????????????????
-			ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[arg_sum - (MEM_SIZE - (self->pc - v->arena)) + ind]);
+			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[arg_sum - (MEM_SIZE - (self->pc - v->arena)) + ind]);
 		}
 	}
 	else
@@ -67,7 +67,7 @@ static void		set_val(t_car *self, t_vm *v, int arg_sum)
 		{
 			self->pc[arg_sum + ind] = 0;
 			self->pc[arg_sum + ind] |= (res << (8 * ind)) >> (8 * (size - 1));
-			ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], self->pc[arg_sum + ind]);
+			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], self->pc[arg_sum + ind]);
 		}
 	}
 }
@@ -88,16 +88,16 @@ void			sti(t_car *self, t_vm *v)
 	}
 	else
 		arg_sum = self->arg_val[1] + self->arg_val[2];
-	if (arg_sum > IDX_MOD)
+	if (arg_sum >= IDX_MOD)
 	{
-		arg_sum %= IDX_MOD;	
-		arg_sum -= IDX_MOD;
+		arg_sum %= IDX_MOD;
+		if (arg_sum != IDX_MOD)		
+			arg_sum -= IDX_MOD;
 		set_value(self, v, arg_sum);
 	}
 	else
 	{
-		if (arg_sum == IDX_MOD)
-			arg_sum %= IDX_MOD;
+		arg_sum %= IDX_MOD;
 		set_val(self, v, arg_sum);
 	}
 	
@@ -105,8 +105,9 @@ void			sti(t_car *self, t_vm *v)
 	// ft_printf("STI_pc reg_value is: %0.2x\n", self->reg[self->arg_val[0]]);
 	// ft_printf("STI_pc is: ");
 	// while (i < arg_sum + 10)
-	// 	ft_printf("%0.2x ", self->pc[i++]);
-	ft_putchar('\n');
+		// ft_printf("%0.2x ", self->pc[i++]);
+	// ft_putchar('\n');
+
 	move_pc(self, v, self->pc_padding);
 	self->pc_padding = 0;
 }
