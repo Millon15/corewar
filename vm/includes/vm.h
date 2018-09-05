@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 22:51:43 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 23:23:49 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <libftprintf.h>
 # include <op.h>
-
-int			mod(int x);
 
 typedef struct s_args			t_args;
 typedef struct s_player			t_player;
@@ -277,5 +275,6 @@ bool				put_error(const int errnum, const char *errstr,
 void				kill_process(unsigned int *last_check, t_vm *v);
 bool				nbr_live_exec(t_car *car);
 void				make_live_nil(t_vm *v);
+int					mod(int x);
 
 #endif

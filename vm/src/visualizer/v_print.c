@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 23:18:58 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 23:24:28 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ static inline void		print_main(t_vm *v)
 	{
 		wattron(v->e->mainw, COLOR_PAIR(v->e->acolor[i])
 		| ((v->e->cbold[i]) ? A_BOLD : 0));
-		// wattron(v->e->mainw, COLOR_PAIR(v->e->acolor[i]));
 		if (!(i % MW_ROW_LENGHT))
 			mvwprintw(v->e->mainw, ++row, 4, "%0.2x", v->arena[i]);
 		else
 			wprintw(v->e->mainw, "%0.2x", v->arena[i]);
 		wattroff(v->e->mainw, COLOR_PAIR(v->e->acolor[i])
 		| ((v->e->cbold[i]) ? A_BOLD : 0));
-		// wattroff(v->e->mainw, COLOR_PAIR(v->e->acolor[i]));
 		wprintw(v->e->mainw, " ");
 	}
 	wrefresh(v->e->mainw);

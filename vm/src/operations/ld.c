@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ld.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:36 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/02 18:35:05 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/05 22:51:43 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ void		ld(t_car *self, t_vm *v)
 			pc = &self->pc[self->arg_val[0]];
 		self->reg[self->arg_val[1]] = get_raw_num(pc, 4);
 	}
-	// ft_printf("@@@@@@pc->padding: %d\n", self->pc_padding);
 	self->carry = self->reg[self->arg_val[1]] ? false : true;
+	if (v->args.verbose_value & 4)
+		ft_printf("P\t%d | ld %d r%d\n", self->id,  self->reg[self->arg_val[1]], self->arg_val[1]);
 	move_pc(self, v, self->pc_padding);
 	self->pc_padding = 0;
 }
