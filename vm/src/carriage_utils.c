@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 20:50:15 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 22:52:09 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,19 @@ void			delete_this_car(t_car **cur_car, t_vm *v)
 
 void			move_pc(t_car *self, t_vm *v, unsigned int padding)
 {
+	unsigned char		*color_place;
+
+	if (v->args.is_ncurses)
+	{
+		color_place = v->e->acolor + (int)(self->pc - v->arena);
+		*color_place -= COLOR_DELTA;
+	}
 	self->pc = (v->arena + (self->pc - v->arena + padding) % MEM_SIZE);
+	if (v->args.is_ncurses)
+	{
+		color_place = v->e->acolor + (int)(self->pc - v->arena);
+		*color_place += COLOR_DELTA;
+	}
 }
 
 t_car			*get_last_car(t_vm *v)
@@ -57,8 +69,6 @@ void			copy_car(t_car *cur_car, t_vm *v, unsigned char *pc)
 	i = -1;
 	while (++i < REG_NUMBER + 1)
 		last->reg[i] = cur_car->reg[i];
-	last->color_pc = cur_car->color_pc;
-	last->color = PCOLORS + PL_IND(cur_car);
 }
 
 void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
@@ -76,8 +86,6 @@ void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
 	(*tmp)->nb_lives = 0;
 	(*tmp)->pc_padding = 0;
 	(*tmp)->pc = where;
-	(*tmp)->color_pc = NULL;
-	(*tmp)->color = 0;
 	(*tmp)->id = ++id;
 	(*tmp)->is_alive = true;
 	(*tmp)->death_cycle = 0;

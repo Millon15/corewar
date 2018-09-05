@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 21:38:23 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 21:46:30 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,6 @@ static inline void		start_the_game(t_vm *v)
 		P(i).prog_name, P(i).comment);
 }
 
-void					check_if_alive(t_vm *v)
-{
-	t_car	*car;
-
-	car = v->head;
-	while (car)
-	{
-		if (!car->nb_lives)
-		{
-			car->is_alive = false;
-			car->death_cycle = I.cur_cycle;
-			ft_printf("\n");
-		}
-		car = car->next;
-	}
-}
-
 void					pass_one_cycle(t_vm *v)
 {
 	t_car					*cur_car;
@@ -74,7 +57,6 @@ void					pass_one_cycle(t_vm *v)
 	if (last_check == I.cycle_to_die)
 	{
 		kill_process(&last_check, v);
-		check_if_alive(v);
 		if (nbr_live_exec(v->head) || I.cycle <= I.cur_cycle)
 		{
 			I.cycle_to_die -= CYCLE_DELTA;

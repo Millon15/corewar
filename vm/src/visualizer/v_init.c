@@ -6,31 +6,30 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 16:45:36 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 23:18:25 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline void		init_colors(t_curses *e, t_vm *v)
+static inline void		init_colors(t_vm *v)
 {
 	int				i;
-	int				*from;
-	int				*to;
+	unsigned char	*from;
+	unsigned char	*to;
 	t_car			*car;
 
-	e->acolor = ft_memalloc(sizeof(int) * MEM_SIZE);
+	v->e->acolor = ft_memalloc(sizeof(v->e->acolor) * MEM_SIZE);
+	v->e->cbold = ft_memalloc(sizeof(v->e->cbold) * MEM_SIZE);
 	i = -1;
 	car = v->head;
 	while (car && ++i < v->player_amount)
 	{
-		from = e->acolor + (car->pc - v->arena);
+		from = v->e->acolor + (car->pc - v->arena);
 		to = from + P(i).prog_size;
-		*from = COLOR_PAIR(CCOLORS + i);
-		car->color_pc = from;
-		car->color = COLOR_PAIR(PCOLORS + i);
+		*from = CCOLORS + i;
 		while (++from < to)
-			*from = car->color;
+			*from = PCOLORS + i;
 		car = car->next;
 	}
 }
@@ -61,33 +60,36 @@ static inline void		init_visualizer(void)
 	init_pair(CCOLORS + 3, COLOR_BLACK, COLOR_CYAN);
 }
 
-void					init_windows(t_curses *e, t_vm *v)
+void					init_windows(t_vm *v)
 {
+	v->e = ft_memalloc(sizeof(v->e));
 	init_visualizer();
-	init_colors(e, v);
-	e->mainw = newwin(COMMON_HEIGHT, START_MW_WIDTH, 0, 0);
-	wattron(e->mainw, COLOR_PAIR(BORDER));
-	wborder(e->mainw, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC);
-	wattroff(e->mainw, COLOR_PAIR(BORDER));
-	e->infow = newwin(COMMON_HEIGHT, START_IW_WIDTH, 0, START_MW_WIDTH - 1);
-	wattron(e->infow, COLOR_PAIR(BORDER));
-	wborder(e->infow, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC);
-	wattroff(e->infow, COLOR_PAIR(BORDER));
-	wattron(e->infow, COLOR_PAIR(INFO) | A_BOLD);
-	e->t = clock();
-	e->is_run = false;
-	e->cycles_per_second = START_CYCLES_PER_SEC;
+	init_colors(v);
+	v->e->mainw = newwin(COMMON_HEIGHT, START_MW_WIDTH, 0, 0);
+	wattron(v->e->mainw, COLOR_PAIR(BORDER));
+	wborder(v->e->mainw, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC);
+	wattroff(v->e->mainw, COLOR_PAIR(BORDER));
+	v->e->infow = newwin(COMMON_HEIGHT, START_IW_WIDTH, 0, START_MW_WIDTH - 1);
+	wattron(v->e->infow, COLOR_PAIR(BORDER));
+	wborder(v->e->infow, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC, BORDC);
+	wattroff(v->e->infow, COLOR_PAIR(BORDER));
+	wattron(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
+	v->e->t = clock();
+	v->e->is_run = true;
+	v->e->cycles_per_second = 1000;
+	// v->e->is_run = false;
+	// v->e->cycles_per_second = START_CYCLES_PER_SEC;
 	refresh();
-	print_one_cycle(e, v, false);
+	print_one_cycle(v, false);
 }
 
-void					deinit_windows(t_curses *e, t_vm *v)
+void					deinit_windows(t_vm *v)
 {
-	wattroff(e->infow, COLOR_PAIR(INFO) | A_BOLD);
-	delwin(e->mainw);
-	delwin(e->infow);
+	wattroff(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
+	delwin(v->e->mainw);
+	delwin(v->e->infow);
 	endwin();
-	free(e->acolor);
+	free(v->e->acolor);
 	system("reset");
 	exit(0);
 }

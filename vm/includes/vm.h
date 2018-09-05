@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 20:39:52 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 22:51:43 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_curses			t_curses;
 # define SQSMALL_VAL			1
 # define CLEAR_LINE_PADD		20
 # define MW_ROW_LENGHT			64
-# define CLOCK_FORMULA			(e.t + CLOCKS_PER_SEC / e.cycles_per_second)
 # define COMMON_HEIGHT			(MEM_SIZE / 64 + 4)
 # define START_MW_WIDTH			(64 * 3 + 7)
 # define START_IW_WIDTH			(START_MW_WIDTH / 2.5)
@@ -79,25 +78,27 @@ enum	CARRAGE_COLORS
 
 }		CCOLORS;
 
+# define COLOR_DELTA			(C1_COLOR - P1_COLOR)
+
 struct				s_curses
 {
 	bool			is_run;
 	char			c;
 	unsigned int	cycles_per_second;
+	clock_t			t;
 
-	int				*acolor;
+	unsigned char	*acolor;
+	unsigned char	*cbold;
 
 	WINDOW			*mainw;
 	WINDOW			*infow;
-
-	clock_t			t;
 };
 
 void				visualize_the_game(t_vm *v);
-void				print_one_cycle(t_curses *e, t_vm *v, bool is_pass_cycle);
-void				print_info(t_curses *e, t_vm *v, bool is_print_full_info);
-void				init_windows(t_curses *e, t_vm *v);
-void				deinit_windows(t_curses *e, t_vm *v);
+void				print_one_cycle(t_vm *v, bool is_pass_cycle);
+void				print_info(t_vm *v, bool is_print_full_info);
+void				init_windows(t_vm *v);
+void				deinit_windows(t_vm *v);
 
 /*
 ** Info structure
@@ -186,8 +187,6 @@ struct				s_carriage
 	int				cur_operation;
 	int				nb_lives;
 	int				pc_padding;
-	int				*color_pc;
-	int				color;
 	int				id;
 	int				death_cycle;
 	int				live_cycle;
@@ -219,6 +218,7 @@ struct				s_corewar
 	unsigned char	arena[MEM_SIZE];
 
 	t_car			*head;
+	t_curses		*e;
 
 	t_args			args;
 	t_info			info;
