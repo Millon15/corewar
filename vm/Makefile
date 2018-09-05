@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
+#    By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-#    Updated: 2018/09/02 21:44:38 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/09/05 22:31:40 by akupriia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJ_PATH := .obj/
 
 CC := clang
 CFLAGS := -g #-Wall -Werror -Wextra
-IFLAGS := -I ../../$(INC_PATH) -I $(INC_PATH) -I $(LIB_PATH)
+IFLAGS := -I $(INC_PATH) -I $(LIB_PATH)
 LFLAGS := -lncurses
 
 HFILES :=		vm
