@@ -6,13 +6,13 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/04 18:39:21 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 21:38:23 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-void					end_the_game(t_vm *v)
+static inline void		end_the_game(t_vm *v)
 {
 	int		i;
 	int		ind;
@@ -20,54 +20,88 @@ void					end_the_game(t_vm *v)
 	ind = 0;
 	i = -1;
 	while (++i < v->player_amount)
+	{
 		if (P(i).points > P(ind).points)
 			ind = i;
+		close(P(i).fd);
+	}
 	ft_printf("Contestant %d, \"%s\", has won !\n", ind + 1, P(ind).prog_name);
-	exit(0);
+}
+
+static inline void		start_the_game(t_vm *v)
+{
+	int				i;
+
+	i = -1;
+	ft_putstr("Introducing contestants...\n");
+	while (++i < v->player_amount)
+		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
+		i + 1, P(i).prog_size,
+		P(i).prog_name, P(i).comment);
+}
+
+void					check_if_alive(t_vm *v)
+{
+	t_car	*car;
+
+	car = v->head;
+	while (car)
+	{
+		if (!car->nb_lives)
+		{
+			car->is_alive = false;
+			car->death_cycle = I.cur_cycle;
+			ft_printf("\n");
+		}
+		car = car->next;
+	}
 }
 
 void					pass_one_cycle(t_vm *v)
 {
-	int		cycle;
-	// int		fl;
+	t_car					*cur_car;
+	static unsigned int		last_check = 0;
 
-	// fl = false;
-	cycle = I.cycle_to_die;
-	I.cur_car = v->head;
-	while (I.cur_car)
+	!(v->args.verbose_value & 2) ? ++I.cur_cycle :
+	ft_printf("It is now cycle %d\n", ++I.cur_cycle);
+	cur_car = v->head;
+	last_check++;
+	while (cur_car)
 	{
-		perform_next_comm(I.cur_car, v);
-		I.cur_car = I.cur_car->next;
+		perform_next_comm(cur_car, v);
+		cur_car = cur_car->next;
 	}
-	if ((nbr_live_exec(v->head)) ||
-	(MAX_CHECKS * cycle <= I.cur_cycle))
+	if (last_check == I.cycle_to_die)
 	{
-		// if (fl == true)
-		// 	end_the_game(v);
-		I.cycle_to_die -= CYCLE_DELTA;
-		cycle += I.cycle_to_die;
-		make_live_nil(v);
+		kill_process(&last_check, v);
+		check_if_alive(v);
+		if (nbr_live_exec(v->head) || I.cycle <= I.cur_cycle)
+		{
+			I.cycle_to_die -= CYCLE_DELTA;
+			if (v->args.verbose_value & 2)
+				ft_printf("Cycle to die is now %d\n", I.cycle_to_die);
+			I.cycle += I.cycle_to_die * MAX_CHECKS;
+			make_live_nil(v);
+		}
 	}
-	// if (I.cycle_to_die <= CYCLE_DELTA)
-	// 	fl = true;
-	I.cur_cycle++;
 }
 
 static inline void		play_the_game(t_vm *v)
 {
 	I.cycle_to_die = CYCLE_TO_DIE;
+	I.cycle = CYCLE_TO_DIE * MAX_CHECKS;
 	if (v->args.is_ncurses)
 		visualize_the_game(v);
-	else
+	start_the_game(v);
+	if (v->args.is_dump)
 	{
-		print_arena(v);
-		while (I.cycle_to_die > 0)
-		{
-			if (v->args.is_dump && v->args.dump_value == I.cur_cycle)
-				meta_printer(v->arena, MEM_SIZE);
+		while (I.cycle_to_die > 0 && v->args.dump_value == I.cur_cycle)
 			pass_one_cycle(v);
-		}
+		dump_printer(v->arena, MEM_SIZE);
 	}
+	else
+		while (I.cycle_to_die > 0)
+			pass_one_cycle(v);
 }
 
 int						main(int ac, char **av)

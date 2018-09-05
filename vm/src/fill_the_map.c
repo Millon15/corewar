@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/04 18:40:32 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 16:46:45 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,4 @@ void		fill_arena(t_vm *v)
 		ft_memcpy(arena, P(i).source_code, P(i).prog_size);
 		arena += increase_on * sizeof(char);
 	}
-}
-
-void		print_arena(t_vm *v)
-{
-	int				i;
-
-	i = -1;
-	ft_putstr("Introducing contestants...\n");
-	while (++i < v->player_amount)
-		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-		i + 1, P(i).prog_size,
-		P(i).prog_name, P(i).comment);
 }

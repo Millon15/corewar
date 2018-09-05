@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/04 20:20:05 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 16:41:19 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ void		zjmp(t_car *self, t_vm *v)
 		self->pc_padding = 0;
 		return ;
 	}
-	ft_printf("I.cycle: %d | self->arg_val[0]: %d\n", I.cur_cycle, self->arg_val[0]);
+	// ft_printf("I.cycle: %d | self->arg_val[0]: %d\n", I.cur_cycle, self->arg_val[0]);
 	if (self->arg_val[0] >= IDX_MOD)
 	{
 		self->arg_val[0] %= IDX_MOD;
 		if (self->arg_val[0])
 			self->arg_val[0] -= IDX_MOD;
-		ft_printf("I.cycle: %d | self->arg_val[0]: %d, mod(self->arg_val[0]): %d | self->pc - v->arena %d\n", I.cur_cycle, self->arg_val[0], mod(self->arg_val[0]), self->pc - v->arena);
+		// ft_printf("I.cycle: %d | self->arg_val[0]: %d, mod(self->arg_val[0]): %d | self->pc - v->arena %d\n", I.cur_cycle, self->arg_val[0], mod(self->arg_val[0]), self->pc - v->arena);
 		// if (self->arg_val[0] > &v->arena[((int)v->player[UINT_MAX - WHOM(self)].prog_size)] - self->pc)
 		if (mod(self->arg_val[0]) > self->pc - v->arena)
 			move_pc(self, v, self->pc_padding);

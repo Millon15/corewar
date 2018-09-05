@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:10 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/04 18:37:41 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 20:40:31 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void		live(t_car *self, t_vm *v)
 
 	i = -1;
 	self->nb_lives++;
+	self->live_cycle = I.cur_cycle;
 	while (++i < v->player_amount)
 	{
 		if (self->arg_val[0] == v->player[i].name)

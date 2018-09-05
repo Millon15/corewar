@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 19:40:49 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/04 18:25:07 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 14:47:17 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int				meta_reader(const int fd, void *read_in, const int nbytes)
 	return (ret);
 }
 
-void			meta_printer(const void *to_print, const int nbytes)
+void			dump_printer(const void *to_print, const int nbytes)
 {
 	const unsigned char		*p = (const unsigned char *)to_print;
 	int						i;

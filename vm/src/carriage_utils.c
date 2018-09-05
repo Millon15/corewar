@@ -6,22 +6,26 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/04 19:50:11 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 20:50:15 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-void			delete_this_car(t_car *cur_car, t_vm *v)
+void			delete_this_car(t_car **cur_car, t_vm *v)
 {
-	if (cur_car->next != NULL)
-		cur_car->next->prev = cur_car->prev;
-	if (cur_car->prev != NULL)
-		cur_car->prev->next = cur_car->next;
-	else if (cur_car == v->head)
-		v->head = cur_car->next;
+	t_car		*next;
+
+	next = (*cur_car)->next;
+	if ((*cur_car)->next != NULL)
+		(*cur_car)->next->prev = (*cur_car)->prev;
+	if ((*cur_car)->prev != NULL)
+		(*cur_car)->prev->next = (*cur_car)->next;
+	else if ((*cur_car) == v->head)
+		v->head = (*cur_car)->next;
 	v->info.cursors--;
-	free(cur_car);
+	free(*cur_car);
+	*cur_car = next;
 }
 
 void			move_pc(t_car *self, t_vm *v, unsigned int padding)
@@ -61,6 +65,7 @@ void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
 {
 	const t_car		*prev = (v->head == NULL) ? NULL : get_last_car(v);
 	t_car			**tmp;
+	static int		id = 0;
 
 	tmp = (v->head == NULL) ? &v->head : &((get_last_car(v))->next);
 	(*tmp) = malloc(sizeof(t_car));
@@ -73,6 +78,10 @@ void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
 	(*tmp)->pc = where;
 	(*tmp)->color_pc = NULL;
 	(*tmp)->color = 0;
+	(*tmp)->id = ++id;
+	(*tmp)->is_alive = true;
+	(*tmp)->death_cycle = 0;
+	(*tmp)->live_cycle = I.cur_cycle;
 	ft_memset(&(*tmp)->args, 0, sizeof((*tmp)->args));
 	ft_memset(&(*tmp)->arg_val, 0, sizeof((*tmp)->arg_val));
 	ft_memset(&(*tmp)->reg, 0, sizeof((*tmp)->reg));

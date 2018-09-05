@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"vm.h": "c",
-		"libftprintf.h": "c",
-		"stdbool.h": "c",
-		"curses.h": "c",
-		"op.h": "c"
-	}
-}

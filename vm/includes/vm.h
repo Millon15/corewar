@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/04 20:20:31 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 20:39:52 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,11 @@ struct				s_info
 {
 	unsigned int	cursors;
 	unsigned int	cur_cycle;
+	int				cycle;
 	int				cycle_to_die;
-	t_car			*cur_car;
 	// unsigned int	lives;
 	// unsigned int	check;
 	// unsigned int	bonus;
-	// unsigned int	winner;
-	// unsigned int	last_alive;
 };
 
 /*
@@ -124,11 +122,12 @@ struct				s_info
 
 struct				s_args
 {
-	int				is_binary : 1;
-	int				is_ncurses : 1;
-	int				is_stealth : 1;
-	int				is_dump : 1;
-	int				dump_value;
+	// unsigned int		is_binary : 1;
+	// unsigned int		is_stealth : 1;
+	unsigned int		is_ncurses : 1;
+	unsigned int		is_dump : 1;
+	unsigned int		dump_value;
+	unsigned int		verbose_value;
 };
 
 /*
@@ -182,12 +181,16 @@ struct				s_carriage
 {
 	bool			carry;
 	bool			is_fork;
+	bool			is_alive;
 	int				cycles_to_wait;
 	int				cur_operation;
 	int				nb_lives;
 	int				pc_padding;
 	int				*color_pc;
 	int				color;
+	int				id;
+	int				death_cycle;
+	int				live_cycle;
 
 	unsigned char	*pc;
 	unsigned int	reg[REG_NUMBER + 1];
@@ -200,7 +203,7 @@ struct				s_carriage
 
 t_car				*get_last_car(t_vm *v);
 void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
-void				delete_this_car(t_car *cur_car, t_vm *v);
+void				delete_this_car(t_car **cur_car, t_vm *v);
 void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
 void				move_pc(t_car *self, t_vm *v, unsigned int padding);
 
@@ -224,11 +227,9 @@ struct				s_corewar
 void				check_and_obtain_args(int ac, char **av, t_vm *v);
 void				fill_players(t_vm *v);
 void				fill_arena(t_vm *v);
-void				print_arena(t_vm *v);
 
 void				pass_one_cycle(t_vm *v);
 void				perform_next_comm(t_car *self, t_vm *v);
-void				end_the_game(t_vm *v);
 
 /*
 ** Operations functions
@@ -256,7 +257,7 @@ void				zjmp(t_car *self, t_vm *v);
 */
 
 int					meta_reader(const int fd, void *read_in, const int nbytes);
-void				meta_printer(const void *to_print, const int nbytes);
+void				dump_printer(const void *to_print, const int nbytes);
 unsigned int		read_raw_num(const int fd, const int chars_to_read);
 unsigned int		get_raw_num(const unsigned char *ar_ptr,
 	const int bytes_to_read);
@@ -273,7 +274,7 @@ bool				put_error(const int errnum, const char *errstr,
 ** do al stuf; if you nkow da wae!
 */
 
-void				kill_process(t_car *car, t_vm *v);
+void				kill_process(unsigned int *last_check, t_vm *v);
 bool				nbr_live_exec(t_car *car);
 void				make_live_nil(t_vm *v);
 

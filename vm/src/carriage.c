@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/04 19:50:50 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 16:40:58 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		if (g_func_tab[self->cur_operation].opcode == *self->pc)
 		{
 			self->cycles_to_wait = g_func_tab[self->cur_operation].cycles;
-			ft_printf("%s\n", g_func_tab[self->cur_operation].name);
+			// ft_printf("%s\n", g_func_tab[self->cur_operation].name);
 		}
 	if (self->cur_operation >= REG_NUMBER || *self->pc == 0)
 	{

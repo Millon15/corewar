@@ -6,23 +6,30 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/20 15:21:15 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 20:41:37 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-void		kill_process(t_car *car, t_vm *v)
+void		kill_process(unsigned int *last_check, t_vm *v)
 {
+	t_car	*car;
+
+	car = v->head;
 	while (car)
 	{
-		if (!car->nb_lives)
+		if (car->is_alive == false)
 		{
-			delete_this_car(car, v);
+			if (v->args.verbose_value & 8)
+				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n"
+				, car->id, I.cur_cycle - car->live_cycle, I.cycle_to_die);
+			delete_this_car(&car, v);
 			continue ;
 		}
 		car = car->next;
 	}
+	*last_check = 0;
 }
 
 bool		nbr_live_exec(t_car *car)
@@ -32,13 +39,10 @@ bool		nbr_live_exec(t_car *car)
 	cnt = 0;
 	while (car)
 	{
-		if (car->nb_lives)
-			cnt += car->nb_lives;
-		if (cnt >= NBR_LIVE)
-			return (true);
+		cnt += car->nb_lives;
 		car = car->next;
 	}
-	return (false);
+	return (cnt >= NBR_LIVE);
 }
 
 void		make_live_nil(t_vm *v)
