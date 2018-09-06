@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   zjmp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 23:21:19 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/05 23:33:56 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static void	jump_car(t_car *self, t_vm *v, int val)
+static inline void		jump_car(t_car *self, t_vm *v, int val)
 {
 	if (self->carry == true)
 	{
@@ -25,7 +25,7 @@ static void	jump_car(t_car *self, t_vm *v, int val)
 			ft_printf("P\t%d | zjmp %d FAILED\n", self->id, val);
 }
 
-static void	move_neg_val(t_car *self, t_vm *v, int val)
+static inline void		move_neg_val(t_car *self, t_vm *v, int val)
 {
 	if (self->carry == true)
 	{
@@ -38,7 +38,7 @@ static void	move_neg_val(t_car *self, t_vm *v, int val)
 			ft_printf("P\t%d | zjmp %d FAILED\n", self->id, val);
 }
 
-void		zjmp(t_car *self, t_vm *v)
+void					zjmp(t_car *self, t_vm *v)
 {
 	int					num;
 	
@@ -51,7 +51,7 @@ void		zjmp(t_car *self, t_vm *v)
 		// ft_printf("I.cycle: %d | self->arg_val[0]: %d, mod(self->arg_val[0]): %d | self->pc - v->arena %d\n", I.cur_cycle, self->arg_val[0], mod(self->arg_val[0]), self->pc - v->arena);
 		// if (self->arg_val[0] > &v->arena[((int)v->player[UINT_MAX - WHOM(self)].prog_size)] - self->pc)
 		if (mod(self->arg_val[0]) > self->pc - v->arena)
-			jump_car(self, v, MEM_SIZE - (mod(self->arg_val[0]) - self->pc - v->arena))
+			jump_car(self, v, MEM_SIZE - (mod(self->arg_val[0]) - (self->pc - v->arena)));
 			// jump_car(self, v, MEM_SIZE - mod(self->arg_val[0]) - (self->pc - v->arena));
 		else
 		{

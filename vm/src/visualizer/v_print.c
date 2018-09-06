@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 23:24:28 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/06 18:11:21 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ static inline void		print_main(t_vm *v)
 
 	i = -1;
 	row = START_ROW_MAIN - 1;
+	if (v->info.cur_cycle == 5400)
+	{
+		ft_printf("\n");
+	}
 	while (++i < MEM_SIZE)
 	{
 		wattron(v->e->mainw, COLOR_PAIR(v->e->acolor[i])

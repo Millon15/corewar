@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 16:46:45 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/06 17:56:59 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void		fill_players(t_vm *v)
 		meta_reader(P(i).fd, P(i).comment, COMMENT_LENGTH);
 		lseek(P(i).fd, sizeof(int), SEEK_CUR);
 		ret = meta_reader(P(i).fd, P(i).source_code, MEM_SIZE);
-		(ret > ((int)P(i).prog_size)) ? put_error(2,
+		(ret > P(i).prog_size || ret > CHAMP_MAX_SIZE
+		|| P(i).prog_size > CHAMP_MAX_SIZE) ? put_error(2,
 		P(i).filename, P(i).prog_size, CHAMP_MAX_SIZE) : 0;
 		P(i).is_alive = true;
 	}

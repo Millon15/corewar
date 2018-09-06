@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+         #
+#    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-#    Updated: 2018/09/05 22:31:40 by akupriia         ###   ########.fr        #
+#    Updated: 2018/09/05 23:29:32 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,13 @@ LFLAGS := -lncurses
 
 HFILES :=		vm
 OPERATIONS :=	add aff and ld ldi lfork live lld lldi op_fork or st sti sub xor zjmp
-FILES :=		vm errors utils args_parsing fill_the_map carriage carriage_utils main_cycle_funcs
+FILES :=		vm errors utils args_parsing fill_the_map carriage carriage_utils carriage_utils2 main_cycle_funcs
 VISUALIZER :=	v_main v_init v_print
 LIB :=			$(LIB_PATH)libftprintf.a
 
 HDRS := $(addprefix $(INC_PATH), $(addsuffix .h, $(HFILES)))
-SRCS := $(addprefix $(OP_PATH), $(addsuffix .c, $(OPERATIONS)))
-SRCS += $(addprefix $(SRC_PATH), $(addsuffix .c, $(FILES)))
+SRCS := $(addprefix $(SRC_PATH), $(addsuffix .c, $(FILES)))
+SRCS += $(addprefix $(OP_PATH), $(addsuffix .c, $(OPERATIONS)))
 SRCS += $(addprefix $(V_PATH), $(addsuffix .c, $(VISUALIZER)))
 OBJS := $(addprefix $(OBJ_PATH), $(SRCS:%.c=%.o))
 

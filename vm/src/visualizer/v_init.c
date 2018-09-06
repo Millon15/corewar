@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 23:18:25 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/06 18:13:12 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static inline void		init_colors(t_vm *v)
 	unsigned char	*to;
 	t_car			*car;
 
-	v->e->acolor = ft_memalloc(sizeof(v->e->acolor) * MEM_SIZE);
-	v->e->cbold = ft_memalloc(sizeof(v->e->cbold) * MEM_SIZE);
+	v->e->acolor = ft_memalloc(sizeof(*v->e->acolor) * MEM_SIZE);
+	v->e->cbold = ft_memalloc(sizeof(*v->e->cbold) * MEM_SIZE);
 	i = -1;
 	car = v->head;
 	while (car && ++i < v->player_amount)
@@ -77,8 +77,8 @@ void					init_windows(t_vm *v)
 	v->e->t = clock();
 	v->e->is_run = true;
 	v->e->cycles_per_second = 1000;
-	// v->e->is_run = false;
-	// v->e->cycles_per_second = START_CYCLES_PER_SEC;
+	v->e->is_run = false;
+	v->e->cycles_per_second = START_CYCLES_PER_SEC;
 	refresh();
 	print_one_cycle(v, false);
 }

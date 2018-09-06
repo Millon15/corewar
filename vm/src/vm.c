@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 23:23:07 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/06 18:05:30 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void					pass_one_cycle(t_vm *v)
 
 	!(v->args.verbose_value & 2) ? ++I.cur_cycle :
 	ft_printf("It is now cycle %d\n", ++I.cur_cycle);
-	cur_car = v->head;
 	last_check++;
+	cur_car = v->head;
 	while (cur_car)
 	{
 		perform_next_comm(cur_car, v);
@@ -88,13 +88,13 @@ static inline void		play_the_game(t_vm *v)
 
 int						main(int ac, char **av)
 {
-	t_vm		v;
+	t_vm		*v;
 
-	ft_bzero(&v, sizeof(v));
-	check_and_obtain_args(ac, av, &v);
-	fill_players(&v);
-	fill_arena(&v);
-	play_the_game(&v);
-	end_the_game(&v);
+	v = ft_memalloc(sizeof(*v));
+	check_and_obtain_args(ac, av, v);
+	fill_players(v);
+	fill_arena(v);
+	play_the_game(v);
+	end_the_game(v);
 	return (0);
 }

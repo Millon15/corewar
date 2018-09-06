@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 23:23:49 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/06 17:19:13 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
 void				delete_this_car(t_car **cur_car, t_vm *v);
 void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
 void				move_pc(t_car *self, t_vm *v, unsigned int padding);
+void				print_arena(t_car *self, t_vm *v);
 
 /*
 ** Main corewar structure

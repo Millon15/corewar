@@ -6,16 +6,11 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/04 20:20:13 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/05 23:28:17 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
-
-int			mod(int x)
-{
-	return (x >= 0 ? x : -x);
-}
 
 void		op_fork(t_car *self, t_vm *v)
 {
