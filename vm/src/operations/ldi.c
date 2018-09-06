@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ldi.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/25 23:44:26 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/06 19:11:46 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ void			ldi(t_car *self, t_vm *v)
 	else
 		pc = &self->pc[arg_sum];
 	self->reg[self->arg_val[2]] = get_raw_num(pc, 4);
-	move_pc(self, v, self->pc_padding);
+	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }

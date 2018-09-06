@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/06 17:19:13 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/06 19:06:42 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,8 +202,9 @@ t_car				*get_last_car(t_vm *v);
 void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
 void				delete_this_car(t_car **cur_car, t_vm *v);
 void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
-void				move_pc(t_car *self, t_vm *v, unsigned int padding);
 void				print_arena(t_car *self, t_vm *v);
+void				move_pc(t_car *self, t_vm *v, unsigned int padding,
+	bool is_jump_car);
 
 /*
 ** Main corewar structure

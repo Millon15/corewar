@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 21:50:01 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/06 19:36:44 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		}
 	if (self->cur_operation >= REG_NUMBER || *self->pc == 0)
 	{
-		move_pc(self, v, 1);
+		move_pc(self, v, 1, false);
 		self->cur_operation = -1;
 		self->cycles_to_wait = -1;
 		return ;

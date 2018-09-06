@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 23:30:38 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/06 19:23:01 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ void			sti(t_car *self, t_vm *v)
 		module = set_val(self, v, arg_sum);
 	if (v->args.verbose_value & 4)
 	{
-		ft_printf("P\t%d | sti r%d %d %d\n", self->id, self->arg_val[0], first_arg, self->arg_val[2]);
-		ft_printf("\t\t| -> store to %d + %d = %d (with pc and mod %d)", first_arg, self->arg_val[2], arg_sum, module);
+		ft_printf("P    %d | sti r%d %d %d\n", self->id, self->arg_val[0], first_arg, self->arg_val[2]);
+		ft_printf("       | -> store to %d + %d = %d (with pc and mod %d)\n", first_arg, self->arg_val[2], arg_sum, module);
 	}
 	// int i = arg_sum;
 	// ft_printf("STI_pc reg_value is: %0.2x\n", self->reg[self->arg_val[0]]);
@@ -126,6 +126,6 @@ void			sti(t_car *self, t_vm *v)
 	// while (i < arg_sum + 10)
 		// ft_printf("%0.2x ", self->pc[i++]);
 	// ft_putchar('\n');
-	move_pc(self, v, self->pc_padding);
+	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }

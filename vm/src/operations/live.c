@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:10 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 20:40:31 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/06 19:11:54 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ void		live(t_car *self, t_vm *v)
 			P(i).lives_in_cp++;
 		}
 	}
-	move_pc(self, v, self->pc_padding);
+	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }

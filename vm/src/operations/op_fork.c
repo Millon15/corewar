@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 23:28:17 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/06 19:12:14 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ void		op_fork(t_car *self, t_vm *v)
 			pc = &self->pc[self->arg_val[0]];
 	}
 	copy_car(self, v, pc);
-	move_pc(self, v, self->pc_padding);
+	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }

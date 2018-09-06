@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   st.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/31 18:47:53 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/06 19:12:27 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ void		st(t_car *self, t_vm *v)
 	}
 	else if (self->args[1] == T_REG)
 		self->reg[self->arg_val[1]] = self->arg_val[0];
-	move_pc(self, v, self->pc_padding);
+	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }
