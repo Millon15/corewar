@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/06 19:06:42 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/09 20:06:08 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void				deinit_windows(t_vm *v);
 */
 
 # define I			(v->info)
+# define PC_DELTA	(self->pc - v->arena)
 
 struct				s_info
 {
@@ -179,7 +180,6 @@ struct				s_player
 struct				s_carriage
 {
 	bool			carry;
-	bool			is_fork;
 	bool			is_alive;
 	int				cycles_to_wait;
 	int				cur_operation;
@@ -199,6 +199,7 @@ struct				s_carriage
 };
 
 t_car				*get_last_car(t_vm *v);
+t_car				*get_first_car(t_vm *v);
 void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
 void				delete_this_car(t_car **cur_car, t_vm *v);
 void				init_car(unsigned char *where, unsigned int whom, t_vm *v);

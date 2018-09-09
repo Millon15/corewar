@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/06 19:11:46 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/09 20:00:45 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,50 @@
 void			ldi(t_car *self, t_vm *v)
 {
 	unsigned char	*pc;
-	unsigned int	arg_sum;
+	int				arg_sum;
+	unsigned int	first_arg;
 
 	if (self->args[0] == T_IND)
 	{
 		self->arg_val[0] %= IDX_MOD;
-		if (self->arg_val[0] > MEM_SIZE - (self->pc - v->arena))
-			pc = &v->arena[self->arg_val[0] - MEM_SIZE - (self->pc - v->arena)];
+		if (self->arg_val[0] > MEM_SIZE - (PC_DELTA))
+			pc = &v->arena[self->arg_val[0] - MEM_SIZE - (PC_DELTA)];
 		else
 			pc = &self->pc[self->arg_val[0]];
-		arg_sum = get_raw_num(pc, 4) + self->arg_val[1];
+		first_arg = get_raw_num(pc, 4);
 	}
 	else
-		arg_sum = self->arg_val[0] + self->arg_val[1];
-	arg_sum %= IDX_MOD;
-	if (arg_sum > MEM_SIZE - (self->pc - v->arena))
-		pc = &v->arena[arg_sum - MEM_SIZE - (self->pc - v->arena)];
+		first_arg = self->arg_val[0];
+	if (first_arg >= IDX_MOD)
+	{
+		first_arg %= IDX_MOD;
+		if (first_arg != IDX_MOD)		
+			first_arg -= IDX_MOD;
+	}
+	if (self->arg_val[1] >= IDX_MOD)
+	{
+		self->arg_val[1] %= IDX_MOD;
+		if (self->arg_val[1] != IDX_MOD)		
+			self->arg_val[1] -= IDX_MOD;
+	}
+	arg_sum = first_arg + self->arg_val[1];
+	arg_sum += PC_DELTA;
+	// arg_sum %= IDX_MOD;
+	if (arg_sum < 0)
+		pc = &v->arena[MEM_SIZE - mod(arg_sum) % MEM_SIZE];
 	else
-		pc = &self->pc[arg_sum];
+		pc = &v->arena[arg_sum % MEM_SIZE];
+	// if (arg_sum > MEM_SIZE - (PC_DELTA))
+	// 	pc = &v->arena[arg_sum - MEM_SIZE - (PC_DELTA)];
+	// else
+	// 	pc = &self->pc[arg_sum];
 	self->reg[self->arg_val[2]] = get_raw_num(pc, 4);
+	if (v->args.verbose_value & 4)
+	{
+		ft_printf("P    %d | ldi %d %d r%d\n", self->id, first_arg, self->arg_val[1], self->arg_val[2]);
+		ft_printf("       | -> load from %d + %d = %d (with pc and mod %d)\n",
+			first_arg, self->arg_val[1], first_arg + self->arg_val[1], arg_sum);
+	}
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/06 19:36:44 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/09 20:00:57 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	int						i;
 
 	i = 0;
-	if (!(MEM_SIZE - (self->pc - v->arena)))
+	if (!(MEM_SIZE - (PC_DELTA)))
 		codage = (cur->octal) ? (*v->arena >> 2) : 0;
 	else
 	{
@@ -169,11 +169,6 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 
 void			perform_next_comm(t_car *self, t_vm *v)
 {
-	if (self->is_fork == true)
-	{
-		self->is_fork = false;
-		return ;
-	}
 	while (self->cycles_to_wait < 0 && ++self->cur_operation < REG_NUMBER)
 		if (g_func_tab[self->cur_operation].opcode == *self->pc)
 		{

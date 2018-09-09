@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 23:28:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/06 19:23:33 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/09 20:00:28 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ void			move_pc(t_car *self, t_vm *v, unsigned int padding,
 
 	if (v->args.is_ncurses)
 	{
-		color_place = v->e->acolor + (int)(self->pc - v->arena);
+		color_place = v->e->acolor + (int)(PC_DELTA);
 		*color_place -= COLOR_DELTA;
 	}
 	self->pc = (is_jump_car == false) ?
-	(v->arena + (self->pc - v->arena + padding) % MEM_SIZE) :
+	(v->arena + (PC_DELTA + padding) % MEM_SIZE) :
 	(v->arena + (padding) % MEM_SIZE);
 	if (v->args.is_ncurses)
 	{
-		color_place = v->e->acolor + (int)(self->pc - v->arena);
+		color_place = v->e->acolor + (int)(PC_DELTA);
 		*color_place += COLOR_DELTA;
 	}
 }
