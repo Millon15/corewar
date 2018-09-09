@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 19:43:38 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/09 23:43:19 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,25 @@ static int		set_value(t_car *self, t_vm *v, int arg_sum)
 	size = sizeof(res);
 	// ft_printf("size: %d\n", size);
 	ind = -1;
-	if (mod(arg_sum) > self->pc - v->arena)
+	if (mod(arg_sum) > PC_DELTA)
 	{
-		// module = MEM_SIZE + arg_sum - (self->pc - v->arena);
-		module = arg_sum + (self->pc - v->arena);
+		module = arg_sum + PC_DELTA;
+		// module = arg_sum + (PC_DELTA);
 		while (++ind < size)
 		{
-			v->arena[module + ind] = 0;
-			v->arena[module + ind] |= (res << (8 * ind)) >> (8 * (size - 1));
-			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]],v->arena[MEM_SIZE + arg_sum - (self->pc - v->arena) + ind]);
+			v->arena[(MEM_SIZE + module + ind) % MEM_SIZE] = 0;
+			v->arena[(MEM_SIZE + module + ind) % MEM_SIZE] |= (res << (8 * ind)) >> (8 * (size - 1));
+			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]],v->arena[MEM_SIZE + arg_sum - (PC_DELTA) + ind]);
 		}
 	}
 	else
 	{
-		module = self->pc - v->arena + arg_sum;
+		module = PC_DELTA + arg_sum;
 		while (++ind < size)
 		{
-			v->arena[module + ind] = 0;
-			v->arena[module + ind] |= (res << (8 * ind)) >> (8 * (size - 1));
-			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[self->pc - v->arena + arg_sum + ind]);
+			v->arena[(module + ind) % MEM_SIZE] = 0;
+			v->arena[(module + ind) % MEM_SIZE] |= (res << (8 * ind)) >> (8 * (size - 1));
+			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[PC_DELTA + arg_sum + ind]);
 		}
 	}
 	return (module);
@@ -58,14 +58,14 @@ static int		set_val(t_car *self, t_vm *v, int arg_sum)
 	size = sizeof(res);
 	// ft_printf("size: %d\n", size);
 	ind = -1;
-	if (arg_sum > MEM_SIZE - (self->pc - v->arena))
+	if (arg_sum > MEM_SIZE - (PC_DELTA))
 	{
-		module = arg_sum - (MEM_SIZE - (self->pc - v->arena));
+		module = arg_sum - (MEM_SIZE - (PC_DELTA));
 		while (++ind < size)
 		{
-			v->arena[module + ind] = 0;
-			v->arena[module + ind] |= (res << (8 * ind)) >> (8 * (size - 1));   //??????????????????????????
-			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[arg_sum - (MEM_SIZE - (self->pc - v->arena)) + ind]);
+			v->arena[(module + ind) % MEM_SIZE] = 0;
+			v->arena[(module + ind) % MEM_SIZE] |= (res << (8 * ind)) >> (8 * (size - 1));   //??????????????????????????
+			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[arg_sum - (MEM_SIZE - (PC_DELTA)) + ind]);
 		}
 	}
 	else
@@ -73,8 +73,8 @@ static int		set_val(t_car *self, t_vm *v, int arg_sum)
 		module = arg_sum;
 		while (++ind < size)
 		{
-			self->pc[module + ind] = 0;
-			self->pc[module + ind] |= (res << (8 * ind)) >> (8 * (size - 1));
+			self->pc[(module + ind) % MEM_SIZE] = 0;
+			self->pc[(module + ind) % MEM_SIZE] |= (res << (8 * ind)) >> (8 * (size - 1));
 			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], self->pc[arg_sum + ind]);
 		}
 	}
@@ -94,8 +94,8 @@ void			sti(t_car *self, t_vm *v)
 	if (self->args[1] == T_IND)
 	{
 		self->arg_val[1] %= IDX_MOD;
-		if (self->arg_val[1] > MEM_SIZE - (self->pc - v->arena))
-			pc = &v->arena[self->arg_val[1] - MEM_SIZE - (self->pc - v->arena)];
+		if (self->arg_val[1] > MEM_SIZE - (PC_DELTA))
+			pc = &v->arena[self->arg_val[1] - MEM_SIZE - (PC_DELTA)];
 		else
 			pc = &self->pc[self->arg_val[1]];
 		first_arg = get_raw_num(pc, 4);	

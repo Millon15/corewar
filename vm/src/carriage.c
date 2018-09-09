@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 20:00:57 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/09 21:38:03 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,11 +185,11 @@ void			perform_next_comm(t_car *self, t_vm *v)
 	if (--self->cycles_to_wait == 0)
 	{
 
-		if (I.cur_cycle == 2754)
-		{
-			// dprintf(fd, "oper name: %s\n", g_func_tab[self->cur_operation].name);
-			// dprintf(fd, "cycles num: %d\n", g_func_tab[self->cur_operation].cycles);
-		}
+		// if (I.cur_cycle == 2754)
+		// {
+		// 	dprintf(fd, "oper name: %s\n", g_func_tab[self->cur_operation].name);
+		// 	dprintf(fd, "cycles num: %d\n", g_func_tab[self->cur_operation].cycles);
+		// }
 		// dprintf(fd, "cur_car: %p | I.cur_cycle: %u\n", self->prev, I.cur_cycle);
 
 		// int i = 0;

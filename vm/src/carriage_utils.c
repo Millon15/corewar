@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 19:37:15 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/09 22:59:09 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@ void			delete_this_car(t_car **cur_car, t_vm *v)
 	if ((*cur_car)->prev != NULL)
 		(*cur_car)->prev->next = (*cur_car)->next;
 	else if ((*cur_car) == v->head)
-		v->head = (*cur_car)->next;
+		v->head = next;
 	v->info.cursors--;
 	free(*cur_car);
 	*cur_car = next;
 }
 
-t_car			*get_last_car(t_vm *v)
-{
-	t_car		*tmp;
+// t_car			*get_last_car(t_vm *v)
+// {
+// 	t_car		*tmp;
 
-	if (v->head == NULL)
-		return (NULL);
-	tmp = v->head;
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-}
+// 	if (v->head == NULL)
+// 		return (NULL);
+// 	tmp = v->head;
+// 	while (tmp->next)
+// 		tmp = tmp->next;
+// 	return (tmp);
+// }
 
 void			copy_car(t_car *cur_car, t_vm *v, unsigned char *pc)
 {
@@ -53,27 +53,13 @@ void			copy_car(t_car *cur_car, t_vm *v, unsigned char *pc)
 		first->reg[i] = cur_car->reg[i];
 }
 
-// void			assign_car_id(t_vm *v)
-// {
-// 	t_car			*car;
-// 	int				id;
-
-// 	id = 0;
-// 	car = v->head;
-// 	while (car)
-// 	{
-// 		car->id = ++id;
-// 		car = car->next;
-// 	}
-// }
-
 void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
 {
 	const t_car		*next = v->head;
 	t_car			**tmp;
 	static int		id = 0;
 
-	tmp = (v->head == NULL) ? &v->head : &((v->head)->prev);
+	tmp = (v->head == NULL) ? &v->head : &(v->head->prev);
 	(*tmp) = malloc(sizeof(t_car));
 	(*tmp)->carry = true;
 	(*tmp)->cycles_to_wait = -1;
@@ -92,6 +78,5 @@ void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
 	(*tmp)->next = (t_car*)next;
 	(*tmp)->prev = NULL;
 	v->head = *tmp;
-	// assign_car_id(v);
 	v->info.cursors++;
 }
