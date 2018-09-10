@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 22:59:09 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/10 19:25:34 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
 	(*tmp)->death_cycle = I.cur_cycle;
 	(*tmp)->live_cycle = I.cur_cycle;
 	(*tmp)->id = ++id;
-	ft_memset(&(*tmp)->args, 0, sizeof((*tmp)->args));
-	ft_memset(&(*tmp)->arg_val, 0, sizeof((*tmp)->arg_val));
-	ft_memset(&(*tmp)->reg, 0, sizeof((*tmp)->reg));
+	ft_bzero(&(*tmp)->args, sizeof((*tmp)->args));
+	ft_bzero(&(*tmp)->arg_val, sizeof((*tmp)->arg_val));
+	ft_bzero(&(*tmp)->reg, sizeof((*tmp)->reg));
 	(*tmp)->reg[1] = whom;
 	(*tmp)->next = (t_car*)next;
 	(*tmp)->prev = NULL;

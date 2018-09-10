@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 21:38:03 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/10 19:25:23 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,8 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		// ft_printf("oper name: %s\n", g_func_tab[self->cur_operation].name);
 		if (vnp_codage(self, &g_func_tab[self->cur_operation], v) < 0)
 		{
-			ft_memset(&self->args, 0, sizeof(self->args));
-			ft_memset(&self->arg_val, 0, sizeof(self->arg_val));
+			ft_bzero(&self->args, sizeof(self->args));
+			ft_bzero(&self->arg_val, sizeof(self->arg_val));
 			self->cur_operation = -1;
 			self->cycles_to_wait = -1;
 			return ;
@@ -214,8 +214,8 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		// 	ft_printf("%0.2x ", self->pc[i++]);
 		// ft_putchar('\n')-;
 		// ft_putstr("The end of our pc\n-------------------------------------->\n");
-		ft_memset(&self->args, 0, sizeof(self->args));
-		ft_memset(&self->arg_val, 0, sizeof(self->arg_val));
+		ft_bzero(&self->args, sizeof(self->args));
+		ft_bzero(&self->arg_val, sizeof(self->arg_val));
 		self->cur_operation = -1;
 		self->cycles_to_wait = -1;
 	}

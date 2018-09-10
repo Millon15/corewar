@@ -6,82 +6,55 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 23:43:19 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/10 21:07:07 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
+#define PUMPKIN			(res << (8 * i)) >> (8 * (size - 1))
 
-static int		set_value(t_car *self, t_vm *v, int arg_sum)
+static inline int		set_val_neg(t_car *self, t_vm *v, int arg_sum)
 {
-	int				ind;
-	size_t			size;
-	unsigned int	res;
-	int				module;
-	
-	res = self->reg[self->arg_val[0]];
-	size = sizeof(res);
-	// ft_printf("size: %d\n", size);
-	ind = -1;
-	if (mod(arg_sum) > PC_DELTA)
-	{
-		module = arg_sum + PC_DELTA;
-		// module = arg_sum + (PC_DELTA);
-		while (++ind < size)
-		{
-			v->arena[(MEM_SIZE + module + ind) % MEM_SIZE] = 0;
-			v->arena[(MEM_SIZE + module + ind) % MEM_SIZE] |= (res << (8 * ind)) >> (8 * (size - 1));
-			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]],v->arena[MEM_SIZE + arg_sum - (PC_DELTA) + ind]);
-		}
-	}
-	else
-	{
-		module = PC_DELTA + arg_sum;
-		while (++ind < size)
-		{
-			v->arena[(module + ind) % MEM_SIZE] = 0;
-			v->arena[(module + ind) % MEM_SIZE] |= (res << (8 * ind)) >> (8 * (size - 1));
-			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[PC_DELTA + arg_sum + ind]);
-		}
-	}
+	const unsigned int	res = self->reg[self->arg_val[0]];
+	const unsigned int	size = sizeof(res);
+	const unsigned int	memsz = (mod(arg_sum) > PC_DELTA) ? MEM_SIZE : 0;
+	int					i;
+	int					module;
+
+	module = arg_sum + PC_DELTA;
+	i = -1;
+	while (++i < size)
+		print_arena(&v->arena[(memsz + module + i) % MEM_SIZE], PUMPKIN, self, v);
+		// v->arena[(memsz + module + i) % MEM_SIZE] = PUMPKIN;
 	return (module);
 }
 
-static int		set_val(t_car *self, t_vm *v, int arg_sum)
+static inline int		set_val(t_car *self, t_vm *v, int arg_sum)
 {
-	int				ind;
-	int				size;
-	unsigned int	res;
-	int				module;
+	const unsigned int	res = self->reg[self->arg_val[0]];
+	const unsigned int	size = sizeof(res);
+	unsigned char		*arena;
+	int					i;
+	int					module;
 
-	res = self->reg[self->arg_val[0]];
-	size = sizeof(res);
-	// ft_printf("size: %d\n", size);
-	ind = -1;
-	if (arg_sum > MEM_SIZE - (PC_DELTA))
+	if (arg_sum > MEM_SIZE - PC_DELTA)
 	{
-		module = arg_sum - (MEM_SIZE - (PC_DELTA));
-		while (++ind < size)
-		{
-			v->arena[(module + ind) % MEM_SIZE] = 0;
-			v->arena[(module + ind) % MEM_SIZE] |= (res << (8 * ind)) >> (8 * (size - 1));   //??????????????????????????
-			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], v->arena[arg_sum - (MEM_SIZE - (PC_DELTA)) + ind]);
-		}
+		module = arg_sum - (MEM_SIZE - PC_DELTA);
+		arena = v->arena;
 	}
 	else
 	{
 		module = arg_sum;
-		while (++ind < size)
-		{
-			self->pc[(module + ind) % MEM_SIZE] = 0;
-			self->pc[(module + ind) % MEM_SIZE] |= (res << (8 * ind)) >> (8 * (size - 1));
-			// ft_printf("%u ; %0.2x\t||\t", self->reg[self->arg_val[0]], self->pc[arg_sum + ind]);
-		}
+		arena = self->pc;
 	}
+	i = -1;
+	while (++i < size)
+		print_arena(&arena[(module + i) % MEM_SIZE], PUMPKIN, self, v);
+		// arena[(module + i) % MEM_SIZE] = (res << (8 * i)) >> (8 * (size - 1));
 	return (module);
 }
 
-void			sti(t_car *self, t_vm *v)
+void					sti(t_car *self, t_vm *v)
 {
 	unsigned char	*pc;
 	int				arg_sum;
@@ -120,14 +93,12 @@ void			sti(t_car *self, t_vm *v)
 	else
 		sa = sec_arg;
 	arg_sum = fa + sa;
-	if (arg_sum < 0)
-		module = set_value(self, v, arg_sum);
-	else
-		module = set_val(self, v, arg_sum);
+	module = (arg_sum < 0) ?
+	set_val_neg(self, v, arg_sum) : set_val(self, v, arg_sum);
 	if (v->args.verbose_value & 4)
 	{
-		ft_printf("P    %d | sti r%d %d %d\n", self->id, self->arg_val[0], fa, sa);
-		ft_printf("       | -> store to %d + %d = %d (with pc and mod %d)\n", fa, sa, arg_sum, module);
+		ft_printf("P %4d | sti r%d %d %d\n", self->id, self->arg_val[0], fa, sa);
+		ft_printf("%7c -> store to %d + %d = %d (with pc and mod %d)\n", '|', fa, sa, arg_sum, module);
 	}
 	// int i = arg_sum;
 	// ft_printf("STI_pc reg_value is: %0.2x\n", self->reg[self->arg_val[0]]);

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 23:22:26 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/10 19:48:19 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void					pass_one_cycle(t_vm *v)
 	!(v->args.verbose_value & 2) ? ++I.cur_cycle :
 	ft_printf("It is now cycle %d\n", ++I.cur_cycle);
 	last_check++;
-	if (I.cur_cycle == 4840)
-		print_arena(v->head, v);
+	// if (I.cur_cycle == 4840)
+	// 	print_arena(v->head, v);
 	cur_car = v->head;
 	while (cur_car)
 	{

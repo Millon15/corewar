@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 20:05:37 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/10 19:16:08 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void		st(t_car *self, t_vm *v)
 {
-	unsigned char	*pc;
-	int				ind;
+	unsigned char		*pc;
+	int					ind;
 	
 	ind = -1;
 	if (self->args[1] == T_IND)
@@ -23,16 +23,10 @@ void		st(t_car *self, t_vm *v)
 		self->arg_val[1] %= IDX_MOD;
 		if (self->arg_val[1] > MEM_SIZE - PC_DELTA)
 			while (++ind < 4)
-			{
-				v->arena[self->arg_val[1] - MEM_SIZE - (PC_DELTA) + ind] = (self->reg[self->arg_val[0]] << ind * 2) >> 6;
-				// v->color[self->arg_val[1] - MEM_SIZE - (self->pc - v->arena) + ind] = v->player[UINT_MAX - self->whom].color;
-			}		
+				v->arena[self->arg_val[1] - MEM_SIZE - PC_DELTA + ind] = (self->reg[self->arg_val[0]] << ind * 2) >> 6;
 		else
 			while (++ind < 4)
-			{
 				self->pc[self->arg_val[1] + ind] = (self->reg[self->arg_val[0]] << ind * 2) >> 6;
-				// v->color[self->pc - v->arena + self->arg_val[1] + ind] = v->player[UINT_MAX - self->whom].color;
-			}
 	}
 	else if (self->args[1] == T_REG)
 		self->reg[self->arg_val[1]] = self->arg_val[0];

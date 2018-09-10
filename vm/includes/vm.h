@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 20:06:08 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/10 21:04:22 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ struct				s_curses
 	char			c;
 	unsigned int	cycles_per_second;
 	clock_t			t;
+
+	// unsigned char	acolor[MEM_SIZE];
+	// unsigned char	cbold[MEM_SIZE];
 
 	unsigned char	*acolor;
 	unsigned char	*cbold;
@@ -203,7 +206,8 @@ t_car				*get_first_car(t_vm *v);
 void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
 void				delete_this_car(t_car **cur_car, t_vm *v);
 void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
-void				print_arena(t_car *self, t_vm *v);
+void				print_arena(unsigned char *arena, unsigned char to_equate,
+	t_car *self, t_vm *v);
 void				move_pc(t_car *self, t_vm *v, unsigned int padding,
 	bool is_jump_car);
 
