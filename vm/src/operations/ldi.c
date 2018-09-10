@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 20:00:45 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 01:25:27 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void			ldi(t_car *self, t_vm *v)
 	unsigned char	*pc;
 	int				arg_sum;
 	unsigned int	first_arg;
+	unsigned int	sec_arg;
+	int				fa;
+	int				sa;
 
 	if (self->args[0] == T_IND)
 	{
@@ -28,20 +31,25 @@ void			ldi(t_car *self, t_vm *v)
 		first_arg = get_raw_num(pc, 4);
 	}
 	else
-		first_arg = self->arg_val[0];
+		first_arg = (self->args[0] == T_REG) ? self->reg[self->arg_val[0]] : self->arg_val[0];
 	if (first_arg >= IDX_MOD)
 	{
 		first_arg %= IDX_MOD;
-		if (first_arg != IDX_MOD)		
-			first_arg -= IDX_MOD;
+		// if (first_arg != IDX_MOD)		
+		fa = first_arg - IDX_MOD;
 	}
-	if (self->arg_val[1] >= IDX_MOD)
+	else
+		fa = first_arg;
+	sec_arg = (self->args[1] == T_REG) ? self->reg[self->arg_val[1]] : self->arg_val[1];
+	if (sec_arg >= IDX_MOD)
 	{
-		self->arg_val[1] %= IDX_MOD;
-		if (self->arg_val[1] != IDX_MOD)		
-			self->arg_val[1] -= IDX_MOD;
+		sec_arg %= IDX_MOD;
+		// if (sec_arg != IDX_MOD)		
+		sa = sec_arg - IDX_MOD;
 	}
-	arg_sum = first_arg + self->arg_val[1];
+	else
+		sa = sec_arg;
+	arg_sum = fa + sa;
 	arg_sum += PC_DELTA;
 	// arg_sum %= IDX_MOD;
 	if (arg_sum < 0)
@@ -55,9 +63,9 @@ void			ldi(t_car *self, t_vm *v)
 	self->reg[self->arg_val[2]] = get_raw_num(pc, 4);
 	if (v->args.verbose_value & 4)
 	{
-		ft_printf("P    %d | ldi %d %d r%d\n", self->id, first_arg, self->arg_val[1], self->arg_val[2]);
-		ft_printf("       | -> load from %d + %d = %d (with pc and mod %d)\n",
-			first_arg, self->arg_val[1], first_arg + self->arg_val[1], arg_sum);
+		ft_printf("P %4d | ldi %d %d r%d\n", self->id, fa, sa, self->arg_val[2]);
+		ft_printf("%8c -> load from %d + %d = %d (with pc and mod %d)\n", '|',
+		fa, sa, fa + sa, arg_sum);
 	}
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;

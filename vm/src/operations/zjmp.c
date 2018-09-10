@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 21:25:21 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 00:51:33 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static inline void		jump_car(t_car *self, t_vm *v, int val,
 		val = res;
 	}
 	if (v->args.verbose_value & 4)
-		ft_printf("P    %d | zjmp %d %s\n", self->id, val,
+		ft_printf("P %4d | zjmp %d %s\n", self->id, val,
 		(self->carry == true) ? "OK" : "FAILED");
 }
 

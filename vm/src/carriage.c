@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/10 19:25:23 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 00:42:31 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,11 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 	int						padding;
 	int						i;
 	int						pc_padding;
+	bool					inv_arg_fl;
 
 	i = -1;
 	pc_padding = 0;
+	inv_arg_fl = false;
 	while (++i < cur->nb_arg)
 	{
 		if (!(self->args[i] == cur->args[i] - (self->args[i] ^ cur->args[i])) &&
@@ -84,10 +86,16 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 		else if (pass_arg_if_invalid(self, cur, v, 0))
 			return (-1);
 		self->arg_val[i] = get_raw_num(self->pc + self->pc_padding + pc_padding, padding);
+		// if (self->args[i] == T_REG && self->arg_val[i] > 16)
+		// 	inv_arg_fl = true;
 		pc_padding += padding;
 	}
 	self->pc_padding += pc_padding;
-
+	// if (inv_arg_fl == true)
+	// {
+	// 	move_pc(self, v, self->pc_padding, false);
+	// 	return (-1);
+	// }
 	// i = -1;
 	// while (++i < cur->nb_arg)
 	// 	ft_printf("%dL: %0.2x\n", i, self->arg_val[i]);
@@ -138,6 +146,8 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	}
 	else
 		self->pc_padding++;
+	if (self->id == 14)
+		ft_printf("");
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
 
@@ -152,12 +162,12 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	while (i < 3 && cod[i] != 0x0)
 	{
 		// ft_printf("cod[%d] : %0.2d\n", i, cod[i]);
-		if ((cod[i] & REG_CODE) == REG_CODE)
-			self->args[i] = T_REG;
+		if ((cod[i] & IND_CODE) == IND_CODE)
+			self->args[i] = T_IND;
 		else if ((cod[i] & DIR_CODE) == DIR_CODE)
 			self->args[i] = T_DIR;
-		else if ((cod[i] & IND_CODE) == IND_CODE)
-			self->args[i] = T_IND;
+		else if ((cod[i] & REG_CODE) == REG_CODE)
+			self->args[i] = T_REG;
 		else
 			return (-1);
 		i++;
@@ -201,12 +211,16 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		// ft_printf("oper name: %s\n", g_func_tab[self->cur_operation].name);
 		if (vnp_codage(self, &g_func_tab[self->cur_operation], v) < 0)
 		{
+			move_pc(self, v, self->pc_padding, false);
+			self->pc_padding = 0;
 			ft_bzero(&self->args, sizeof(self->args));
 			ft_bzero(&self->arg_val, sizeof(self->arg_val));
 			self->cur_operation = -1;
 			self->cycles_to_wait = -1;
 			return ;
 		}
+		if (self->id == 14)
+			ft_printf("");
 		g_func_tab[self->cur_operation].f(self, v);
 		// i = 0;
 		// ft_putstr("-------------------------------------->\nOur pc is: \n");

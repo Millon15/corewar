@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/10 21:07:07 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 00:51:15 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void					sti(t_car *self, t_vm *v)
 	if (v->args.verbose_value & 4)
 	{
 		ft_printf("P %4d | sti r%d %d %d\n", self->id, self->arg_val[0], fa, sa);
-		ft_printf("%7c -> store to %d + %d = %d (with pc and mod %d)\n", '|', fa, sa, arg_sum, module);
+		ft_printf("%8c -> store to %d + %d = %d (with pc and mod %d)\n", '|', fa, sa, arg_sum, module);
 	}
 	// int i = arg_sum;
 	// ft_printf("STI_pc reg_value is: %0.2x\n", self->reg[self->arg_val[0]]);

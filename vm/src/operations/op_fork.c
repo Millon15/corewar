@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 20:01:04 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 01:24:56 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,24 @@
 
 void		op_fork(t_car *self, t_vm *v)
 {
-	const int		to_subtract = PC_DELTA;
+	const int		to_subtract = MEM_SIZE - PC_DELTA;
 	unsigned char	*pc;
 	t_car			tmp;
+	int				arg;
 
-	//ft_dprintf(fd, "self->arg_val[0]: %d | IDX_MOD: %d | mod(self->arg_val[0] - IDX_MOD) : %d | to_subtract: %d\n", self->arg_val[0], IDX_MOD, (mod(self->arg_val[0] - IDX_MOD)), to_subtract);
 	if (self->arg_val[0] >= IDX_MOD)
 	{
-		self->arg_val[0] %= IDX_MOD;
-		if (mod((int)self->arg_val[0] - IDX_MOD) > to_subtract)
-		{
-			//ft_dprintf(fd, "%d | %d | MOD : %d | to_subtract: %d\n", self->arg_val[0], IDX_MOD, (mod(self->arg_val[0] - IDX_MOD)), to_subtract);
-			pc = &v->arena[MEM_SIZE + (self->arg_val[0] - IDX_MOD) - to_subtract];
-		}
-		else
-			pc = &v->arena[to_subtract + (self->arg_val[0] - IDX_MOD)];
+		arg = self->arg_val[0] % IDX_MOD - IDX_MOD;
+		pc = (mod(arg) > PC_DELTA) ? 
+		v->arena + (MEM_SIZE + arg + PC_DELTA)
+		: v->arena + (PC_DELTA + arg);
 	}
 	else
-	{
-		if (self->arg_val[0] > to_subtract)
-			pc = &v->arena[self->arg_val[0] - to_subtract];
-		else
-			pc = &self->pc[self->arg_val[0]];
-	}
+		pc = (self->arg_val[0] > to_subtract) ?
+		v->arena + (self->arg_val[0] - to_subtract)
+		: self->pc + self->arg_val[0];
 	if (v->args.verbose_value & 4)
-			ft_printf("P    %d | fork %d (%d)\n", self->id, pc - self->pc, pc - v->arena);
+		ft_printf("P %4d | fork %d (%d)\n", self->id, pc - self->pc, pc - v->arena);
 	copy_car(self, v, pc);
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
