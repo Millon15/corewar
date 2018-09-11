@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 07:39:41 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 01:52:17 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,11 @@ static inline int		set_val(t_car *self, t_vm *v, int arg_sum)
 	int					i;
 	int					module;
 
+	arena = v->arena;
 	if (arg_sum > MEM_SIZE - PC_DELTA)
-	{
 		module = arg_sum - (MEM_SIZE - PC_DELTA);
-		arena = v->arena;
-	}
 	else
-	{
-		module = arg_sum;
-		arena = self->pc;
-	}
+		module = arg_sum + PC_DELTA;
 	i = -1;
 	while (++i < size)
 		print_arena(arena + (module + i) % MEM_SIZE, PUMPKIN, self, v);
@@ -64,6 +59,8 @@ void					sti(t_car *self, t_vm *v)
 	unsigned int	sec_arg;
 	int				sa;
 
+	if (self->id == 23)
+		ft_printf("");
 	if (self->args[1] == T_IND)
 	{
 		self->arg_val[1] %= IDX_MOD;
@@ -71,7 +68,7 @@ void					sti(t_car *self, t_vm *v)
 			pc = &v->arena[self->arg_val[1] - MEM_SIZE - PC_DELTA];
 		else
 			pc = &self->pc[self->arg_val[1]];
-		first_arg = get_raw_num(pc, 4);	
+		first_arg = get_raw_num(pc, REG_SIZE, v);
 	}
 	else
 		first_arg = self->args[1] == T_REG ? self->reg[self->arg_val[1]] : self->arg_val[1];
@@ -95,7 +92,7 @@ void					sti(t_car *self, t_vm *v)
 	arg_sum = fa + sa;
 	module = (arg_sum < 0) ? set_val_neg(self, v, arg_sum)
 	: set_val(self, v, arg_sum);
-	if (!module)
+	if (!module && !arg_sum)
 		module = PC_DELTA;
 	if (v->args.verbose_value & 4)
 	{

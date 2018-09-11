@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 07:41:10 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 22:44:51 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void					pass_one_cycle(t_vm *v)
 		if (nbr_live_exec(v->head) || I.cycle <= I.cur_cycle)
 		{
 			I.cycle_to_die -= CYCLE_DELTA;
-			if (v->args.verbose_value & 2)
+			if (v->args.verbose_value & 2 && I.cycle_to_die > 0)
 				ft_printf("Cycle to die is now %d\n", I.cycle_to_die);
 			I.cycle = I.cur_cycle + I.cycle_to_die * MAX_CHECKS;
 			make_live_nil(v);
@@ -82,6 +82,9 @@ void					pass_one_cycle(t_vm *v)
 
 static inline void		play_the_game(t_vm *v)
 {
+	int		i;
+
+	i = -1;
 	I.cycle_to_die = CYCLE_TO_DIE;
 	I.cycle = CYCLE_TO_DIE * MAX_CHECKS;
 	if (v->args.is_ncurses)
@@ -94,7 +97,8 @@ static inline void		play_the_game(t_vm *v)
 		dump_printer(v->arena, MEM_SIZE);
 	}
 	else
-		while (I.cycle_to_die > 0)
+		// while (++i < v->player_amount)
+		while (I.cycle_to_die > 0 && v->head)
 			pass_one_cycle(v);
 }
 

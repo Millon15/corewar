@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 04:52:22 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 00:31:52 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void			ldi(t_car *self, t_vm *v)
 			pc = &v->arena[self->arg_val[0] - MEM_SIZE - PC_DELTA];
 		else
 			pc = &self->pc[self->arg_val[0]];
-		first_arg = get_raw_num(pc, 4);
+		first_arg = get_raw_num(pc, REG_SIZE, v);
 	}
 	else
 		first_arg = (self->args[0] == T_REG) ? self->reg[self->arg_val[0]] : self->arg_val[0];
@@ -60,7 +60,7 @@ void			ldi(t_car *self, t_vm *v)
 	// 	pc = &v->arena[arg_sum - MEM_SIZE - PC_DELTA];
 	// else
 	// 	pc = &self->pc[arg_sum];
-	self->reg[self->arg_val[2]] = get_raw_num(pc, 4);
+	self->reg[self->arg_val[2]] = get_raw_num(pc, REG_SIZE, v);
 	if (v->args.verbose_value & 4)
 	{
 		ft_printf("P %4d | ldi %d %d r%d\n", self->id, fa, sa, self->arg_val[2]);

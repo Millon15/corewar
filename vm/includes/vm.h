@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 07:05:08 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 00:28:08 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,8 +263,8 @@ void				zjmp(t_car *self, t_vm *v);
 int					meta_reader(const int fd, void *read_in, const int nbytes);
 void				dump_printer(const void *to_print, const int nbytes);
 unsigned int		read_raw_num(const int fd, const int chars_to_read);
-unsigned int		get_raw_num(const unsigned char *ar_ptr,
-	const int bytes_to_read);
+unsigned int		get_raw_num(const unsigned char *arena,
+	const int bytes_to_read, const t_vm *v);
 
 /*
 ** Put Error functions

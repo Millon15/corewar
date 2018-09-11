@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:45 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 04:52:22 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 00:32:07 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void		lldi(t_car *self, t_vm *v)
 			pc = &v->arena[self->arg_val[0] - MEM_SIZE - PC_DELTA];
 		else
 			pc = &self->pc[self->arg_val[0]];
-		arg_sum = get_raw_num(pc, 4) + self->arg_val[1];
+		arg_sum = get_raw_num(pc, REG_SIZE, v) + self->arg_val[1];
 		arg_sum %= IDX_MOD;
 	}
 	else
@@ -33,7 +33,7 @@ void		lldi(t_car *self, t_vm *v)
 		pc = &v->arena[arg_sum - MEM_SIZE - PC_DELTA];
 	else
 		pc = &self->pc[arg_sum];
-	self->reg[self->arg_val[2]] = get_raw_num(pc, 4);
+	self->reg[self->arg_val[2]] = get_raw_num(pc, REG_SIZE, v);
 	self->carry = self->arg_val[2] ? false : true;
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;

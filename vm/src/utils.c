@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 19:40:49 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/10 22:26:36 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 00:39:24 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,27 @@ unsigned int	read_raw_num(const int fd, const int chars_to_read)
 	return (res);
 }
 
-unsigned int	get_raw_num(const unsigned char *ar_ptr,
-	const int bytes_to_read)
+unsigned int	get_raw_num(const unsigned char *arena,
+	int bytes_to_read, const t_vm *v)
 {
-	unsigned int		res;
-	int					b;
+	const unsigned char		*end_of_arena = v->arena + MEM_SIZE;
+	unsigned int			res;
+	int						b;
 
+	if (bytes_to_read > sizeof(res))
+		return (0);
 	res = 0;
 	b = 0;
 	while (b < bytes_to_read)
 	{
+		if (arena + b >= end_of_arena)
+		{
+			arena = v->arena;
+			bytes_to_read -= b;
+			b = 0;
+		}
 		res <<= 8;
-		res |= ar_ptr[b++];
+		res |= arena[b++];
 	}
 	return (res);
 }

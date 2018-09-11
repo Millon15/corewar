@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/10 19:25:34 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 01:11:37 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void			copy_car(t_car *cur_car, t_vm *v, unsigned char *pc)
 	init_car(pc, cur_car->reg[1], v);
 	first = v->head;
 	first->carry = cur_car->carry;
-	i = -1;
+	first->live_cycle = cur_car->live_cycle;
+	i = 1;
 	while (++i < REG_NUMBER + 1)
 		first->reg[i] = cur_car->reg[i];
 }
