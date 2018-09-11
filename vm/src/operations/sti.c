@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 00:51:15 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 04:52:28 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static inline int		set_val_neg(t_car *self, t_vm *v, int arg_sum)
 	module = arg_sum + PC_DELTA;
 	i = -1;
 	while (++i < size)
-		print_arena(&v->arena[(memsz + module + i) % MEM_SIZE], PUMPKIN, self, v);
+		print_arena(v->arena + (memsz + module + i) % MEM_SIZE, PUMPKIN, self, v);
 		// v->arena[(memsz + module + i) % MEM_SIZE] = PUMPKIN;
 	return (module);
 }
@@ -49,7 +49,7 @@ static inline int		set_val(t_car *self, t_vm *v, int arg_sum)
 	}
 	i = -1;
 	while (++i < size)
-		print_arena(&arena[(module + i) % MEM_SIZE], PUMPKIN, self, v);
+		print_arena(arena + (module + i) % MEM_SIZE, PUMPKIN, self, v);
 		// arena[(module + i) % MEM_SIZE] = (res << (8 * i)) >> (8 * (size - 1));
 	return (module);
 }
@@ -67,8 +67,8 @@ void					sti(t_car *self, t_vm *v)
 	if (self->args[1] == T_IND)
 	{
 		self->arg_val[1] %= IDX_MOD;
-		if (self->arg_val[1] > MEM_SIZE - (PC_DELTA))
-			pc = &v->arena[self->arg_val[1] - MEM_SIZE - (PC_DELTA)];
+		if (self->arg_val[1] > MEM_SIZE - PC_DELTA)
+			pc = &v->arena[self->arg_val[1] - MEM_SIZE - PC_DELTA];
 		else
 			pc = &self->pc[self->arg_val[1]];
 		first_arg = get_raw_num(pc, 4);	

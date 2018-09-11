@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/10 21:04:22 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 07:05:08 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,33 @@ typedef struct s_curses			t_curses;
 # include <curses.h>
 # include <time.h>
 
-# define EXIT_KEY				27
-# define RUN					' '
-# define PASS_OVER				's'
-# define RUN_SLOWER				'q'
-# define RUN_QUICKER			'r'
-# define RUN_SLOWER2			'w'
-# define RUN_QUICKER2			'e'
+# define EXIT_KEY					27
+# define RUN						' '
+# define PASS_OVER					's'
+# define RUN_SLOWER					'q'
+# define RUN_QUICKER				'r'
+# define RUN_SLOWER2				'w'
+# define RUN_QUICKER2				'e'
 
-# define BORDC					'*'
-# define SQMAX_VAL				1000
-# define SQBIG_VAL				10
-# define SQSMALL_VAL			1
-# define CLEAR_LINE_PADD		20
-# define MW_ROW_LENGHT			64
-# define COMMON_HEIGHT			(MEM_SIZE / 64 + 4)
-# define START_MW_WIDTH			(64 * 3 + 7)
-# define START_IW_WIDTH			(START_MW_WIDTH / 2.5)
-# define START_CYCLES_PER_SEC	50
-# define START_ROW_MAIN			2
-# define START_ROW_INFO			2
+# define BORDC						'*'
+# define SQMAX_VAL					5000
+# define SQBIG_VAL					10
+# define SQSMALL_VAL				1
+# define CLEAR_LINE_PADD			20
+# define MW_ROW_LENGHT				64
+# define COMMON_HEIGHT				(MEM_SIZE / 64 + 4)
+# define START_MW_WIDTH				(64 * 3 + 7)
+# define START_IW_WIDTH				(START_MW_WIDTH / 2.5)
+# define START_CYCLES_PER_SEC		50
+# define START_ROW_MAIN				2
+# define START_ROW_INFO				2
 
-# define ALIGN_CENTER(w, h)		((w - h) / 2)
+# define ALIGN_CENTER(width, len)	(((width)-(len))?(((width)-(len))/2):0)
 
-# define BORDER					1
-# define MAIN					2
-# define INFO					3
-# define COLOR_DARK				8
+# define BORDER						1
+# define MAIN						2
+# define INFO						3
+# define COLOR_DARK					8
 
 enum	PLAYER_COLORS
 {
@@ -114,9 +114,7 @@ struct				s_info
 	unsigned int	cur_cycle;
 	int				cycle;
 	int				cycle_to_die;
-	// unsigned int	lives;
-	// unsigned int	check;
-	// unsigned int	bonus;
+	unsigned int	winner;
 };
 
 /*
@@ -235,6 +233,7 @@ void				fill_arena(t_vm *v);
 
 void				pass_one_cycle(t_vm *v);
 void				perform_next_comm(t_car *self, t_vm *v);
+void				get_winner(t_vm *v);
 
 /*
 ** Operations functions

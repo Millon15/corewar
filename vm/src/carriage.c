@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 03:57:01 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 04:52:22 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	int						i;
 
 	i = 0;
-	if (!(MEM_SIZE - (PC_DELTA)))
+	if (!(MEM_SIZE - PC_DELTA))
 		codage = (cur->octal) ? (*v->arena >> 2) : 0;
 	else
 	{

@@ -6,26 +6,36 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 03:28:05 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 06:31:28 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline void		end_the_game(t_vm *v)
+void					get_winner(t_vm *v)
 {
 	int		i;
-	int		ind;
 
-	ind = 0;
 	i = -1;
 	while (++i < v->player_amount)
 	{
-		if (P(i).points > P(ind).points)
-			ind = i;
+		if (P(i).points > P(I.winner).points)
+			I.winner = i;
+	}
+}
+
+static inline void		end_the_game(t_vm *v)
+{
+	int		i;
+
+	i = -1;
+	get_winner(v);
+	while (++i < v->player_amount)
+	{
 		close(P(i).fd);
 	}
-	ft_printf("Contestant %d, \"%s\", has won !\n", ind + 1, P(ind).prog_name);
+	ft_printf("Contestant %d, \"%s\", has won !\n",
+	I.winner + 1, P(I.winner).prog_name);
 }
 
 static inline void		start_the_game(t_vm *v)

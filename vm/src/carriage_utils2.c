@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 23:28:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/10 19:37:53 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 06:17:25 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void			print_arena(unsigned char *arena, unsigned char to_equate,
 	*arena = to_equate;
 	if (v->args.is_ncurses)
 	{
-		*(v->e->acolor + (v->arena - arena)) = PCOLORS + PL_IND(self);
-		*(v->e->cbold + (v->arena - arena)) = START_CYCLES_PER_SEC;
+		*(v->e->acolor + (arena - v->arena)) = PCOLORS + PL_IND(self);
+		*(v->e->cbold + (arena - v->arena)) = START_CYCLES_PER_SEC;
 	}
 }

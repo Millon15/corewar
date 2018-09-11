@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:31 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 20:01:00 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 04:52:22 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void		lld(t_car *self, t_vm *v)
 		self->reg[self->arg_val[i]] = self->arg_val[0];
 	else if (self->args[0] == T_IND)
 	{
-		if (self->arg_val[0] > MEM_SIZE - (PC_DELTA))
-			pc = &v->arena[self->arg_val[0] - MEM_SIZE - (PC_DELTA)];
+		if (self->arg_val[0] > MEM_SIZE - PC_DELTA)
+			pc = &v->arena[self->arg_val[0] - MEM_SIZE - PC_DELTA];
 		else
 			pc = &self->pc[self->arg_val[0]];
 		self->reg[self->arg_val[i]] = get_raw_num(pc, 4);

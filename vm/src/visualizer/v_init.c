@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/10 21:04:23 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 07:09:35 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static inline void		init_colors(t_vm *v)
 
 	v->e->acolor = ft_memalloc(sizeof(*v->e->acolor) * MEM_SIZE);
 	v->e->cbold = ft_memalloc(sizeof(*v->e->cbold) * MEM_SIZE);
+	// ft_bzero(v->e->acolor, sizeof(v->e->acolor));
+	// ft_bzero(v->e->cbold, sizeof(v->e->cbold));
 	i = -1;
 	car = v->head;
 	while (car && ++i < v->player_amount)
@@ -76,17 +78,40 @@ void					init_windows(t_vm *v)
 	wattroff(v->e->infow, COLOR_PAIR(BORDER));
 	wattron(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
 	v->e->t = clock();
-	v->e->is_run = true;
-	v->e->cycles_per_second = 1000;
+	// v->e->is_run = true;
+	// v->e->cycles_per_second = SQMAX_VAL;
 	v->e->is_run = false;
 	v->e->cycles_per_second = START_CYCLES_PER_SEC;
 	refresh();
 	print_one_cycle(v, false);
 }
 
+static inline void		print_winner(t_vm *v)
+{
+	const char	press[] = "Press any key to finish";
+	const char	the_winner[] = "The winner is : ";
+
+	get_winner(v);
+	mvwprintw(v->e->infow, COMMON_HEIGHT - 6, ALIGN_CENTER(START_IW_WIDTH,
+	ft_strlen(press) + ft_strlen(P(I.winner).prog_name)), "%s", the_winner);
+	wattroff(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
+	wattron(v->e->infow, COLOR_PAIR(PCOLORS + I.winner) | A_BOLD);
+	wprintw(v->e->infow, "%s", P(I.winner).prog_name);
+	wattroff(v->e->infow, COLOR_PAIR(PCOLORS + I.winner) | A_BOLD);
+	mvwprintw(v->e->infow, COMMON_HEIGHT - 8,
+	ALIGN_CENTER(START_IW_WIDTH, ft_strlen(press)), "%s", press);
+	wrefresh(v->e->infow);
+	v->e->c = -1;
+	while (v->e->c == -1)
+		v->e->c = getch();
+}
+
 void					deinit_windows(t_vm *v)
 {
-	wattroff(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
+	if (v->e->c != EXIT_KEY)
+		print_winner(v);
+	else
+		wattroff(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
 	delwin(v->e->mainw);
 	delwin(v->e->infow);
 	endwin();

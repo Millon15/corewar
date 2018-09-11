@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 03:41:40 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 04:52:22 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ static inline void		jump_car(t_car *self, t_vm *v, int val,
 // 			self->arg_val[0] -= IDX_MOD;
 // 		if (mod(self->arg_val[0]) > PC_DELTA)
 // 			jump_car(self, v,
-// 			MEM_SIZE - (mod(self->arg_val[0]) - (PC_DELTA)), true);
+// 			MEM_SIZE - (mod(self->arg_val[0]) - PC_DELTA), true);
 // 		else
 // 			jump_car(self, v, self->arg_val[0], false);
 // 	}
 // 	else
 // 	{
-// 		space_to_end = MEM_SIZE - (PC_DELTA);
+// 		space_to_end = MEM_SIZE - PC_DELTA;
 // 		if (self->arg_val[0] > space_to_end)
 // 			jump_car(self, v, self->arg_val[0] - space_to_end, true);
 // 		else
@@ -67,7 +67,7 @@ void					zjmp(t_car *self, t_vm *v)
 	bool				fl;
 
 	fl = false;
-	space_to_end = MEM_SIZE - (PC_DELTA);
+	space_to_end = MEM_SIZE - PC_DELTA;
 	if (self->arg_val[0] >= IDX_MOD)
 	{
 		self->arg_val[0] %= IDX_MOD;
@@ -77,7 +77,7 @@ void					zjmp(t_car *self, t_vm *v)
 	}
 	if (fl && mod(self->arg_val[0]) > PC_DELTA)
 		jump_car(self, v,
-		MEM_SIZE - (mod(self->arg_val[0]) - (PC_DELTA)), true);
+		MEM_SIZE - (mod(self->arg_val[0]) - PC_DELTA), true);
 	else if (!fl && self->arg_val[0] > space_to_end)
 		jump_car(self, v, self->arg_val[0] - space_to_end, true);
 	else
