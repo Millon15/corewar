@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 00:42:31 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 03:57:01 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 			padding = 1;
 		else if (pass_arg_if_invalid(self, cur, v, 0))
 			return (-1);
-		self->arg_val[i] = get_raw_num(self->pc + self->pc_padding + pc_padding, padding);
+		self->arg_val[i] = get_raw_num(v->arena + ((self->pc - v->arena) + self->pc_padding + pc_padding) % MEM_SIZE, padding);
 		// if (self->args[i] == T_REG && self->arg_val[i] > 16)
 		// 	inv_arg_fl = true;
 		pc_padding += padding;
@@ -146,7 +146,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	}
 	else
 		self->pc_padding++;
-	if (self->id == 14)
+	if (self->id == 10)
 		ft_printf("");
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
@@ -158,8 +158,8 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	// ft_putchar('\n');
 	// ft_putstr("The end of our pc\n-------------------------------------->\n");
 
-	i = 0;
-	while (i < 3 && cod[i] != 0x0)
+	i = -1;
+	while (++i < 3 /*&& cod[i] != 0x0*/)
 	{
 		// ft_printf("cod[%d] : %0.2d\n", i, cod[i]);
 		if ((cod[i] & IND_CODE) == IND_CODE)
@@ -168,10 +168,12 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 			self->args[i] = T_DIR;
 		else if ((cod[i] & REG_CODE) == REG_CODE)
 			self->args[i] = T_REG;
-		else
-			return (-1);
-		i++;
+		// else
+		// 	return (-1);
 	}
+	i = -1;
+	while (cod[++i] != 0x0)
+		;
 	if (i != cur->nb_arg)
 		return (-1 * pass_arg_if_invalid(self, cur, v, i));
 	return (vnp_args(self, cur, v));
@@ -179,19 +181,25 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 
 void			perform_next_comm(t_car *self, t_vm *v)
 {
+	if (*self->pc > REG_NUMBER || *self->pc == 0)
+	{
+		move_pc(self, v, 1, false);
+		return ;
+	}
 	while (self->cycles_to_wait < 0 && ++self->cur_operation < REG_NUMBER)
 		if (g_func_tab[self->cur_operation].opcode == *self->pc)
 		{
 			self->cycles_to_wait = g_func_tab[self->cur_operation].cycles;
-			// ft_printf("%s\n", g_func_tab[self->cur_operation].name);
+			if (self->id == 10)
+				ft_printf("");
 		}
-	if (self->cur_operation >= REG_NUMBER || *self->pc == 0)
-	{
-		move_pc(self, v, 1, false);
-		self->cur_operation = -1;
-		self->cycles_to_wait = -1;
-		return ;
-	}
+	// if (self->cur_operation >= REG_NUMBER || *self->pc == 0)
+	// {
+	// 	move_pc(self, v, 1, false);
+	// 	self->cur_operation = -1;
+	// 	self->cycles_to_wait = -1;
+	// 	return ;
+	// }
 	if (--self->cycles_to_wait == 0)
 	{
 
@@ -219,7 +227,7 @@ void			perform_next_comm(t_car *self, t_vm *v)
 			self->cycles_to_wait = -1;
 			return ;
 		}
-		if (self->id == 14)
+		if (self->id == 10)
 			ft_printf("");
 		g_func_tab[self->cur_operation].f(self, v);
 		// i = 0;

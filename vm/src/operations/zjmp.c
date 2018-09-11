@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 00:51:33 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 03:41:40 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static inline void		jump_car(t_car *self, t_vm *v, int val,
 {
 	int		res;
 
-	if (self->carry == true)
-	{
 	// 	if (MEM_SIZE - val > PC_DELTA)
 	// 		res = -1 * (MEM_SIZE - val + PC_DELTA);
 	// 	else
@@ -26,13 +24,12 @@ static inline void		jump_car(t_car *self, t_vm *v, int val,
 		// res = (MEM_SIZE - val > PC_DELTA) ? (-1 * (MEM_SIZE - val + PC_DELTA)) : (val);
 		// if (val - PC_DELTA > 0 && val - PC_DELTA > MEM_SIZE / 2)
 		// 	res = -1 * (MEM_SIZE - val + PC_DELTA);
-		res = (val - PC_DELTA > 0 && val - PC_DELTA > MEM_SIZE / 2) ?
-		(-1 * (MEM_SIZE - val + PC_DELTA)) : (val);
+	res = (val - PC_DELTA > 0 && val - PC_DELTA > MEM_SIZE / 2) ?
+	(-1 * (MEM_SIZE - val + PC_DELTA)) : (val);
+	if (self->carry == true)
 		move_pc(self, v, val, is_jump_car);
-		val = res;
-	}
 	if (v->args.verbose_value & 4)
-		ft_printf("P %4d | zjmp %d %s\n", self->id, val,
+		ft_printf("P %4d | zjmp %d %s\n", self->id, res,
 		(self->carry == true) ? "OK" : "FAILED");
 }
 
