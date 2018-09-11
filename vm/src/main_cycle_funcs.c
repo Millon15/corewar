@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 23:29:47 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 07:36:50 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		kill_process(unsigned int *last_check, t_vm *v)
 	car = v->head;
 	while (car)
 	{
-		if (car->is_alive == false)
+		if (!car->nb_lives)
 		{
 			if (v->args.verbose_value & 8)
 				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n"
@@ -27,11 +27,11 @@ void		kill_process(unsigned int *last_check, t_vm *v)
 			delete_this_car(&car, v);
 			continue ;
 		}
-		else if (!car->nb_lives)
-		{
-			car->is_alive = false;
-			car->death_cycle = I.cur_cycle;
-		}
+		// else if (!car->nb_lives)
+		// {
+		// 	car->is_alive = false;
+		// 	car->death_cycle = I.cur_cycle;
+		// }
 		car = car->next;
 	}
 	*last_check = 0;
