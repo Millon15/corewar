@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 04:52:28 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 07:39:41 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,10 @@ void					sti(t_car *self, t_vm *v)
 	else
 		sa = sec_arg;
 	arg_sum = fa + sa;
-	module = (arg_sum < 0) ?
-	set_val_neg(self, v, arg_sum) : set_val(self, v, arg_sum);
+	module = (arg_sum < 0) ? set_val_neg(self, v, arg_sum)
+	: set_val(self, v, arg_sum);
+	if (!module)
+		module = PC_DELTA;
 	if (v->args.verbose_value & 4)
 	{
 		ft_printf("P %4d | sti r%d %d %d\n", self->id, self->arg_val[0], fa, sa);

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 04:52:22 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/11 07:40:48 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,9 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	int						i;
 
 	i = 0;
-	if (!(MEM_SIZE - PC_DELTA))
+	// if (self->id == 16)
+	// 	ft_printf("");
+	if (!(MEM_SIZE - (PC_DELTA)))
 		codage = (cur->octal) ? (*v->arena >> 2) : 0;
 	else
 	{
@@ -136,7 +138,10 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	self->pc_padding = 1;
 	// ft_printf("codage: %d\n", codage);
 	if (codage == 0x0 && duplicate_args(cur))
+	{
+		self->pc_padding++;
 		return (-1);
+	}
 	else if (codage == 0x0)
 	{
 		i = -1;
@@ -146,8 +151,8 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	}
 	else
 		self->pc_padding++;
-	if (self->id == 10)
-		ft_printf("");
+	// if (self->id == 16)
+	// 	ft_printf("");
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
 
@@ -181,7 +186,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 
 void			perform_next_comm(t_car *self, t_vm *v)
 {
-	if (*self->pc > REG_NUMBER || *self->pc == 0)
+	if ((*self->pc > REG_NUMBER || *self->pc == 0) && (self->cycles_to_wait < 0))
 	{
 		move_pc(self, v, 1, false);
 		return ;
@@ -190,8 +195,8 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		if (g_func_tab[self->cur_operation].opcode == *self->pc)
 		{
 			self->cycles_to_wait = g_func_tab[self->cur_operation].cycles;
-			if (self->id == 10)
-				ft_printf("");
+			// if (self->id == 16)
+			// 	ft_printf("");
 		}
 	// if (self->cur_operation >= REG_NUMBER || *self->pc == 0)
 	// {
@@ -208,7 +213,7 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		// 	dprintf(fd, "oper name: %s\n", g_func_tab[self->cur_operation].name);
 		// 	dprintf(fd, "cycles num: %d\n", g_func_tab[self->cur_operation].cycles);
 		// }
-		// dprintf(fd, "cur_car: %p | I.cur_cycle: %u\n", self->prev, I.cur_cycle);
+		// dprintf(fd, "cur_car: %p |s I.cur_cycle: %u\n", self->prev, I.cur_cycle);
 
 		// int i = 0;
 		// ft_putstr("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>\nOur pc is: \n");
@@ -227,8 +232,8 @@ void			perform_next_comm(t_car *self, t_vm *v)
 			self->cycles_to_wait = -1;
 			return ;
 		}
-		if (self->id == 10)
-			ft_printf("");
+		// if (self->id == 16)
+		// 	ft_printf("");
 		g_func_tab[self->cur_operation].f(self, v);
 		// i = 0;
 		// ft_putstr("-------------------------------------->\nOur pc is: \n");
