@@ -6,35 +6,11 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 05:33:42 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 06:55:27 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
-
-static inline void		put_colors(t_vm *v)
-{
-	int				i;
-	unsigned char	*from;
-	unsigned char	*to;
-	t_car			*car;
-
-	v->e->acolor = malloc(sizeof(*v->e->acolor) * MEM_SIZE);
-	ft_memset(v->e->acolor, v->e->pcolors[MAX_PLAYERS],
-	sizeof(*v->e->acolor) * MEM_SIZE);
-	v->e->cbold = ft_memalloc(sizeof(*v->e->cbold) * MEM_SIZE);
-	i = -1;
-	car = v->head;
-	while (car && ++i < v->player_amount)
-	{
-		from = v->e->acolor + (car->pc - v->arena);
-		to = from + P(i).prog_size;
-		*from = v->e->ccolors[i];
-		while (++from < to)
-			*from = v->e->pcolors[i];
-		car = car->next;
-	}
-}
 
 static inline void		set_start_vis_cycle(t_vm *v)
 {
@@ -46,6 +22,30 @@ static inline void		set_start_vis_cycle(t_vm *v)
 		i = -1;
 		while (++i < MEM_SIZE)
 			(v->e->cbold[i] > 0) ? v->e->cbold[i]-- : false;
+	}
+}
+
+static inline void		put_colors(t_vm *v)
+{
+	int				i;
+	unsigned char	*from;
+	unsigned char	*to;
+	t_car			*car;
+
+	// v->e->acolor = malloc(sizeof(*v->e->acolor) * MEM_SIZE);
+	ft_memset(v->e->acolor, v->e->pcolors[MAX_PLAYERS],
+	sizeof(*v->e->acolor) * MEM_SIZE);
+	// v->e->cbold = ft_memalloc(sizeof(*v->e->cbold) * MEM_SIZE);
+	i = -1;
+	car = v->head;
+	while (car && ++i < v->player_amount)
+	{
+		from = v->e->acolor + (car->pc - v->arena);
+		to = from + P(i).prog_size;
+		*from = v->e->ccolors[i];
+		while (++from < to)
+			*from = v->e->pcolors[i];
+		car = car->next;
 	}
 }
 

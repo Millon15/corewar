@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 04:59:32 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 06:53:41 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_curses			t_curses;
 # define MAIN						2
 # define INFO						3
 # define COLOR_DARK					8
+# define COLOR_DELTA				(v->e->ccolors[0] - v->e->pcolors[0])
 
 struct				s_curses
 {
@@ -66,13 +67,11 @@ struct				s_curses
 	unsigned int	cycles_per_second;
 	clock_t			t;
 
-	// unsigned char	acolor[MEM_SIZE];
-	// unsigned char	cbold[MEM_SIZE];
+	unsigned char	acolor[MEM_SIZE];
+	unsigned char	cbold[MEM_SIZE];
 
 	short			ccolors[MAX_PLAYERS + 1];
 	short			pcolors[MAX_PLAYERS + 1];
-	unsigned char	*acolor;
-	unsigned char	*cbold;
 
 	WINDOW			*mainw;
 	WINDOW			*infow;

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/12 02:41:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 05:22:09 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 06:53:05 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void					deinit_windows(t_vm *v)
 	delwin(v->e->mainw);
 	delwin(v->e->infow);
 	endwin();
-	free(v->e->acolor);
 	system("reset");
 	exit(0);
 }

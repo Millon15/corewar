@@ -6,40 +6,46 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 03:24:20 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 06:51:27 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-void			delete_this_car(t_car **cur_car, t_vm *v)
+void			delete_this_car(t_car **car, t_vm *v)
 {
-	t_car		*next;
+	unsigned char		*color_place;
+	t_car				*next;
 
-	next = (*cur_car)->next;
-	if ((*cur_car)->next != NULL)
-		(*cur_car)->next->prev = (*cur_car)->prev;
-	if ((*cur_car)->prev != NULL)
-		(*cur_car)->prev->next = (*cur_car)->next;
-	else if ((*cur_car) == v->head)
+	if (A.is_ncurses)
+	{
+		color_place = v->e->acolor + ((*car)->pc - v->arena);
+		*color_place -= (*color_place >= v->e->ccolors[0]) ? COLOR_DELTA : 0;
+	}
+	next = (*car)->next;
+	if ((*car)->next != NULL)
+		(*car)->next->prev = (*car)->prev;
+	if ((*car)->prev != NULL)
+		(*car)->prev->next = (*car)->next;
+	else if ((*car) == v->head)
 		v->head = next;
 	v->info.cursors--;
-	free(*cur_car);
-	*cur_car = next;
+	free(*car);
+	*car = next;
 }
 
-void			copy_car(t_car *cur_car, t_vm *v, unsigned char *pc)
+void			copy_car(t_car *self, t_vm *v, unsigned char *pc)
 {
 	t_car		*first;
 	int			i;
 
-	init_car(pc, cur_car->reg[1], v, true);
+	init_car(pc, self->reg[1], v, true);
 	first = v->head;
-	first->carry = cur_car->carry;
-	first->live_cycle = cur_car->live_cycle;
+	first->carry = self->carry;
+	first->live_cycle = self->live_cycle;
 	i = 1;
 	while (++i < REG_NUMBER + 1)
-		first->reg[i] = cur_car->reg[i];
+		first->reg[i] = self->reg[i];
 }
 
 void			init_car(unsigned char *where, unsigned int whom, t_vm *v,
