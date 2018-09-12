@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 00:28:08 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 04:04:11 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,25 +59,6 @@ typedef struct s_curses			t_curses;
 # define INFO						3
 # define COLOR_DARK					8
 
-enum	PLAYER_COLORS
-{
-	P1_COLOR = 10,
-	P2_COLOR,
-	P3_COLOR,
-	P4_COLOR
-
-}		PCOLORS;
-enum	CARRAGE_COLORS
-{
-	C1_COLOR = 20,
-	C2_COLOR,
-	C3_COLOR,
-	C4_COLOR
-
-}		CCOLORS;
-
-# define COLOR_DELTA			(C1_COLOR - P1_COLOR)
-
 struct				s_curses
 {
 	bool			is_run;
@@ -88,6 +69,8 @@ struct				s_curses
 	// unsigned char	acolor[MEM_SIZE];
 	// unsigned char	cbold[MEM_SIZE];
 
+	short			ccolors[MAX_PLAYERS + 1];
+	short			pcolors[MAX_PLAYERS + 1];
 	unsigned char	*acolor;
 	unsigned char	*cbold;
 
@@ -112,7 +95,7 @@ struct				s_info
 {
 	unsigned int	cursors;
 	unsigned int	cur_cycle;
-	int				cycle;
+	int				cycle_to_delta;
 	int				cycle_to_die;
 	unsigned int	winner;
 };
@@ -121,12 +104,15 @@ struct				s_info
 ** Structure of passed args
 */
 
+# define A			(v->args)
+
 struct				s_args
 {
 	// unsigned int		is_binary : 1;
-	// unsigned int		is_stealth : 1;
 	unsigned int		is_ncurses : 1;
 	unsigned int		is_dump : 1;
+	unsigned int		is_stealth : 1;
+	unsigned int		vis_start_value;
 	unsigned int		dump_value;
 	unsigned int		verbose_value;
 };
@@ -181,13 +167,11 @@ struct				s_player
 struct				s_carriage
 {
 	bool			carry;
-	bool			is_alive;
 	int				cycles_to_wait;
 	int				cur_operation;
 	int				nb_lives;
 	int				pc_padding;
 	int				id;
-	int				death_cycle;
 	int				live_cycle;
 
 	unsigned char	*pc;
@@ -203,7 +187,8 @@ t_car				*get_last_car(t_vm *v);
 t_car				*get_first_car(t_vm *v);
 void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
 void				delete_this_car(t_car **cur_car, t_vm *v);
-void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
+void				init_car(unsigned char *where, unsigned int whom, t_vm *v,
+	bool are_initialized_colors);
 void				print_arena(unsigned char *arena, unsigned char to_equate,
 	t_car *self, t_vm *v);
 void				move_pc(t_car *self, t_vm *v, unsigned int padding,

@@ -6,23 +6,11 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 22:44:51 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 02:06:41 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
-
-void					get_winner(t_vm *v)
-{
-	int		i;
-
-	i = -1;
-	while (++i < v->player_amount)
-	{
-		if (P(i).points > P(I.winner).points)
-			I.winner = i;
-	}
-}
 
 static inline void		end_the_game(t_vm *v)
 {
@@ -55,7 +43,7 @@ void					pass_one_cycle(t_vm *v)
 	t_car					*cur_car;
 	static unsigned int		last_check = 0;
 
-	!(v->args.verbose_value & 2) ? ++I.cur_cycle :
+	!(A.verbose_value & 2) ? ++I.cur_cycle :
 	ft_printf("It is now cycle %d\n", ++I.cur_cycle);
 	last_check++;
 	// if (I.cur_cycle == 26024 || I.cur_cycle == 25988 || I.cur_cycle == 25974)
@@ -69,12 +57,12 @@ void					pass_one_cycle(t_vm *v)
 	if (last_check == I.cycle_to_die)
 	{
 		kill_process(&last_check, v);
-		if (nbr_live_exec(v->head) || I.cycle <= I.cur_cycle)
+		if (nbr_live_exec(v->head) || I.cycle_to_delta <= I.cur_cycle)
 		{
 			I.cycle_to_die -= CYCLE_DELTA;
-			if (v->args.verbose_value & 2 && I.cycle_to_die > 0)
+			if (A.verbose_value & 2 && I.cycle_to_die > 0)
 				ft_printf("Cycle to die is now %d\n", I.cycle_to_die);
-			I.cycle = I.cur_cycle + I.cycle_to_die * MAX_CHECKS;
+			I.cycle_to_delta = I.cur_cycle + I.cycle_to_die * MAX_CHECKS;
 			make_live_nil(v);
 		}
 	}
@@ -82,22 +70,18 @@ void					pass_one_cycle(t_vm *v)
 
 static inline void		play_the_game(t_vm *v)
 {
-	int		i;
-
-	i = -1;
 	I.cycle_to_die = CYCLE_TO_DIE;
-	I.cycle = CYCLE_TO_DIE * MAX_CHECKS;
-	if (v->args.is_ncurses)
+	I.cycle_to_delta = CYCLE_TO_DIE * MAX_CHECKS;
+	if (A.is_ncurses)
 		visualize_the_game(v);
 	start_the_game(v);
-	if (v->args.is_dump)
+	if (A.is_dump)
 	{
-		while (I.cycle_to_die > 0 && v->args.dump_value == I.cur_cycle)
+		while (I.cycle_to_die > 0 && v->head && A.dump_value == I.cur_cycle)
 			pass_one_cycle(v);
 		dump_printer(v->arena, MEM_SIZE);
 	}
 	else
-		// while (++i < v->player_amount)
 		while (I.cycle_to_die > 0 && v->head)
 			pass_one_cycle(v);
 }

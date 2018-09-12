@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 01:52:17 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 02:02:40 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static inline int		set_val_neg(t_car *self, t_vm *v, int arg_sum)
 	i = -1;
 	while (++i < size)
 		print_arena(v->arena + (memsz + module + i) % MEM_SIZE, PUMPKIN, self, v);
-		// v->arena[(memsz + module + i) % MEM_SIZE] = PUMPKIN;
 	return (module);
 }
 
@@ -45,7 +44,6 @@ static inline int		set_val(t_car *self, t_vm *v, int arg_sum)
 	i = -1;
 	while (++i < size)
 		print_arena(arena + (module + i) % MEM_SIZE, PUMPKIN, self, v);
-		// arena[(module + i) % MEM_SIZE] = (res << (8 * i)) >> (8 * (size - 1));
 	return (module);
 }
 
@@ -94,7 +92,7 @@ void					sti(t_car *self, t_vm *v)
 	: set_val(self, v, arg_sum);
 	if (!module && !arg_sum)
 		module = PC_DELTA;
-	if (v->args.verbose_value & 4)
+	if (A.verbose_value & 4)
 	{
 		ft_printf("P %4d | sti r%d %d %d\n", self->id, self->arg_val[0], fa, sa);
 		ft_printf("%8c -> store to %d + %d = %d (with pc and mod %d)\n", '|', fa, sa, arg_sum, module);

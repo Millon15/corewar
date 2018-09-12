@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 04:52:22 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 02:00:00 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static inline void		jump_car(t_car *self, t_vm *v, int val,
 	(-1 * (MEM_SIZE - val + PC_DELTA)) : (val);
 	if (self->carry == true)
 		move_pc(self, v, val, is_jump_car);
-	if (v->args.verbose_value & 4)
+	if (A.verbose_value & 4)
 		ft_printf("P %4d | zjmp %d %s\n", self->id, res,
 		(self->carry == true) ? "OK" : "FAILED");
 }

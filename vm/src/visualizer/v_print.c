@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/11 06:22:07 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 03:35:24 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ static inline void		print_main(t_vm *v)
 		wattron(v->e->mainw, COLOR_PAIR(v->e->acolor[i])
 		| ((v->e->cbold[i]) ? A_BOLD : 0));
 		if (!(i % MW_ROW_LENGHT))
-			mvwprintw(v->e->mainw, ++row, 4, "%0.2x", v->arena[i]);
+			mvwprintw(v->e->mainw, ++row, 4, "%0.2x",
+			(A.is_stealth) ? 0xff : v->arena[i]);
 		else
-			wprintw(v->e->mainw, "%0.2x", v->arena[i]);
+			wprintw(v->e->mainw, "%0.2x",
+			(A.is_stealth) ? 0xff : v->arena[i]);
 		wattroff(v->e->mainw, COLOR_PAIR(v->e->acolor[i])
 		| ((v->e->cbold[i]) ? A_BOLD : 0));
 		(v->e->cbold[i] > 0) ? v->e->cbold[i]-- : false;
@@ -41,9 +43,9 @@ static inline void		print_full_info(t_vm *v, int row, int i)
 	{
 		mvwprintw(v->e->infow, (row += 2), 4, "Player -%d :", i + 1);
 		wattroff(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
-		wattron(v->e->infow, COLOR_PAIR(PCOLORS + i) | A_BOLD);
+		wattron(v->e->infow, COLOR_PAIR(v->e->pcolors[i]) | A_BOLD);
 		mvwprintw(v->e->infow, row, CLEAR_LINE_PADD, "%s", P(i).prog_name);
-		wattroff(v->e->infow, COLOR_PAIR(PCOLORS + i) | A_BOLD);
+		wattroff(v->e->infow, COLOR_PAIR(v->e->pcolors[i]) | A_BOLD);
 		wattron(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
 		mvwprintw(v->e->infow, ++row, 6, "Last live\t\t\t:\t%-*d",
 		CLEAR_LINE_PADD, P(i).points);

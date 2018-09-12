@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_the_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/09 18:05:30 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/12 03:09:34 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		fill_arena(t_vm *v)
 	arena = v->arena;
 	while (++i < v->player_amount)
 	{
-		init_car(arena, P(i).name, v);
+		init_car(arena, P(i).name, v, false);
 		ft_memcpy(arena, P(i).source_code, P(i).prog_size);
 		arena += increase_on * sizeof(char);
 	}

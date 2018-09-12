@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 01:11:37 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 03:24:20 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,12 @@ void			delete_this_car(t_car **cur_car, t_vm *v)
 	*cur_car = next;
 }
 
-// t_car			*get_last_car(t_vm *v)
-// {
-// 	t_car		*tmp;
-
-// 	if (v->head == NULL)
-// 		return (NULL);
-// 	tmp = v->head;
-// 	while (tmp->next)
-// 		tmp = tmp->next;
-// 	return (tmp);
-// }
-
 void			copy_car(t_car *cur_car, t_vm *v, unsigned char *pc)
 {
 	t_car		*first;
 	int			i;
 
-	init_car(pc, cur_car->reg[1], v);
+	init_car(pc, cur_car->reg[1], v, true);
 	first = v->head;
 	first->carry = cur_car->carry;
 	first->live_cycle = cur_car->live_cycle;
@@ -54,22 +42,21 @@ void			copy_car(t_car *cur_car, t_vm *v, unsigned char *pc)
 		first->reg[i] = cur_car->reg[i];
 }
 
-void			init_car(unsigned char *where, unsigned int whom, t_vm *v)
+void			init_car(unsigned char *where, unsigned int whom, t_vm *v,
+	bool are_initialized_colors)
 {
 	const t_car		*next = v->head;
 	t_car			**tmp;
 	static int		id = 0;
 
 	tmp = (v->head == NULL) ? &v->head : &(v->head->prev);
-	(*tmp) = malloc(sizeof(t_car));
+	(*tmp) = ft_memalloc(sizeof(t_car));
 	(*tmp)->carry = true;
 	(*tmp)->cycles_to_wait = -1;
 	(*tmp)->cur_operation = -1;
 	(*tmp)->nb_lives = 0;
 	(*tmp)->pc_padding = 0;
 	(*tmp)->pc = where;
-	(*tmp)->is_alive = true;
-	(*tmp)->death_cycle = I.cur_cycle;
 	(*tmp)->live_cycle = I.cur_cycle;
 	(*tmp)->id = ++id;
 	ft_bzero(&(*tmp)->args, sizeof((*tmp)->args));
