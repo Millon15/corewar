@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 04:04:11 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 04:59:32 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ struct				s_curses
 
 void				visualize_the_game(t_vm *v);
 void				print_one_cycle(t_vm *v, bool is_pass_cycle);
-void				print_info(t_vm *v, bool is_print_full_info);
+void				print_info(t_vm *v);
 void				init_windows(t_vm *v);
 void				deinit_windows(t_vm *v);
 

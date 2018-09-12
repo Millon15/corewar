@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 03:35:24 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 04:59:42 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ static inline void		print_full_info(t_vm *v, int row, int i)
 	CLEAR_LINE_PADD, MAX_CHECKS);
 }
 
-void					print_info(t_vm *v,
-	bool is_print_full_info)
+void					print_info(t_vm *v)
 {
 	int			row;
 	int			i;
@@ -79,15 +78,14 @@ void					print_info(t_vm *v,
 	mvwprintw(v->e->infow, (row += 2), 4, "Processes\t:\t%-*d",
 	CLEAR_LINE_PADD, I.cursors);
 	row++;
-	if (is_print_full_info)
-		print_full_info(v, row, i);
+	print_full_info(v, row, i);
 	wrefresh(v->e->infow);
 }
 
 void					print_one_cycle(t_vm *v, bool is_pass_cycle)
 {
 	print_main(v);
-	print_info(v, true);
+	print_info(v);
 	if (is_pass_cycle)
 		pass_one_cycle(v);
 }

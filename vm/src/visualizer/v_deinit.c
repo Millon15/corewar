@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/12 02:41:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 03:39:32 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 05:22:09 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static inline void		print_winner(t_vm *v)
 
 void					deinit_windows(t_vm *v)
 {
+	print_one_cycle(v, false);
 	if (v->e->c != EXIT_KEY)
 		print_winner(v);
 	else

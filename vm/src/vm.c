@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 02:06:41 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/12 04:57:20 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void					pass_one_cycle(t_vm *v)
 	!(A.verbose_value & 2) ? ++I.cur_cycle :
 	ft_printf("It is now cycle %d\n", ++I.cur_cycle);
 	last_check++;
-	// if (I.cur_cycle == 26024 || I.cur_cycle == 25988 || I.cur_cycle == 25974)
+	// if (I.cur_cycle == 25935 || I.cur_cycle == 25974)
 	// 	ft_printf("");
 	cur_car = v->head;
 	while (cur_car)
@@ -63,8 +63,8 @@ void					pass_one_cycle(t_vm *v)
 			if (A.verbose_value & 2 && I.cycle_to_die > 0)
 				ft_printf("Cycle to die is now %d\n", I.cycle_to_die);
 			I.cycle_to_delta = I.cur_cycle + I.cycle_to_die * MAX_CHECKS;
-			make_live_nil(v);
 		}
+		make_live_nil(v);
 	}
 }
 
