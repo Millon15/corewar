@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 06:55:27 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/13 19:17:54 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,19 @@ static inline void		put_colors(t_vm *v)
 	unsigned char	*to;
 	t_car			*car;
 
-	// v->e->acolor = malloc(sizeof(*v->e->acolor) * MEM_SIZE);
 	ft_memset(v->e->acolor, v->e->pcolors[MAX_PLAYERS],
 	sizeof(*v->e->acolor) * MEM_SIZE);
-	// v->e->cbold = ft_memalloc(sizeof(*v->e->cbold) * MEM_SIZE);
+	ft_bzero(v->e->cbold, sizeof(*v->e->cbold) * MEM_SIZE);
 	i = -1;
-	car = v->head;
-	while (car && ++i < v->player_amount)
+	car = get_last_car(v);
+	while (++i < v->player_amount && car)
 	{
 		from = v->e->acolor + (car->pc - v->arena);
 		to = from + P(i).prog_size;
 		*from = v->e->ccolors[i];
 		while (++from < to)
 			*from = v->e->pcolors[i];
-		car = car->next;
+		car = car->prev;
 	}
 }
 
@@ -54,7 +53,6 @@ static inline void		init_colors(t_vm *v)
 	int					i;
 	int					j;
 	int					l;
-	const char			init_delta = 10;
 	const short			color_pairs[] = {
 		COLOR_GREEN, COLOR_BLACK,
 		COLOR_BLUE, COLOR_BLACK,
@@ -65,10 +63,10 @@ static inline void		init_colors(t_vm *v)
 
 	i = -1;
 	l = 0;
-	j = init_delta;
+	j = COLOR_DELTA;
 	while (++i < (MAX_PLAYERS + 1))
 	{
-		v->e->ccolors[i] = j + init_delta;
+		v->e->ccolors[i] = j + COLOR_DELTA;
 		init_pair(v->e->ccolors[i], color_pairs[l + 1], color_pairs[l]);
 		v->e->pcolors[i] = j++;
 		init_pair(v->e->pcolors[i], color_pairs[l], color_pairs[l + 1]);
@@ -86,7 +84,7 @@ static inline void		init_visualizer(void)
 	noecho();
 	use_default_colors();
 	start_color();
-	init_color(COLOR_DARK, 750, 750, 750);
+	init_color(COLOR_DARK, 550, 550, 550);
 	init_pair(BORDER, COLOR_MAGENTA, COLOR_MAGENTA);
 	init_pair(MAIN, COLOR_WHITE, COLOR_BLACK);
 	init_pair(INFO, COLOR_WHITE, COLOR_BLACK);
@@ -110,8 +108,8 @@ void					init_windows(t_vm *v)
 	v->e->t = clock();
 	v->e->is_run = true;
 	v->e->cycles_per_second = SQMAX_VAL;
-	// v->e->is_run = false;
-	// v->e->cycles_per_second = START_CYCLES_PER_SEC;
+	v->e->is_run = false;
+	v->e->cycles_per_second = START_CYCLES_PER_SEC;
 	(A.vis_start_value) ? set_start_vis_cycle(v) : false;
 	refresh();
 	print_one_cycle(v, false);

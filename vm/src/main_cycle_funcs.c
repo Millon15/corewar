@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 02:46:21 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/13 18:59:35 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,11 @@ void					get_winner(t_vm *v)
 	int		i;
 
 	i = -1;
+	I.winner = 0;
 	while (++i < v->player_amount)
 	{
 		if (P(i).points > P(I.winner).points)
 			I.winner = i;
+		close(P(i).fd);
 	}
 }

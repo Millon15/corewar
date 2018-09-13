@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 06:51:27 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/13 19:26:16 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ void			delete_this_car(t_car **car, t_vm *v)
 	*car = next;
 }
 
+t_car			*get_last_car(t_vm *v)
+{
+	t_car		*tmp;
+
+	if (v->head == NULL)
+		return (NULL);
+	tmp = v->head;
+	while (tmp->next)
+		tmp = tmp->next;
+	return (tmp);
+}
+
 void			copy_car(t_car *self, t_vm *v, unsigned char *pc)
 {
 	t_car		*first;
@@ -56,7 +68,7 @@ void			init_car(unsigned char *where, unsigned int whom, t_vm *v,
 	static int		id = 0;
 
 	tmp = (v->head == NULL) ? &v->head : &(v->head->prev);
-	(*tmp) = ft_memalloc(sizeof(t_car));
+	(*tmp) = malloc(sizeof(t_car));
 	(*tmp)->carry = true;
 	(*tmp)->cycles_to_wait = -1;
 	(*tmp)->cur_operation = -1;

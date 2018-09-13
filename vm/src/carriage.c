@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 00:28:33 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/13 18:58:46 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	int						i;
 
 	i = 0;
-	if (self->id == 10 && ft_strequ(cur->name, "live"))
-		ft_printf("");
+	// if (self->id == 10 && ft_strequ(cur->name, "live"))
+	// 	ft_printf("");
 	if (!(MEM_SIZE - (PC_DELTA)))
 		codage = (cur->octal) ? (*v->arena >> 2) : 0;
 	else

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 06:53:41 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/13 19:17:19 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_curses			t_curses;
 # define MAIN						2
 # define INFO						3
 # define COLOR_DARK					8
-# define COLOR_DELTA				(v->e->ccolors[0] - v->e->pcolors[0])
+# define COLOR_DELTA				10
 
 struct				s_curses
 {
@@ -183,7 +183,6 @@ struct				s_carriage
 };
 
 t_car				*get_last_car(t_vm *v);
-t_car				*get_first_car(t_vm *v);
 void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
 void				delete_this_car(t_car **cur_car, t_vm *v);
 void				init_car(unsigned char *where, unsigned int whom, t_vm *v,

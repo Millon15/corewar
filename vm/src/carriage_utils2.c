@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 23:28:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 06:48:50 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/13 18:00:48 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int				mod(int x)
 {
 	return (x >= 0 ? x : -x);
 }
-
 
 void			move_pc(t_car *self, t_vm *v, unsigned int padding,
 	bool is_jump_car)
