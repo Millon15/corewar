@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/14 04:36:41 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/14 23:36:58 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static inline int		set_val_neg(t_car *self, t_vm *v, int arg_sum)
 {
 	const unsigned int	res = self->reg[self->arg_val[0]];
 	const unsigned int	size = sizeof(res);
-	const unsigned int	memsz = (mod(arg_sum) > PC_DELTA) ? MEM_SIZE : 0;
+	const unsigned int	memsz = (mod(arg_sum) > PC_IND) ? MEM_SIZE : 0;
 	int					i;
 	int					module;
 
-	module = arg_sum + PC_DELTA;
+	module = arg_sum + PC_IND;
 	i = -1;
 	while (++i < size)
 		print_arena(v->arena + (memsz + module + i) % MEM_SIZE, PUMPKIN, self, v);
@@ -37,10 +37,10 @@ static inline int		set_val(t_car *self, t_vm *v, int arg_sum)
 	int					module;
 
 	arena = v->arena;
-	if (arg_sum > MEM_SIZE - PC_DELTA)
-		module = arg_sum - (MEM_SIZE - PC_DELTA);
+	if (arg_sum > MEM_SIZE - PC_IND)
+		module = arg_sum - (MEM_SIZE - PC_IND);
 	else
-		module = arg_sum + PC_DELTA;
+		module = arg_sum + PC_IND;
 	i = -1;
 	while (++i < size)
 		print_arena(arena + (module + i) % MEM_SIZE, PUMPKIN, self, v);
@@ -62,8 +62,8 @@ void					sti(t_car *self, t_vm *v)
 	if (self->args[1] == T_IND)
 	{
 		self->arg_val[1] %= IDX_MOD;
-		if (self->arg_val[1] > MEM_SIZE - PC_DELTA)
-			pc = &v->arena[self->arg_val[1] - MEM_SIZE - PC_DELTA];
+		if (self->arg_val[1] > MEM_SIZE - PC_IND)
+			pc = &v->arena[self->arg_val[1] - MEM_SIZE - PC_IND];
 		else
 			pc = &self->pc[self->arg_val[1]];
 		first_arg = get_raw_num(pc, REG_SIZE, v);
@@ -91,7 +91,7 @@ void					sti(t_car *self, t_vm *v)
 	module = (arg_sum < 0) ? set_val_neg(self, v, arg_sum)
 	: set_val(self, v, arg_sum);
 	if (!module && !arg_sum)
-		module = PC_DELTA;
+		module = PC_IND;
 	if (A.verbose_value & 4)
 	{
 		ft_printf("P %4d | sti r%d %d %d\n", self->id, self->arg_val[0], fa, sa);

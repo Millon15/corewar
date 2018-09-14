@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 02:00:00 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/14 23:36:58 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void			ldi(t_car *self, t_vm *v)
 	if (self->args[0] == T_IND)
 	{
 		self->arg_val[0] %= IDX_MOD;
-		if (self->arg_val[0] > MEM_SIZE - PC_DELTA)
-			pc = &v->arena[self->arg_val[0] - MEM_SIZE - PC_DELTA];
+		if (self->arg_val[0] > MEM_SIZE - PC_IND)
+			pc = &v->arena[self->arg_val[0] - MEM_SIZE - PC_IND];
 		else
 			pc = &self->pc[self->arg_val[0]];
 		first_arg = get_raw_num(pc, REG_SIZE, v);
@@ -50,14 +50,14 @@ void			ldi(t_car *self, t_vm *v)
 	else
 		sa = sec_arg;
 	arg_sum = fa + sa;
-	arg_sum += PC_DELTA;
+	arg_sum += PC_IND;
 	// arg_sum %= IDX_MOD;
 	if (arg_sum < 0)
 		pc = &v->arena[MEM_SIZE - mod(arg_sum) % MEM_SIZE];
 	else
 		pc = &v->arena[arg_sum % MEM_SIZE];
-	// if (arg_sum > MEM_SIZE - PC_DELTA)
-	// 	pc = &v->arena[arg_sum - MEM_SIZE - PC_DELTA];
+	// if (arg_sum > MEM_SIZE - PC_IND)
+	// 	pc = &v->arena[arg_sum - MEM_SIZE - PC_IND];
 	// else
 	// 	pc = &self->pc[arg_sum];
 	self->reg[self->arg_val[2]] = get_raw_num(pc, REG_SIZE, v);

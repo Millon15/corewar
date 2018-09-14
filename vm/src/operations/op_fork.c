@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/14 05:44:13 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/14 23:36:58 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		op_fork(t_car *self, t_vm *v)
 {
-	const int		to_subtract = MEM_SIZE - PC_DELTA;
+	const int		to_subtract = MEM_SIZE - PC_IND;
 	unsigned char	*pc;
 	t_car			tmp;
 	int				arg;
@@ -24,9 +24,9 @@ void		op_fork(t_car *self, t_vm *v)
 	{
 		if (arg >= IDX_MOD / 2)
 			arg -= IDX_MOD;
-		pc = (mod(arg) > PC_DELTA) ? 
-		v->arena + (MEM_SIZE + arg + PC_DELTA)
-		: v->arena + (PC_DELTA + arg);
+		pc = (mod(arg) > PC_IND) ? 
+		v->arena + (MEM_SIZE + arg + PC_IND)
+		: v->arena + (PC_IND + arg);
 	}
 	else
 		pc = (arg > to_subtract) ?

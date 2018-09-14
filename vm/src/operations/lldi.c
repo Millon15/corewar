@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:45 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 00:32:07 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/14 23:36:58 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void		lldi(t_car *self, t_vm *v)
 	if (self->args[0] == T_IND)
 	{
 		self->arg_val[0] %= IDX_MOD;
-		if (self->arg_val[0] > MEM_SIZE - PC_DELTA)
-			pc = &v->arena[self->arg_val[0] - MEM_SIZE - PC_DELTA];
+		if (self->arg_val[0] > MEM_SIZE - PC_IND)
+			pc = &v->arena[self->arg_val[0] - MEM_SIZE - PC_IND];
 		else
 			pc = &self->pc[self->arg_val[0]];
 		arg_sum = get_raw_num(pc, REG_SIZE, v) + self->arg_val[1];
@@ -29,8 +29,8 @@ void		lldi(t_car *self, t_vm *v)
 	}
 	else
 		arg_sum = self->arg_val[0] + self->arg_val[1];
-	if (arg_sum > MEM_SIZE - PC_DELTA)
-		pc = &v->arena[arg_sum - MEM_SIZE - PC_DELTA];
+	if (arg_sum > MEM_SIZE - PC_IND)
+		pc = &v->arena[arg_sum - MEM_SIZE - PC_IND];
 	else
 		pc = &self->pc[arg_sum];
 	self->reg[self->arg_val[2]] = get_raw_num(pc, REG_SIZE, v);

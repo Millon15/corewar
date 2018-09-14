@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/14 06:12:08 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/14 23:44:22 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_curses			t_curses;
 # define RUN_QUICKER2				'e'
 
 # define BORDC						'*'
-# define SQMAX_VAL					1000
+# define SQMAX_VAL					500
 # define SQBIG_VAL					10
 # define SQSMALL_VAL				1
 # define CLEAR_LINE_PADD			20
@@ -88,7 +88,7 @@ void				deinit_windows(t_vm *v);
 */
 
 # define I			(v->info)
-# define PC_DELTA	(self->pc - v->arena)
+# define PC_IND	(self->pc - v->arena)
 
 struct				s_info
 {

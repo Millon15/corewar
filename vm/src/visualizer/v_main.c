@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/14 06:12:17 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/14 21:36:25 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ static bool				quicker_slower(t_vm *v)
 	if (v->e->c == RUN_QUICKER)
 		v->e->cycles_per_second =
 		((v->e->cycles_per_second + SQBIG_VAL) < SQMAX_VAL) ?
-		(v->e->cycles_per_second + SQBIG_VAL) : SQMAX_VAL;
+		v->e->cycles_per_second + SQBIG_VAL : SQMAX_VAL;
 	else if (v->e->c == RUN_SLOWER)
 		v->e->cycles_per_second = (v->e->cycles_per_second > SQBIG_VAL) ?
-		(v->e->cycles_per_second - SQBIG_VAL) : 1;
+		v->e->cycles_per_second - SQBIG_VAL : 1;
 	else if (v->e->c == RUN_QUICKER2)
 		v->e->cycles_per_second =
 		((v->e->cycles_per_second + SQSMALL_VAL) < SQMAX_VAL) ?
-		(v->e->cycles_per_second + SQSMALL_VAL) : SQMAX_VAL;
+		v->e->cycles_per_second + SQSMALL_VAL : SQMAX_VAL;
 	else if (v->e->c == RUN_SLOWER2)
 		v->e->cycles_per_second = (v->e->cycles_per_second > SQSMALL_VAL) ?
-		(v->e->cycles_per_second - SQSMALL_VAL) : 1;
+		v->e->cycles_per_second - SQSMALL_VAL : 1;
 	else
 		return (false);
 	return (true);
