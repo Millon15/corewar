@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/13 19:17:54 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/14 06:12:20 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static inline void		init_visualizer(void)
 
 void					init_windows(t_vm *v)
 {
-	v->e = ft_memalloc(sizeof(v->e));
+	v->e = malloc(sizeof(v->e));
 	init_visualizer();
 	init_colors(v);
 	put_colors(v);
@@ -106,8 +106,8 @@ void					init_windows(t_vm *v)
 	wattroff(v->e->infow, COLOR_PAIR(BORDER));
 	wattron(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
 	v->e->t = clock();
-	v->e->is_run = true;
-	v->e->cycles_per_second = SQMAX_VAL;
+	// v->e->is_run = true;
+	// v->e->cycles_per_second = SQMAX_VAL;
 	v->e->is_run = false;
 	v->e->cycles_per_second = START_CYCLES_PER_SEC;
 	(A.vis_start_value) ? set_start_vis_cycle(v) : false;

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/13 18:58:46 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/13 22:46:07 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,14 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 		else if (pass_arg_if_invalid(self, cur, v, 0))
 			return (-1);
 		self->arg_val[i] = get_raw_num(v->arena + ((self->pc - v->arena) + self->pc_padding + pc_padding) % MEM_SIZE, padding, v);
-		// if (self->args[i] == T_REG && self->arg_val[i] > 16)
-		// 	inv_arg_fl = true;
+		if (self->args[i] == T_REG && self->arg_val[i] > 16)
+			inv_arg_fl = true;
 		pc_padding += padding;
 	}
 	self->pc_padding += pc_padding;
-	// if (inv_arg_fl == true)
-	// {
-	// 	move_pc(self, v, self->pc_padding, false);
-	// 	return (-1);
-	// }
+	if (inv_arg_fl == true)
+		// move_pc(self, v, self->pc_padding, false);
+		return (-1);
 	// i = -1;
 	// while (++i < cur->nb_arg)
 	// 	ft_printf("%dL: %0.2x\n", i, self->arg_val[i]);
@@ -126,8 +124,8 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	int						i;
 
 	i = 0;
-	// if (self->id == 10 && ft_strequ(cur->name, "live"))
-	// 	ft_printf("");
+	if (self->id == 34/* && ft_strequ(cur->name, "live")*/)
+		ft_printf("");
 	if (!(MEM_SIZE - (PC_DELTA)))
 		codage = (cur->octal) ? (*v->arena >> 2) : 0;
 	else
@@ -151,8 +149,8 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	}
 	else
 		self->pc_padding++;
-	// if (self->id == 16)
-	// 	ft_printf("");
+	if (self->id == 34)
+		ft_printf("");
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
 
@@ -232,8 +230,8 @@ void			perform_next_comm(t_car *self, t_vm *v)
 			self->cycles_to_wait = -1;
 			return ;
 		}
-		// if (self->id == 16)
-		// 	ft_printf("");
+		if (self->id == 34)
+			ft_printf("");
 		g_func_tab[self->cur_operation].f(self, v);
 		// i = 0;
 		// ft_putstr("-------------------------------------->\nOur pc is: \n");

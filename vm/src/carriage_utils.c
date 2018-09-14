@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/13 19:26:16 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/14 05:55:06 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ void			copy_car(t_car *self, t_vm *v, unsigned char *pc)
 void			init_car(unsigned char *where, unsigned int whom, t_vm *v,
 	bool are_initialized_colors)
 {
-	const t_car		*next = v->head;
+	t_car			*next = v->head;
 	t_car			**tmp;
 	static int		id = 0;
 
 	tmp = (v->head == NULL) ? &v->head : &(v->head->prev);
-	(*tmp) = malloc(sizeof(t_car));
+	(*tmp) = ft_memalloc(sizeof(t_car));
 	(*tmp)->carry = true;
 	(*tmp)->cycles_to_wait = -1;
 	(*tmp)->cur_operation = -1;

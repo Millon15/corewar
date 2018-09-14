@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/13 07:40:22 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/14 04:36:41 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void					sti(t_car *self, t_vm *v)
 	unsigned int	sec_arg;
 	int				sa;
 
-	// if (self->id == 23)
-	// 	ft_printf("");
+	if (self->id == 34)
+		ft_printf("");
 	if (self->args[1] == T_IND)
 	{
 		self->arg_val[1] %= IDX_MOD;

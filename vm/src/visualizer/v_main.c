@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/12 05:24:47 by vbrazas          ###   ########.fr       */
+/*   Created: Invalid date        by vbrazas           #+#    #+#             */
+/*   Updated: 2018/09/14 06:12:17 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void					visualize_the_game(t_vm *v)
 			print_one_cycle(v, true);
 		else if (v->e->is_run && clock() >= CLOCK_FORMULA)
 		{
-			print_one_cycle(v, true);
 			v->e->t = clock();
+			print_one_cycle(v, true);
 		}
 		else if (quicker_slower(v))
 			print_info(v);
