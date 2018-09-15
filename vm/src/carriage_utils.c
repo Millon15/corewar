@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/14 23:08:19 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/15 08:35:48 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,16 @@ void			copy_car(t_car *self, t_vm *v, unsigned char *pc)
 	t_car		*first;
 	int			i;
 
-	init_car(pc, self->reg[1], v, true);
+	init_car(pc, self->name, v, true);
 	first = v->head;
 	first->carry = self->carry;
 	first->live_cycle = self->live_cycle;
-	i = 1;
+	i = -1;
 	while (++i < REG_NUMBER + 1)
 		first->reg[i] = self->reg[i];
 }
 
-void			init_car(unsigned char *where, unsigned int whom, t_vm *v,
+void			init_car(unsigned char *where, unsigned int name, t_vm *v,
 	bool are_initialized_colors)
 {
 	t_car			*next = v->head;
@@ -80,7 +80,7 @@ void			init_car(unsigned char *where, unsigned int whom, t_vm *v,
 	ft_bzero(&(*tmp)->args, sizeof((*tmp)->args));
 	ft_bzero(&(*tmp)->arg_val, sizeof((*tmp)->arg_val));
 	ft_bzero(&(*tmp)->reg, sizeof((*tmp)->reg));
-	(*tmp)->reg[1] = whom;
+	(*tmp)->name = name;
 	(*tmp)->next = (t_car*)next;
 	(*tmp)->prev = NULL;
 	v->head = *tmp;
