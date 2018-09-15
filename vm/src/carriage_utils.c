@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/15 08:35:48 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/15 19:26:07 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void			init_car(unsigned char *where, unsigned int name, t_vm *v,
 	ft_bzero(&(*tmp)->args, sizeof((*tmp)->args));
 	ft_bzero(&(*tmp)->arg_val, sizeof((*tmp)->arg_val));
 	ft_bzero(&(*tmp)->reg, sizeof((*tmp)->reg));
+	(*tmp)->reg[1] = name;
 	(*tmp)->name = name;
 	(*tmp)->next = (t_car*)next;
 	(*tmp)->prev = NULL;

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/15 08:43:59 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/15 20:09:03 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,20 @@ static inline void		print_main(t_vm *v)
 		(v->e->cbold[i] > 0) ? v->e->cbold[i]-- : false;
 		wprintw(v->e->mainw, " ");
 	}
-	// wrefresh(v->e->mainw);
+	wrefresh(v->e->mainw);
+}
+
+static inline void		print_widgets(t_vm *v, int *row)
+{
+	int	i;
+	int	total_lives;
+
+	i = -1;
+	total_lives = 0;
+	while (++i < v->player_amount)
+		total_lives += P(i).lives_in_cp;
+	mvwprintw(v->e->infow, ((*row) += 3), 4, "Live breakdown for current period :\n%-*c",
+	CLEAR_LINE_PADD, '[');
 }
 
 static inline void		print_full_info(t_vm *v, int row, int i)
@@ -52,6 +65,7 @@ static inline void		print_full_info(t_vm *v, int row, int i)
 		mvwprintw(v->e->infow, ++row, 6, "Lives in current period\t:\t%-*d",
 		CLEAR_LINE_PADD, P(i).lives_in_cp);
 	}
+	// print_widgets(v, &row);
 	mvwprintw(v->e->infow, (row += 3), 4, "CYCLE_TO_DIE:\t%-*d",
 	CLEAR_LINE_PADD, I.cycle_to_die);
 	mvwprintw(v->e->infow, (row += 2), 4, "CYCLE_DELTA\t:\t%-*d",

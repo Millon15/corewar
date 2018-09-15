@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/15 08:43:53 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/15 19:29:42 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ static inline void		init_colors(t_vm *v)
 	j = COLOR_DELTA;
 	// system("echo HUI BLYAD");
 	// system("leaks -q corewar");
-	while (++i < MAX_PLAYERS + 1)
-	{
-		v->e->ccolors[i] = 0;
-		v->e->pcolors[i] = 0;
-	}
-	i = -1;
-	// ft_bzero(v->e->ccolors, sizeof(short) * (MAX_PLAYERS + 1));
-	// ft_bzero(v->e->pcolors, sizeof(short) * (MAX_PLAYERS + 1));
+	// while (++i < MAX_PLAYERS + 1)
+	// {
+	// 	v->e->ccolors[i] = 0;
+	// 	v->e->pcolors[i] = 0;
+	// }
+	// i = -1;
+	ft_bzero(v->e->ccolors, sizeof(short) * (MAX_PLAYERS + 1));
+	ft_bzero(v->e->pcolors, sizeof(short) * (MAX_PLAYERS + 1));
 	while (++i < (MAX_PLAYERS + 1))
 	{
 		v->e->ccolors[i] = j + COLOR_DELTA;
@@ -89,11 +89,7 @@ static inline void		init_colors(t_vm *v)
 		v->e->pcolors[i] = j++;
 		init_pair(v->e->pcolors[i], color_pairs[l], color_pairs[l + 1]);
 		l += 2;
-		// system("echo CCCCCCCCCCCCCCCCCCCCCCC");
-		// system("leaks -q corewar");
 	}
-	// system("echo OOOOOOOOOOOOOOOOOOOOOOO");
-	// system("leaks -q corewar");
 }
 
 static inline void		init_visualizer(void)
@@ -117,8 +113,6 @@ void					init_windows(t_vm *v)
 	v->e = (t_curses *)ft_memalloc(sizeof(t_curses));
 	init_visualizer();
 	init_colors(v);
-	// system("echo AAAAAAAAAAAAAAAAAAAAAAA");
-	// system("leaks -q corewar");
 	put_colors(v);
 	v->e->mainw = newwin(COMMON_HEIGHT, START_MW_WIDTH, 0, 0);
 	wattron(v->e->mainw, COLOR_PAIR(BORDER));
@@ -130,13 +124,10 @@ void					init_windows(t_vm *v)
 	wattroff(v->e->infow, COLOR_PAIR(BORDER));
 	wattron(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
 	v->e->t = clock();
-	v->e->is_run = true;
-	v->e->cycles_per_second = SQMAX_VAL;
-	// system("echo BBBBBBBBBBBBBBBBBBBBBBB");
-	// system("leaks -q corewar");
-	// exit(0);
-	// v->e->is_run = false;
-	// v->e->cycles_per_second = START_CYCLES_PER_SEC;
+	// v->e->is_run = true;
+	// v->e->cycles_per_second = SQMAX_VAL;
+	v->e->is_run = false;
+	v->e->cycles_per_second = START_CYCLES_PER_SEC;
 	(A.vis_start_value) ? set_start_vis_cycle(v) : false;
 	refresh();
 	if (I.cycle_to_die > 0 && v->head)
