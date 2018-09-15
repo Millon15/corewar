@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/14 23:44:22 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/15 08:39:42 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,12 +160,12 @@ struct				s_player
 ** Carriage structure
 */
 
-# define WHOM(t_car)	((t_car)->reg[1])
-# define PL_IND(t_car)	(((int)(t_car)->reg[1] * -1) - 1)
+# define PL_IND(t_car)	(((int)(t_car)->name * -1) - 1)
 
 struct				s_carriage
 {
 	bool			carry;
+	unsigned int	name;
 	int				cycles_to_wait;
 	int				cur_operation;
 	int				nb_lives;

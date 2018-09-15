@@ -6,11 +6,20 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/15 03:15:40 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/15 08:43:53 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
+
+static const short		color_pairs[10] =
+{
+		COLOR_GREEN, COLOR_BLACK,
+		COLOR_BLUE, COLOR_BLACK,
+		COLOR_RED, COLOR_BLACK,
+		COLOR_CYAN, COLOR_BLACK,
+		COLOR_DARK, COLOR_BLACK
+};
 
 static inline void		set_start_vis_cycle(t_vm *v)
 {
@@ -33,8 +42,14 @@ static inline void		put_colors(t_vm *v)
 	t_car			*car;
 
 	ft_memset(v->e->acolor, v->e->pcolors[MAX_PLAYERS],
-	sizeof(*v->e->acolor) * MEM_SIZE);
-	ft_bzero(v->e->cbold, sizeof(*v->e->cbold) * MEM_SIZE);
+	sizeof(char) * MEM_SIZE);
+	ft_bzero(v->e->cbold, sizeof(char) * MEM_SIZE);
+	i = -1;
+	// while (++i < MEM_SIZE)
+	// {
+	// 	v->e->acolor[i] = v->e->pcolors[MAX_PLAYERS];
+	// 	v->e->cbold[i] = 0;
+	// }
 	i = -1;
 	car = get_last_car(v);
 	while (++i < v->player_amount && car)
@@ -53,17 +68,20 @@ static inline void		init_colors(t_vm *v)
 	int					i;
 	int					j;
 	int					l;
-	const short			color_pairs[] = {
-		COLOR_GREEN, COLOR_BLACK,
-		COLOR_BLUE, COLOR_BLACK,
-		COLOR_RED, COLOR_BLACK,
-		COLOR_CYAN, COLOR_BLACK,
-		COLOR_DARK, COLOR_BLACK
-	};
 
 	i = -1;
 	l = 0;
 	j = COLOR_DELTA;
+	// system("echo HUI BLYAD");
+	// system("leaks -q corewar");
+	while (++i < MAX_PLAYERS + 1)
+	{
+		v->e->ccolors[i] = 0;
+		v->e->pcolors[i] = 0;
+	}
+	i = -1;
+	// ft_bzero(v->e->ccolors, sizeof(short) * (MAX_PLAYERS + 1));
+	// ft_bzero(v->e->pcolors, sizeof(short) * (MAX_PLAYERS + 1));
 	while (++i < (MAX_PLAYERS + 1))
 	{
 		v->e->ccolors[i] = j + COLOR_DELTA;
@@ -71,7 +89,11 @@ static inline void		init_colors(t_vm *v)
 		v->e->pcolors[i] = j++;
 		init_pair(v->e->pcolors[i], color_pairs[l], color_pairs[l + 1]);
 		l += 2;
+		// system("echo CCCCCCCCCCCCCCCCCCCCCCC");
+		// system("leaks -q corewar");
 	}
+	// system("echo OOOOOOOOOOOOOOOOOOOOOOO");
+	// system("leaks -q corewar");
 }
 
 static inline void		init_visualizer(void)
@@ -92,9 +114,11 @@ static inline void		init_visualizer(void)
 
 void					init_windows(t_vm *v)
 {
-	v->e = malloc(sizeof(v->e));
+	v->e = (t_curses *)ft_memalloc(sizeof(t_curses));
 	init_visualizer();
 	init_colors(v);
+	// system("echo AAAAAAAAAAAAAAAAAAAAAAA");
+	// system("leaks -q corewar");
 	put_colors(v);
 	v->e->mainw = newwin(COMMON_HEIGHT, START_MW_WIDTH, 0, 0);
 	wattron(v->e->mainw, COLOR_PAIR(BORDER));
@@ -106,11 +130,16 @@ void					init_windows(t_vm *v)
 	wattroff(v->e->infow, COLOR_PAIR(BORDER));
 	wattron(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
 	v->e->t = clock();
-	// v->e->is_run = true;
-	// v->e->cycles_per_second = SQMAX_VAL;
-	v->e->is_run = false;
-	v->e->cycles_per_second = START_CYCLES_PER_SEC;
+	v->e->is_run = true;
+	v->e->cycles_per_second = SQMAX_VAL;
+	// system("echo BBBBBBBBBBBBBBBBBBBBBBB");
+	// system("leaks -q corewar");
+	// exit(0);
+	// v->e->is_run = false;
+	// v->e->cycles_per_second = START_CYCLES_PER_SEC;
 	(A.vis_start_value) ? set_start_vis_cycle(v) : false;
 	refresh();
-	print_one_cycle(v, false);
+	if (I.cycle_to_die > 0 && v->head)
+		print_one_cycle(v, false);
 }
+

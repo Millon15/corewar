@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/15 04:40:06 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/15 08:45:07 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ static inline void		play_the_game(t_vm *v)
 	I.cycle_to_die = CYCLE_TO_DIE;
 	I.cycle_to_delta = CYCLE_TO_DIE * MAX_CHECKS;
 	if (A.is_ncurses)
+	{
 		visualize_the_game(v);
+		return ;
+	}
 	start_the_game(v);
 	if (A.is_dump)
 	{
@@ -86,7 +89,9 @@ int						main(int ac, char **av)
 {
 	t_vm		*v;
 
-	v = ft_memalloc(sizeof(*v));
+	v = (t_vm *)ft_memalloc(sizeof(t_vm));
+	ft_bzero(&(v->args), sizeof(v->args));
+	ft_bzero(&(v->info), sizeof(v->info));
 	check_and_obtain_args(ac, av, v);
 	fill_players(v);
 	fill_arena(v);
@@ -94,7 +99,3 @@ int						main(int ac, char **av)
 	end_the_game(v);
 	return (0);
 }
-
-	// "args": ["--ncurses", "${workspaceFolder}/vm/vm_champs/champs/Gagnant.cor", "${workspaceFolder}/vm/vm_champs/champs/Gagnant.cor"],
-	// vm/vm_champs/champs/jumper.cor vm/vm_champs/champs/Gagnant.cor
-	// "args": ["${workspaceFolder}/vm/vm_champs/champs/jumper.cor", "${workspaceFolder}/vm/vm_champs/champs/Gagnant.cor"],
