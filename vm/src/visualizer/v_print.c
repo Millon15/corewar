@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/13 18:32:09 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/14 06:30:41 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static inline void		print_main(t_vm *v)
 		(v->e->cbold[i] > 0) ? v->e->cbold[i]-- : false;
 		wprintw(v->e->mainw, " ");
 	}
-	wrefresh(v->e->mainw);
+	// wrefresh(v->e->mainw);
 }
 
 static inline void		print_full_info(t_vm *v, int row, int i)

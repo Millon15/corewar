@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/14 06:24:47 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/15 04:40:06 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void					pass_one_cycle(t_vm *v)
 		if (nbr_live_exec(v->head) || I.cycle_to_delta <= I.cur_cycle)
 		{
 			I.cycle_to_die -= CYCLE_DELTA;
-			if (A.verbose_value & 2 && I.cycle_to_die > 0)
+			if (A.verbose_value & 2)
 				ft_printf("Cycle to die is now %d\n", I.cycle_to_die);
 			I.cycle_to_delta = I.cur_cycle + I.cycle_to_die * MAX_CHECKS;
 		}
@@ -94,3 +94,7 @@ int						main(int ac, char **av)
 	end_the_game(v);
 	return (0);
 }
+
+	// "args": ["--ncurses", "${workspaceFolder}/vm/vm_champs/champs/Gagnant.cor", "${workspaceFolder}/vm/vm_champs/champs/Gagnant.cor"],
+	// vm/vm_champs/champs/jumper.cor vm/vm_champs/champs/Gagnant.cor
+	// "args": ["${workspaceFolder}/vm/vm_champs/champs/jumper.cor", "${workspaceFolder}/vm/vm_champs/champs/Gagnant.cor"],
