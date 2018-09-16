@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/15 19:50:03 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/16 22:48:18 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,21 +101,21 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 	return (0);
 }
 
-int				duplicate_args(const t_op *cur)
-{
-	int i;
+// int				duplicate_args(const t_op *cur)
+// {
+// 	int i;
 
-	i = 0;
-	while (i < 3)
-	{
-		if (cur->args[i] == (T_DIR | T_IND) ||
-		cur->args[i] == (T_REG | T_IND) || cur->args[i] == (T_IND | T_DIR)
-		|| cur->args[i] == (T_REG | T_IND | T_DIR))
-			return (1);
-		i++;
-	}
-	return (0);
-}
+// 	i = 0;
+// 	while (i < 3)
+// 	{
+// 		if (cur->args[i] == (T_DIR | T_IND) ||
+// 		cur->args[i] == (T_REG | T_IND) || cur->args[i] == (T_IND | T_DIR)
+// 		|| cur->args[i] == (T_REG | T_IND | T_DIR))
+// 			return (1);
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 {
@@ -125,7 +125,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 
 	i = 0;
 	// if (self->id == 34/* && ft_strequ(cur->name, "live")*/)
-	if (self->id == 1 && I.cur_cycle > 5000)
+	if (self->id == 2 && I.cur_cycle > 4000)
 		ft_printf("");
 	if (!(MEM_SIZE - (PC_IND)))
 		codage = (cur->octal) ? (*v->arena >> 2) : 0;
@@ -136,7 +136,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	}
 	self->pc_padding = 1;
 	// ft_printf("codage: %d\n", codage);
-	if (codage == 0x0 && duplicate_args(cur))
+	if (codage == 0x0 && /*duplicate_args(cur)*/cur->octal)
 	{
 		self->pc_padding++;
 		return (-1);
@@ -150,7 +150,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	}
 	else
 		self->pc_padding++;
-	if (self->id == 1 && I.cur_cycle > 5000)
+	if (self->id == 2 && I.cur_cycle > 4000)
 		ft_printf("");
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
@@ -232,7 +232,7 @@ void			perform_next_comm(t_car *self, t_vm *v)
 			return ;
 		}
 		// if (self->id == 34)
-	if (self->id == 1 && I.cur_cycle > 5000)
+	if (self->id == 2 && I.cur_cycle > 4000)
 			ft_printf("");
 		g_func_tab[self->cur_operation].f(self, v);
 		// i = 0;
