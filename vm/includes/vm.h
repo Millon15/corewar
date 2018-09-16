@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/15 08:39:42 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/16 20:01:00 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_operations		t_op;
 typedef struct s_carriage		t_car;
 typedef struct s_info			t_info;
 typedef struct s_curses			t_curses;
+typedef struct s_widgets		t_widgets;
 
 /*
 ** ncurses visualizer info
@@ -45,9 +46,10 @@ typedef struct s_curses			t_curses;
 # define SQSMALL_VAL				1
 # define CLEAR_LINE_PADD			20
 # define MW_ROW_LENGHT				64
+# define COLOR_AMMOUNT				(MAX_PLAYERS + 1)
 # define COMMON_HEIGHT				(MEM_SIZE / 64 + 4)
 # define START_MW_WIDTH				(64 * 3 + 7)
-# define START_IW_WIDTH				(START_MW_WIDTH / 2.5)
+# define START_IW_WIDTH				(START_MW_WIDTH / 3)
 # define START_CYCLES_PER_SEC		50
 # define START_ROW_MAIN				2
 # define START_ROW_INFO				2
@@ -58,7 +60,18 @@ typedef struct s_curses			t_curses;
 # define MAIN						2
 # define INFO						3
 # define COLOR_DARK					8
+# define COLOR_DARKEST				9
 # define COLOR_DELTA				10
+# define WIDGET_LENGTH				50
+
+struct				s_widgets
+{
+	int				totliv_in_cp;
+	int				totliv_in_lp;
+
+	int				pval[MAX_PLAYERS];
+	int				last_pval[MAX_PLAYERS];
+};
 
 struct				s_curses
 {
@@ -67,20 +80,23 @@ struct				s_curses
 	unsigned int	cycles_per_second;
 	clock_t			t;
 
+	WINDOW			*mainw;
+	WINDOW			*infow;
+
 	unsigned char	acolor[MEM_SIZE];
 	unsigned char	cbold[MEM_SIZE];
 
-	short			ccolors[MAX_PLAYERS + 1];
-	short			pcolors[MAX_PLAYERS + 1];
+	short			ccolors[COLOR_AMMOUNT];
+	short			pcolors[COLOR_AMMOUNT];
 
-	WINDOW			*mainw;
-	WINDOW			*infow;
+	t_widgets		w;
 };
 
 void				visualize_the_game(t_vm *v);
-void				print_one_cycle(t_vm *v, bool is_pass_cycle);
-void				print_info(t_vm *v);
 void				init_windows(t_vm *v);
+void				print_one_cycle(t_vm *v, bool is_pass_cycle);
+void				print_widgets(t_vm *v, int *row);
+void				print_info(t_vm *v);
 void				deinit_windows(t_vm *v);
 
 /*
@@ -88,7 +104,7 @@ void				deinit_windows(t_vm *v);
 */
 
 # define I			(v->info)
-# define PC_IND	(self->pc - v->arena)
+# define PC_IND		(self->pc - v->arena)
 
 struct				s_info
 {
