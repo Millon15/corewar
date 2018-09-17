@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 23:28:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/14 23:56:57 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/17 21:52:32 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void				print_arena(unsigned char *arena, unsigned char to_equate,
 	*arena = to_equate;
 	if (A.is_ncurses)
 	{
-		*(v->e->acolor + (arena - v->arena)) = v->e->pcolors[PL_IND(self)];
-		*(v->e->cbold + (arena - v->arena)) = START_CYCLES_PER_SEC;
+		v->e->acolor[arena - v->arena] = v->e->pcolors[PL_IND(self)];
+		v->e->cbold[arena - v->arena] = START_CYCLES_PER_SEC;
 	}
 }

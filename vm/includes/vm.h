@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/16 20:01:00 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/17 22:18:59 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_widgets		t_widgets;
 # define SQSMALL_VAL				1
 # define CLEAR_LINE_PADD			20
 # define MW_ROW_LENGHT				64
-# define COLOR_AMMOUNT				(MAX_PLAYERS + 1)
+# define COLOR_AMOUNT				(MAX_PLAYERS + 1)
 # define COMMON_HEIGHT				(MEM_SIZE / 64 + 4)
 # define START_MW_WIDTH				(64 * 3 + 7)
 # define START_IW_WIDTH				(START_MW_WIDTH / 3)
@@ -86,8 +86,8 @@ struct				s_curses
 	unsigned char	acolor[MEM_SIZE];
 	unsigned char	cbold[MEM_SIZE];
 
-	short			ccolors[COLOR_AMMOUNT];
-	short			pcolors[COLOR_AMMOUNT];
+	short			ccolors[COLOR_AMOUNT];
+	short			pcolors[COLOR_AMOUNT];
 
 	t_widgets		w;
 };

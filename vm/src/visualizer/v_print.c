@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   v_print.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/16 21:54:40 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/17 22:52:27 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,22 @@ static inline void		print_main(t_vm *v)
 {
 	int					row;
 	int					i;
-	int					prev_attrs;
 	int					attrs;
 
 	i = -1;
 	row = START_ROW_MAIN - 1;
-	prev_attrs = 0;
 	while (++i < MEM_SIZE)
 	{
 		if ((i % MW_ROW_LENGHT) == 0)
 			wmove(v->e->mainw, ++row, 4);
-		attrs = COLOR_PAIR(v->e->acolor[i]) | ((v->e->cbold[i] > 0)
-		? A_BOLD : 0);
-		if (attrs != prev_attrs)
-		{
-			wattroff(v->e->mainw, prev_attrs);
-			wattron(v->e->mainw, (prev_attrs = attrs));
-		}
-		wprintw(v->e->mainw, "%0.2x ", (A.is_stealth) ? 0xff : v->arena[i]);
+		attrs = COLOR_PAIR(v->e->acolor[i])
+		| ((v->e->cbold[i] > 0) ? A_BOLD : 0)
+		| ((v->e->cbold[i] > 50) ? A_UNDERLINE : 0);
+		wattron(v->e->mainw, attrs);
+		wprintw(v->e->mainw, "%0.2x", (A.is_stealth) ? 0xff : v->arena[i]);
+		wattroff(v->e->mainw, attrs);
+		waddch(v->e->mainw, ' ');
+		(v->e->cbold[i] == 50 && v->arena[i] == 1) ? (v->e->cbold[i] = 0) : 0;
 		(v->e->cbold[i] > 0) ? v->e->cbold[i]-- : false;
 	}
 	wattroff(v->e->mainw, attrs);

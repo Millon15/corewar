@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   live.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:10 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/15 19:25:03 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/17 22:46:28 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ void		live(t_car *self, t_vm *v)
 	{
 		if (self->arg_val[0] == v->player[i].name)
 		{
+			if (A.is_ncurses)
+				v->e->cbold[self->pc - v->arena] = 150;
 			P(i).is_alive = true;
 			P(i).points = I.cur_cycle;
 			P(i).lives_in_cp++;
+			break;
 		}
 	}
 	if (A.verbose_value & 4)

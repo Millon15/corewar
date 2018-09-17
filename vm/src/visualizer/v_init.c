@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   v_init.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/16 22:42:50 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/17 22:18:59 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static inline void		put_colors(t_vm *v)
 	sizeof(char) * MEM_SIZE);
 	ft_bzero(v->e->cbold, sizeof(char) * MEM_SIZE);
 	i = -1;
-	car = get_last_car(v);
+	car = get_last_car(v);   
 	while (++i < v->player_amount && car)
 	{
 		from = v->e->acolor + (car->pc - v->arena);
@@ -53,7 +53,7 @@ static inline void		init_colors(t_vm *v)
 	int				i;
 	int				j;
 	int				l;
-	const short		color_pairs[COLOR_AMMOUNT * 2] = {
+	const short		color_pairs[COLOR_AMOUNT * 2] = {
 		COLOR_GREEN, COLOR_BLACK,
 		COLOR_BLUE, COLOR_BLACK,
 		COLOR_RED, COLOR_BLACK,
@@ -64,7 +64,7 @@ static inline void		init_colors(t_vm *v)
 	i = -1;
 	l = 0;
 	j = COLOR_DELTA;
-	while (++i < COLOR_AMMOUNT)
+	while (++i < COLOR_AMOUNT)
 	{
 		v->e->ccolors[i] = j + COLOR_DELTA;
 		init_pair(v->e->ccolors[i], color_pairs[l + 1], color_pairs[l]);
