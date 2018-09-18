@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 06:41:40 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/18 15:32:57 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,7 @@ void				get_winner(t_vm *v);
 /*
 ** Operations functions
 */
+#define PUMPKIN			(res << (8 * i)) >> (8 * (size - 1))
 
 void				add(t_car *self, t_vm *v);
 void				aff(t_car *self, t_vm *v);

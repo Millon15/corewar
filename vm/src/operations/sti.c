@@ -6,12 +6,11 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 06:41:11 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/18 15:30:13 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
-#define PUMPKIN			(res << (8 * i)) >> (8 * (size - 1))
 
 static inline int		set_val_neg(t_car *self, t_vm *v, int arg_sum)
 {
