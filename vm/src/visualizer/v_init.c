@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 06:02:07 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/18 15:52:52 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,10 @@ void					init_windows(t_vm *v)
 	wattroff(N->infow, COLOR_PAIR(BORDER));
 	wattron(N->infow, COLOR_PAIR(INFO) | A_BOLD);
 	N->t = clock();
-	N->is_run = true;
-	N->cycpersec = SQMAX_VAL;
-	// N->is_run = false;
-	// N->cycles_per_second = START_CYCLES_PER_SEC;
+	// N->is_run = true;
+	// N->cycpersec = SQMAX_VAL;
+	N->is_run = false;
+	N->cycpersec = START_CYCLES_PER_SEC;
 	(A.vis_start_value) ? set_start_vis_cycle(v) : false;
 	refresh();
 	if (I.cycle_to_die > 0 && v->head)

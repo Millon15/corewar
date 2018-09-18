@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 15:50:43 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/18 15:57:21 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void		st(t_car *self, t_vm *v)
 	{
 		first_arg = (self->arg_val[1] > IDX_MOD) ?
 		self->arg_val[1] % IDX_MOD - IDX_MOD : self->arg_val[1];
-		pc_index = (first_arg > MEM_SIZE - PC_IND) ?
+		if (first_arg == IDX_MOD)
+			pc_index = PC_IND;
+		else
+			pc_index = (first_arg > MEM_SIZE - PC_IND) ?
 		(first_arg - MEM_SIZE - PC_IND) : first_arg + PC_IND;
 		while (++i < 4)
 			print_arena(v->arena +(pc_index + i) % MEM_SIZE, PUMPKIN, self, v);

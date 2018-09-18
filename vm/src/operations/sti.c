@@ -6,13 +6,13 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 15:49:10 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/18 19:35:52 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline int		set_val_neg(t_car *self, t_vm *v, int arg_sum)
+static inline int			set_val_neg(t_car *self, t_vm *v, int arg_sum)
 {
 	const unsigned int	res = self->reg[self->arg_val[0]];
 	const unsigned int	size = sizeof(res);
@@ -27,7 +27,7 @@ static inline int		set_val_neg(t_car *self, t_vm *v, int arg_sum)
 	return (module);
 }
 
-static inline int		set_val(t_car *self, t_vm *v, int arg_sum)
+static inline int			set_val(t_car *self, t_vm *v, int arg_sum)
 {
 	const unsigned int	res = self->reg[self->arg_val[0]];
 	const unsigned int	size = sizeof(res);
@@ -36,10 +36,31 @@ static inline int		set_val(t_car *self, t_vm *v, int arg_sum)
 	int					module;
 
 	arena = v->arena;
-	if (arg_sum > MEM_SIZE - PC_IND)
-		module = arg_sum - (MEM_SIZE - PC_IND);
-	else
-		module = arg_sum + PC_IND;
+	// if (arg_sum > MEM_SIZE - PC_IND)
+	// 	module = arg_sum - (MEM_SIZE - PC_IND);
+	// else
+	// 	module = arg_sum + PC_IND;
+	module = PC_IND + arg_sum % IDX_MOD;
+	i = -1;
+	while (++i < size)
+		print_arena(arena + (module + i) % MEM_SIZE, PUMPKIN, self, v);
+	return (module);
+}
+
+static inline unsigned int	set_uns_val(t_car *self, t_vm *v, unsigned int arg_sum)
+{
+	const unsigned int	res = self->reg[self->arg_val[0]];
+	const unsigned int	size = sizeof(res);
+	unsigned char		*arena;
+	int					i;
+	unsigned int		module;
+
+	arena = v->arena;
+	// if (arg_sum > MEM_SIZE - PC_IND)
+	// 	module = arg_sum - (MEM_SIZE - PC_IND);
+	// else
+	// 	module = arg_sum + PC_IND;
+	module = PC_IND + arg_sum % IDX_MOD;
 	i = -1;
 	while (++i < size)
 		print_arena(arena + (module + i) % MEM_SIZE, PUMPKIN, self, v);
@@ -50,14 +71,21 @@ void					sti(t_car *self, t_vm *v)
 {
 	unsigned char	*pc;
 	int				arg_sum;
+	unsigned int	u_arg_sum;
 	unsigned int	first_arg;
 	int				fa;
 	int				module;
 	unsigned int	sec_arg;
 	int				sa;
+	bool			fa_uint;
+	bool			sa_uint;
+	bool			as;
 
 	// if (self->id == 34)
 	// 	ft_printf("");
+	fa_uint = false;
+	sa_uint = false;
+	as = false;
 	if (self->args[1] == T_IND)
 	{
 		self->arg_val[1] %= IDX_MOD;
@@ -71,30 +99,75 @@ void					sti(t_car *self, t_vm *v)
 		first_arg = self->args[1] == T_REG ? self->reg[self->arg_val[1]] : self->arg_val[1];
 	if (first_arg >= IDX_MOD)
 	{
-		first_arg %= IDX_MOD;
-		// if (first_arg != IDX_MOD)		
-		fa = first_arg - IDX_MOD;
+		if (first_arg == IDX_MOD || first_arg % IDX_MOD == 0)
+			fa_uint = true;
+		else
+		{
+			first_arg %= IDX_MOD;
+			fa = first_arg - IDX_MOD;
+		}
 	}
 	else
 		fa = first_arg;
 	sec_arg = self->args[2] == T_REG ? self->reg[self->arg_val[2]] : self->arg_val[2];
 	if (sec_arg >= IDX_MOD)
 	{
-		sec_arg %= IDX_MOD;
-		// if (sec_arg != IDX_MOD)		
-		sa = sec_arg - IDX_MOD;
+		if (sec_arg == IDX_MOD || sec_arg % IDX_MOD == 0)
+			sa_uint = true;
+		else
+		{
+			sec_arg %= IDX_MOD;
+			sa = sec_arg - IDX_MOD;
+		}
 	}
 	else
 		sa = sec_arg;
-	arg_sum = fa + sa;
-	module = (arg_sum < 0) ? set_val_neg(self, v, arg_sum)
-	: set_val(self, v, arg_sum);
-	if (!module && !arg_sum)
+		if (fa_uint == true)
+	{
+		if (mod(sa) > first_arg && sa < 0)
+			as = true;
+		// if (first_arg + sa >= 0)
+		// 	u_arg_sum = (first_arg + sa) + PC_IND;
+		// else
+		// 	arg_sum = (first_arg + sa) + PC_IND;
+	}
+		
+	else if (sa_uint == true)
+	{
+		if (mod(fa) > sec_arg && fa < 0)
+			as = true;
+	}
+	else if (fa_uint == false && sa_uint == false)
+		as = true;
+	if (fa_uint == true && as == true)
+		arg_sum = first_arg + sa;
+	else if (fa_uint == true && as == false)
+		u_arg_sum = first_arg + sa;
+	else if (sa_uint == true && as == true)
+		arg_sum = fa + sec_arg;
+	else if (sa_uint == true && as == false)
+		u_arg_sum = fa + sec_arg;
+	else if (fa_uint == false && sa_uint == false)
+		arg_sum = fa + sa;
+	// arg_sum = fa + sa;
+	if ((as == true) && (arg_sum < 0))
+		module = set_val_neg(self, v, arg_sum);
+	else if ((as == true) && (arg_sum >= 0))
+		module = set_val(self, v, arg_sum);
+	else if (as == false)
+		module = set_uns_val(self, v, u_arg_sum);
+	// module = (arg_sum < 0) ? set_val_neg(self, v, arg_sum)
+	// : set_val(self, v, arg_sum);
+	if (!module && ((as == true && !arg_sum) || (as == false && !u_arg_sum)))
 		module = PC_IND;
 	if (A.verbose_value & 4)
 	{
-		ft_printf("P %4d | sti r%d %d %d\n", self->id, self->arg_val[0], fa, sa);
-		ft_printf("%8c -> store to %d + %d = %d (with pc and mod %d)\n", '|', fa, sa, arg_sum, module);
+		ft_printf("P %4d | sti r%d %d %d\n", self->id, self->arg_val[0], fa_uint == true ? first_arg : fa,
+		sa_uint == true ? sec_arg : sa);
+		if (as == false && module > MEM_SIZE)
+			module = ((module - PC_IND) % IDX_MOD) + PC_IND;
+		ft_printf("%8c -> store to %d + %d = %d (with pc and mod %d)\n", '|', fa_uint == true ? first_arg : fa,
+		sa_uint == true ? sec_arg : sa, as == false ? u_arg_sum : arg_sum, module);
 	}
 	// int i = arg_sum;
 	// ft_printf("STI_pc reg_value is: %0.2x\n", self->reg[self->arg_val[0]]);
