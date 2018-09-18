@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/12 02:41:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/16 21:40:53 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/18 05:11:03 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ static inline void		print_winner(t_vm *v)
 	const char	the_winner[] = "The winner is Player No ";
 
 	get_winner(v);
-	mvwprintw(v->e->infow, COMMON_HEIGHT - 8, ALIGN_CENTER(START_IW_WIDTH,
+	mvwprintw(N->infow, COMMON_HEIGHT - 8, ALIGN_CENTER(START_IW_WIDTH,
 	ft_strlen(press) + 1), "%s%d", the_winner, I.winner + 1);
-	wattroff(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
-	wattron(v->e->infow, COLOR_PAIR(v->e->pcolors[I.winner]) | A_BOLD);
-	mvwprintw(v->e->infow, COMMON_HEIGHT - 6, ALIGN_CENTER(START_IW_WIDTH,
+	wattroff(N->infow, COLOR_PAIR(INFO) | A_BOLD);
+	wattron(N->infow, COLOR_PAIR(N->pcolors[I.winner]) | A_BOLD);
+	mvwprintw(N->infow, COMMON_HEIGHT - 6, ALIGN_CENTER(START_IW_WIDTH,
 	ft_strlen(P(I.winner).prog_name)), "%s", P(I.winner).prog_name);
-	wattroff(v->e->infow, COLOR_PAIR(v->e->pcolors[I.winner]) | A_BOLD);
-	mvwprintw(v->e->infow, COMMON_HEIGHT - 10,
+	wattroff(N->infow, COLOR_PAIR(N->pcolors[I.winner]) | A_BOLD);
+	mvwprintw(N->infow, COMMON_HEIGHT - 10,
 	ALIGN_CENTER(START_IW_WIDTH, ft_strlen(press)), "%s", press);
-	wrefresh(v->e->infow);
+	wrefresh(N->infow);
 	while (getch() == ERR)
 		;
 }
@@ -35,12 +35,12 @@ static inline void		print_winner(t_vm *v)
 void					deinit_windows(t_vm *v)
 {
 	print_one_cycle(v, false);
-	if (v->e->c != EXIT_KEY)
+	if (N->c != EXIT_KEY)
 		print_winner(v);
 	else
-		wattroff(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
-	delwin(v->e->mainw);
-	delwin(v->e->infow);
+		wattroff(N->infow, COLOR_PAIR(INFO) | A_BOLD);
+	delwin(N->mainw);
+	delwin(N->infow);
 	endwin();
 	exit(0);
 }

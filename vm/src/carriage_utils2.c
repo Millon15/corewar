@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 23:28:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/17 21:52:32 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/18 06:30:57 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,40 +17,34 @@ int					mod(int x)
 	return (x >= 0 ? x : -x);
 }
 
-static inline bool	check_pcs(t_car *self, t_vm *v)
-{
-	t_car	*car;
+// static inline bool	check_pcs(t_car *self, t_vm *v)
+// {
+// 	t_car	*car;
 
-	car = v->head;
-	while (car)
-	{
-		if (car != self)
-			if (car->pc == self->pc)
-				return (false);
-		car = car->next;
-	}
-	return (true);
-}
+// 	car = v->head;
+// 	while (car)
+// 	{
+// 		if (car != self)
+// 			if (car->pc == self->pc)
+// 				return (false);
+// 		car = car->next;
+// 	}
+// 	return (true);
+// }
 
 void				move_pc(t_car *self, t_vm *v, unsigned int padding,
 	bool is_jump_car)
 {
-	unsigned char		*color_place;
-
 	if (A.is_ncurses)
-	{
-		color_place = v->e->acolor + PC_IND;
-		*color_place -= (*color_place >= v->e->ccolors[0] &&
-		check_pcs(self, v)) ? COLOR_DELTA : 0;
-	}
+		N->clr[PC_IND].main -=
+		(N->clr[PC_IND].main >= N->ccolors[0]) ? COLOR_DELTA : 0;
+		// check_pcs(self, v)) ? COLOR_DELTA : 0;
 	self->pc = (is_jump_car == false) ?
 	(v->arena + (PC_IND + padding) % MEM_SIZE) :
-	(v->arena + (padding) % MEM_SIZE);
+	(v->arena + padding % MEM_SIZE);
 	if (A.is_ncurses)
-	{
-		color_place = v->e->acolor + PC_IND;
-		*color_place += (*color_place < v->e->ccolors[0]) ? COLOR_DELTA : 0;
-	}
+		N->clr[PC_IND].main +=
+		(N->clr[PC_IND].main < N->ccolors[0]) ? COLOR_DELTA : 0;
 }
 
 void				print_arena(unsigned char *arena, unsigned char to_equate,
@@ -59,7 +53,7 @@ void				print_arena(unsigned char *arena, unsigned char to_equate,
 	*arena = to_equate;
 	if (A.is_ncurses)
 	{
-		v->e->acolor[arena - v->arena] = v->e->pcolors[PL_IND(self)];
-		v->e->cbold[arena - v->arena] = START_CYCLES_PER_SEC;
+		N->clr[arena - v->arena].main = N->pcolors[PL_IND(self)];
+		N->clr[arena - v->arena].bold = CLR_CYCTOWAIT;
 	}
 }

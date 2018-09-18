@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   live.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:10 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/17 22:46:28 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/18 06:51:44 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@ void		live(t_car *self, t_vm *v)
 	i = -1;
 	self->nb_lives++;
 	self->live_cycle = I.cur_cycle;
-	if (self->id == 34)
-		ft_printf("");
+	if (A.verbose_value & 4)
+		ft_printf("P %4d | live %d\n", self->id, self->arg_val[0]);
 	while (++i < v->player_amount)
 	{
 		if (self->arg_val[0] == v->player[i].name)
 		{
 			if (A.is_ncurses)
-				v->e->cbold[self->pc - v->arena] = 150;
+				N->clr[PC_IND].undrln = CLR_CYCTOWAIT;
 			P(i).is_alive = true;
 			P(i).points = I.cur_cycle;
 			P(i).lives_in_cp++;
+			if (A.verbose_value & 1)
+				ft_printf("Player %d (%s) is said to be alive\n", i + 1, P(i).prog_name);
 			break;
 		}
 	}
-	if (A.verbose_value & 4)
-		ft_printf("P %4d | live %d\n", self->id, self->arg_val[0]);
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/15 19:26:07 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/18 05:36:05 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 void			delete_this_car(t_car **car, t_vm *v)
 {
-	unsigned char		*color_place;
 	t_car				*next;
 
 	if (A.is_ncurses)
-	{
-		color_place = v->e->acolor + ((*car)->pc - v->arena);
-		*color_place -= (*color_place >= v->e->ccolors[0]) ? COLOR_DELTA : 0;
-	}
+		N->clr[(*car)->pc - v->arena].main -=
+		N->clr[(*car)->pc - v->arena].main >= N->ccolors[0] ? COLOR_DELTA : 0;
 	next = (*car)->next;
 	if ((*car)->next != NULL)
 		(*car)->next->prev = (*car)->prev;

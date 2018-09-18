@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   v_init.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/17 22:18:59 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/18 06:02:07 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,33 @@ static inline void		set_start_vis_cycle(t_vm *v)
 		pass_one_cycle(v);
 		i = -1;
 		while (++i < MEM_SIZE)
-			(v->e->cbold[i] > 0) ? v->e->cbold[i]-- : false;
+			(N->clr[i].bold > 0) ? N->clr[i].bold-- : false;
 	}
 }
 
 static inline void		put_colors(t_vm *v)
 {
 	int				i;
-	unsigned char	*from;
-	unsigned char	*to;
+	t_colors		*from;
+	t_colors		*to;
 	t_car			*car;
 
-	ft_memset(v->e->acolor, v->e->pcolors[MAX_PLAYERS],
-	sizeof(char) * MEM_SIZE);
-	ft_bzero(v->e->cbold, sizeof(char) * MEM_SIZE);
 	i = -1;
-	car = get_last_car(v);   
+	while (++i < MEM_SIZE)
+	{
+		N->clr[i].main = N->pcolors[MAX_PLAYERS];
+		N->clr[i].bold = 0;
+		N->clr[i].undrln = 0;
+	}
+	i = -1;
+	car = get_last_car(v);
 	while (++i < v->player_amount && car)
 	{
-		from = v->e->acolor + (car->pc - v->arena);
+		from = N->clr + (car->pc - v->arena);
 		to = from + P(i).prog_size;
-		*from = v->e->ccolors[i];
+		from->main = N->ccolors[i];
 		while (++from < to)
-			*from = v->e->pcolors[i];
+			from->main = N->pcolors[i];
 		car = car->prev;
 	}
 }
@@ -56,7 +60,7 @@ static inline void		init_colors(t_vm *v)
 	const short		color_pairs[COLOR_AMOUNT * 2] = {
 		COLOR_GREEN, COLOR_BLACK,
 		COLOR_BLUE, COLOR_BLACK,
-		COLOR_RED, COLOR_BLACK,
+		COLOR_YELLOW, COLOR_BLACK,
 		COLOR_CYAN, COLOR_BLACK,
 		COLOR_DARK, COLOR_BLACK
 	};
@@ -66,10 +70,10 @@ static inline void		init_colors(t_vm *v)
 	j = COLOR_DELTA;
 	while (++i < COLOR_AMOUNT)
 	{
-		v->e->ccolors[i] = j + COLOR_DELTA;
-		init_pair(v->e->ccolors[i], color_pairs[l + 1], color_pairs[l]);
-		v->e->pcolors[i] = j++;
-		init_pair(v->e->pcolors[i], color_pairs[l], color_pairs[l + 1]);
+		N->ccolors[i] = j + COLOR_DELTA;
+		init_pair(N->ccolors[i], color_pairs[l + 1], color_pairs[l]);
+		N->pcolors[i] = j++;
+		init_pair(N->pcolors[i], color_pairs[l], color_pairs[l + 1]);
 		l += 2;
 	}
 }
@@ -85,7 +89,7 @@ static inline void		init_visualizer(void)
 	use_default_colors();
 	start_color();
 	init_color(COLOR_DARK, 550, 550, 550);
-	init_color(COLOR_DARKEST, 750, 750, 750);
+	init_color(COLOR_DARKEST, 0, 0, 0);
 	init_pair(BORDER, COLOR_MAGENTA, COLOR_MAGENTA);
 	init_pair(MAIN, COLOR_WHITE, COLOR_BLACK);
 	init_pair(INFO, COLOR_WHITE, COLOR_BLACK);
@@ -93,27 +97,27 @@ static inline void		init_visualizer(void)
 
 void					init_windows(t_vm *v)
 {
-	v->e = (t_curses *)ft_memalloc(sizeof(t_curses));
-	ft_bzero(&v->e->w, sizeof(t_widgets));
+	N = (t_curses *)ft_memalloc(sizeof(t_curses));
+	ft_bzero(&N->w, sizeof(t_widgets));
 	init_visualizer();
 	init_colors(v);
 	put_colors(v);
-	v->e->mainw = newwin(COMMON_HEIGHT, START_MW_WIDTH, 0, 0);
-	wattron(v->e->mainw, COLOR_PAIR(BORDER));
-	wborder(v->e->mainw, BORDC, BORDC, BORDC, BORDC,
+	N->mainw = newwin(COMMON_HEIGHT, START_MW_WIDTH, 0, 0);
+	wattron(N->mainw, COLOR_PAIR(BORDER));
+	wborder(N->mainw, BORDC, BORDC, BORDC, BORDC,
 	BORDC, BORDC, BORDC, BORDC);
-	wattroff(v->e->mainw, COLOR_PAIR(BORDER));
-	v->e->infow = newwin(COMMON_HEIGHT, START_IW_WIDTH, 0, START_MW_WIDTH - 1);
-	wattron(v->e->infow, COLOR_PAIR(BORDER));
-	wborder(v->e->infow, BORDC, BORDC, BORDC, BORDC,
+	wattroff(N->mainw, COLOR_PAIR(BORDER));
+	N->infow = newwin(COMMON_HEIGHT, START_IW_WIDTH, 0, START_MW_WIDTH - 1);
+	wattron(N->infow, COLOR_PAIR(BORDER));
+	wborder(N->infow, BORDC, BORDC, BORDC, BORDC,
 	BORDC, BORDC, BORDC, BORDC);
-	wattroff(v->e->infow, COLOR_PAIR(BORDER));
-	wattron(v->e->infow, COLOR_PAIR(INFO) | A_BOLD);
-	v->e->t = clock();
-	v->e->is_run = true;
-	v->e->cycles_per_second = SQMAX_VAL;
-	// v->e->is_run = false;
-	// v->e->cycles_per_second = START_CYCLES_PER_SEC;
+	wattroff(N->infow, COLOR_PAIR(BORDER));
+	wattron(N->infow, COLOR_PAIR(INFO) | A_BOLD);
+	N->t = clock();
+	N->is_run = true;
+	N->cycpersec = SQMAX_VAL;
+	// N->is_run = false;
+	// N->cycles_per_second = START_CYCLES_PER_SEC;
 	(A.vis_start_value) ? set_start_vis_cycle(v) : false;
 	refresh();
 	if (I.cycle_to_die > 0 && v->head)

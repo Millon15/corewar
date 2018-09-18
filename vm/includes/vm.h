@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/17 22:18:59 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/18 06:41:40 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_operations		t_op;
 typedef struct s_carriage		t_car;
 typedef struct s_info			t_info;
 typedef struct s_curses			t_curses;
+typedef struct s_colors			t_colors;
 typedef struct s_widgets		t_widgets;
 
 /*
@@ -41,7 +42,7 @@ typedef struct s_widgets		t_widgets;
 # define RUN_QUICKER2				'e'
 
 # define BORDC						'*'
-# define SQMAX_VAL					500
+# define SQMAX_VAL					777
 # define SQBIG_VAL					10
 # define SQSMALL_VAL				1
 # define CLEAR_LINE_PADD			20
@@ -63,6 +64,9 @@ typedef struct s_widgets		t_widgets;
 # define COLOR_DARKEST				9
 # define COLOR_DELTA				10
 # define WIDGET_LENGTH				50
+# define CLR_CYCTOWAIT				50
+
+# define N			(v->ncurses)
 
 struct				s_widgets
 {
@@ -73,18 +77,24 @@ struct				s_widgets
 	int				last_pval[MAX_PLAYERS];
 };
 
+struct				s_colors
+{
+	unsigned char	main;
+	unsigned char	bold;
+	unsigned char	undrln;
+};
+
 struct				s_curses
 {
 	bool			is_run;
 	char			c;
-	unsigned int	cycles_per_second;
+	unsigned int	cycpersec;
 	clock_t			t;
 
 	WINDOW			*mainw;
 	WINDOW			*infow;
 
-	unsigned char	acolor[MEM_SIZE];
-	unsigned char	cbold[MEM_SIZE];
+	t_colors		clr[MEM_SIZE];
 
 	short			ccolors[COLOR_AMOUNT];
 	short			pcolors[COLOR_AMOUNT];
@@ -94,9 +104,9 @@ struct				s_curses
 
 void				visualize_the_game(t_vm *v);
 void				init_windows(t_vm *v);
-void				print_one_cycle(t_vm *v, bool is_pass_cycle);
+void				print_one_cycle(t_vm *v, const bool is_pass_cycle);
 void				print_widgets(t_vm *v, int *row);
-void				print_info(t_vm *v);
+void				print_info(t_vm *v, const bool is_print_full_info);
 void				deinit_windows(t_vm *v);
 
 /*
@@ -220,7 +230,7 @@ struct				s_corewar
 	unsigned char	arena[MEM_SIZE];
 
 	t_car			*head;
-	t_curses		*e;
+	t_curses		*ncurses;
 
 	t_args			args;
 	t_info			info;

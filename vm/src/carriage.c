@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/16 22:48:18 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/18 06:41:06 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 			padding = 1;
 		else if (pass_arg_if_invalid(self, cur, v, 0))
 			return (-1);
-		self->arg_val[i] = get_raw_num(v->arena + ((self->pc - v->arena) + self->pc_padding + pc_padding) % MEM_SIZE, padding, v);
+		self->arg_val[i] = get_raw_num(v->arena + (PC_IND + self->pc_padding + pc_padding) % MEM_SIZE, padding, v);
 		if (self->args[i] == T_REG && self->arg_val[i] > 16)
 			inv_arg_fl = true;
 		pc_padding += padding;
@@ -125,8 +125,8 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 
 	i = 0;
 	// if (self->id == 34/* && ft_strequ(cur->name, "live")*/)
-	if (self->id == 2 && I.cur_cycle > 4000)
-		ft_printf("");
+	// if (self->id == 2 && I.cur_cycle > 4000)
+	// 	ft_printf("");
 	if (!(MEM_SIZE - (PC_IND)))
 		codage = (cur->octal) ? (*v->arena >> 2) : 0;
 	else
@@ -150,8 +150,8 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	}
 	else
 		self->pc_padding++;
-	if (self->id == 2 && I.cur_cycle > 4000)
-		ft_printf("");
+	// if (self->id == 2 && I.cur_cycle > 4000)
+	// 	ft_printf("");
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
 
@@ -232,8 +232,8 @@ void			perform_next_comm(t_car *self, t_vm *v)
 			return ;
 		}
 		// if (self->id == 34)
-	if (self->id == 2 && I.cur_cycle > 4000)
-			ft_printf("");
+		// if (self->id == 2 && I.cur_cycle > 4000)
+		// 	ft_printf("");
 		g_func_tab[self->cur_operation].f(self, v);
 		// i = 0;
 		// ft_putstr("-------------------------------------->\nOur pc is: \n");
