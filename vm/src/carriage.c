@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 19:46:37 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 21:08:14 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 		else if (pass_arg_if_invalid(self, cur, v, 0))
 			return (-1);
 		self->arg_val[i] = get_raw_num(v->arena + (PC_IND + self->pc_padding + pc_padding) % MEM_SIZE, padding, v);
-		if (self->args[i] == T_REG && self->arg_val[i] > 16)
+		if (self->args[i] == T_REG && (self->arg_val[i] > 16 || self->arg_val[i] < 1))
 			inv_arg_fl = true;
 		pc_padding += padding;
 	}
@@ -125,7 +125,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 
 	i = 0;
 	// if (self->id == 34/* && ft_strequ(cur->name, "live")*/)
-	if (self->id == 50)
+	if (self->id == 1016 && I.cur_cycle > 8000)
 		ft_printf("");
 	if (!(MEM_SIZE - (PC_IND)))
 		codage = (cur->octal) ? (*v->arena >> 2) : 0;
@@ -150,7 +150,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	}
 	else
 		self->pc_padding++;
-	if (self->id == 50)
+	if (self->id == 1016 && I.cur_cycle > 8000)
 		ft_printf("");
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
@@ -231,7 +231,7 @@ void			perform_next_comm(t_car *self, t_vm *v)
 			self->cycles_to_wait = -1;
 			return ;
 		}
-		if (self->id == 50)
+		if (self->id == 1016 && I.cur_cycle > 8000)
 			ft_printf("");
 		// if (self->id == 34)
 		// if (self->id == 2 && I.cur_cycle > 4000)

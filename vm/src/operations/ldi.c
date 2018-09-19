@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 17:29:58 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 18:52:41 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,28 @@ void			ldi(t_car *self, t_vm *v)
 	else if (fa_uint == false && sa_uint == false)
 		as = true;
 	if (fa_uint == true && as == true)
-		arg_sum = first_arg + sa + PC_IND;
+		arg_sum = first_arg + sa;
 	else if (fa_uint == true && as == false)
-		u_arg_sum = first_arg + sa + PC_IND;
+		u_arg_sum = first_arg + sa;
 	else if (sa_uint == true && as == true)
-		arg_sum = fa + sec_arg + PC_IND;
+		arg_sum = fa + sec_arg;
 	else if (sa_uint == true && as == false)
-		u_arg_sum = fa + sec_arg + PC_IND;
+		u_arg_sum = fa + sec_arg;
 	else if (fa_uint == false && sa_uint == false)
-		arg_sum = fa + sa + PC_IND;						//(fa + sa) % IDX_MOD??
+		arg_sum = fa + sa;						//(fa + sa) % IDX_MOD??
 	// arg_sum = fa + sa;
 	// arg_sum += PC_IND;
-	// arg_sum %= IDX_MOD;
+	if (as == false/* && u_arg_sum + PC_IND > MEM_SIZE*/)
+	{
+		u_arg_sum %= IDX_MOD;
+		u_arg_sum += PC_IND;
+	}
+	else if (as == true)
+	{
+		// if (arg_sum + PC_IND > MEM_SIZE)
+			arg_sum %= IDX_MOD;
+		arg_sum += PC_IND;
+	}
 	if ((as == true) && (arg_sum < 0))
 		pc = &v->arena[MEM_SIZE - mod(arg_sum) % MEM_SIZE];
 	else if ((as == true) && (arg_sum >= 0))
@@ -109,8 +119,8 @@ void			ldi(t_car *self, t_vm *v)
 	{
 		ft_printf("P %4d | ldi %d %d r%d\n", self->id, fa_uint == true ? first_arg : fa,
 		sa_uint == true ? sec_arg : sa, self->arg_val[2]);
-		if (as == false && u_arg_sum > MEM_SIZE)
-			u_arg_sum = ((u_arg_sum - PC_IND) % IDX_MOD) + PC_IND;
+		// if (as == false && u_arg_sum > MEM_SIZE)
+		// 	u_arg_sum = ((u_arg_sum - PC_IND) % IDX_MOD) + PC_IND;
 		ft_printf("%8c -> load from %d + %d = %d (with pc and mod %d)\n", '|',
 		fa_uint == true ? first_arg : fa, sa_uint == true ? sec_arg : sa,
 		(fa_uint == true ? first_arg : fa) + (sa_uint == true ? sec_arg : sa),

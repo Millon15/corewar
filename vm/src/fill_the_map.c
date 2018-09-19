@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/14 04:59:41 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 20:59:26 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void		fill_players(t_vm *v)
 	{
 		P(i).name = UINT_MAX - i;
 		P(i).lives_in_cp = 0;
+		P(i).lives_in_cp_sum = 0;
 		P(i).points = 0;
 		P(i).magic = read_raw_num(P(i).fd, sizeof(int));
 		if (P(i).magic != COREWAR_EXEC_MAGIC)

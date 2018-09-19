@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/15 19:28:10 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 19:06:51 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,25 @@ void					pass_one_cycle(t_vm *v)
 	!(A.verbose_value & 2) ? ++I.cur_cycle :
 	ft_printf("It is now cycle %d\n", ++I.cur_cycle);
 	last_check++;
-	// if (I.cur_cycle == 25935 || I.cur_cycle == 25974)
-	// 	ft_printf("");
+	if (I.cur_cycle == 24367 || I.cur_cycle == 25974)
+		ft_printf("");
 	cur_car = v->head;
 	while (cur_car)
 	{
+		if ((I.cur_cycle == 24367) && (cur_car->id == 4450 || cur_car->id == 4449 || cur_car->id == 4448 || cur_car->id == 4447 || cur_car->id == 4446))
+			ft_printf("");
 		perform_next_comm(cur_car, v);
 		cur_car = cur_car->next;
 	}
-	if (last_check == I.cycle_to_die)
+	if (I.cur_cycle == 24367 || I.cur_cycle == 25974)
+		ft_printf("");
+	if (last_check == I.cycle_to_die || I.cycle_to_die < 0)
 	{
 		kill_process(&last_check, v);
 		if (nbr_live_exec(v->head) || I.cycle_to_delta <= I.cur_cycle)
 		{
 			I.cycle_to_die -= CYCLE_DELTA;
-			if (A.verbose_value & 2)
+			if (A.verbose_value & 2 && v->head)
 				ft_printf("Cycle to die is now %d\n", I.cycle_to_die);
 			I.cycle_to_delta = I.cur_cycle + I.cycle_to_die * MAX_CHECKS;
 		}
@@ -76,12 +80,12 @@ static inline void		play_the_game(t_vm *v)
 	start_the_game(v);
 	if (A.is_dump)
 	{
-		while (I.cycle_to_die > 0 && v->head && A.dump_value == I.cur_cycle)
+		while (I.cycle_to_die > 0 && v->head && A.dump_value != I.cur_cycle)
 			pass_one_cycle(v);
 		dump_printer(v->arena, MEM_SIZE);
 	}
 	else
-		while (I.cycle_to_die > 0 && v->head)
+		while (v->head)
 			pass_one_cycle(v);
 }
 

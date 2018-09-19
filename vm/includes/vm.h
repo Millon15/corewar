@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 15:49:34 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 20:59:03 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ struct				s_player
 	unsigned int	magic;
 	unsigned int	points;
 	unsigned int	prog_size;
+	unsigned int	lives_in_cp_sum;
 
 	char			*filename;
 	char			prog_name[PROG_NAME_LENGTH + 1];

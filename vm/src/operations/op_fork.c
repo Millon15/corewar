@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/14 23:36:58 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 19:35:59 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ void		op_fork(t_car *self, t_vm *v)
 		if (arg >= IDX_MOD / 2)
 			arg -= IDX_MOD;
 		pc = (mod(arg) > PC_IND) ? 
-		v->arena + (MEM_SIZE + arg + PC_IND)
-		: v->arena + (PC_IND + arg);
+		v->arena + (MEM_SIZE + arg + PC_IND) % MEM_SIZE
+		: v->arena + (PC_IND + arg) % MEM_SIZE;
 	}
 	else
 		pc = (arg > to_subtract) ?
-		v->arena + (arg - to_subtract)
+		v->arena + (arg - to_subtract) % MEM_SIZE
 		: self->pc + arg;
 	if (A.verbose_value & 4)
-		arg > 0 ? ft_printf("P %4d | fork %d (%d)\n", self->id, self->arg_val[0], pc - v->arena)
-		: ft_printf("P %4d | fork %d (%d)\n", self->id, pc - self->pc, pc - v->arena);
+		arg > 0 ? ft_printf("P %4d | fork %d (%d)\n", self->id, self->arg_val[0], (pc - v->arena) % MEM_SIZE)
+		: ft_printf("P %4d | fork %d (%d)\n", self->id, pc - self->pc, (pc - v->arena) % MEM_SIZE);
 	copy_car(self, v, pc);
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;

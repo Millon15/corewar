@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 21:53:27 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 05:59:58 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 20:40:57 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static bool				quicker_slower(t_vm *v)
 void					visualize_the_game(t_vm *v)
 {
 	init_windows(v);
-	while ((N->c = getch()) != EXIT_KEY && I.cycle_to_die > 0 && v->head)
+	while ((N->c = getch()) != EXIT_KEY && v->head)
 	{
 		if (N->c == RUN)
 		{
