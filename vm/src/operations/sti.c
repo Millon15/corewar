@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/20 13:23:10 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/20 17:29:39 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,10 @@ static inline unsigned int	set_uns_val(t_car *self, t_vm *v, unsigned int arg_su
 
 bool						is_four_bytes(t_vm *v, unsigned int val)
 {
-	int				i;
 	unsigned int	res;
 
-	i = 1;
-	res = val;
-	while (res /= 256)
-		i++;
-	return (i == 4 ? true : false);
+	res = val >> 6;
+	return ((val >> 6) < 255 ? false : true);
 }
 
 void					sti(t_car *self, t_vm *v)
@@ -94,7 +90,7 @@ void					sti(t_car *self, t_vm *v)
 	bool				as;
 	const unsigned int	space_to_end = MEM_SIZE - PC_IND;
 
-	if (self->id == 19)
+	if (self->id == 19 && I.cur_cycle > 2500)
 		ft_printf("");
 	fa_uint = false;
 	sa_uint = false;
@@ -117,10 +113,14 @@ void					sti(t_car *self, t_vm *v)
 		// // 	fa_uint = true;
 		// if (first_arg == IDX_MOD || first_arg % IDX_MOD == 0/* || first_arg % IDX_MOD == 256*/) //if first_arg % MEM_SIZE < MEM_SIZE / 2 => fa_uint = true, else false;
 		// 	fa_uint = true;
-		if ((first_arg == IDX_MOD || first_arg % IDX_MOD == 0 || first_arg % MEM_SIZE == 0 || first_arg % IDX_MOD == first_arg % MEM_SIZE
-		|| (first_arg % IDX_MOD) % (first_arg % MEM_SIZE) == 0 || (first_arg % MEM_SIZE) % (first_arg % IDX_MOD) == 0) && (self->args[1] != T_REG))			//dikie kostyli
+		if (first_arg == IDX_MOD
+		|| first_arg % IDX_MOD == 0
+		|| first_arg % MEM_SIZE == 0)
+		/*|| first_arg % IDX_MOD == first_arg % MEM_SIZE
+		|| ((first_arg % IDX_MOD) % (first_arg % MEM_SIZE)) == 0
+		|| ((first_arg % MEM_SIZE) % (first_arg % IDX_MOD)) == 0) && (self->args[1] != T_REG)*/			//dikie kostyli
 			fa_uint = true;
-		else if (!is_four_bytes(v, first_arg) && self->args[1] == T_REG)
+		else if (((first_arg >> 24) < 255) && self->args[1] == T_REG)
 			fa_uint = true;
 		else
 			fa = first_arg % IDX_MOD - IDX_MOD;
@@ -130,14 +130,12 @@ void					sti(t_car *self, t_vm *v)
 	sec_arg = self->args[2] == T_REG ? self->reg[self->arg_val[2]] : self->arg_val[2];
 	if (sec_arg >= IDX_MOD)
 	{
-		// if (sec_arg % IDX_MOD == 256/* && first_arg % MEM_SIZE > space_to_end*/)
-		// 	ft_printf("");
 		// if (sec_arg % IDX_MOD == 256 && sec_arg % MEM_SIZE > space_to_end)
 		// 	sa_uint = true;
 		if ((sec_arg == IDX_MOD || sec_arg % IDX_MOD == 0 || sec_arg % MEM_SIZE == 0 || sec_arg % IDX_MOD == sec_arg % MEM_SIZE
-		|| (sec_arg % IDX_MOD) % (sec_arg % MEM_SIZE) == 0 || (sec_arg % MEM_SIZE) % (sec_arg % IDX_MOD) == 0) && (self->args[2] != T_REG))			//dikie kostyli
+		|| ((sec_arg % IDX_MOD) % (sec_arg % MEM_SIZE)) == 0 || ((sec_arg % MEM_SIZE) % (sec_arg % IDX_MOD)) == 0)/* && (self->args[2] != T_REG)*/)			//dikie kostyli
 			sa_uint = true;
-		else if (!is_four_bytes(v, sec_arg) && self->args[2] == T_REG)
+		else if (((sec_arg >> 24) < 255) && self->args[1] == T_REG)
 			sa_uint = true;
 		else
 			sa = sec_arg % IDX_MOD - IDX_MOD;

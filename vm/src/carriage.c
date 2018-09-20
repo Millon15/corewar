@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/20 12:04:37 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/20 22:05:26 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	int						i;
 
 	i = 0;
-	if (self->id == 1694 && I.cur_cycle > 12000)
+	if (self->id == 369 && I.cur_cycle > 17500)
 		ft_printf("");
 	if (!(MEM_SIZE - (PC_IND)))
 		codage = (cur->octal) ? (*v->arena >> 2) : 0;
@@ -122,7 +122,7 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 			self->args[i] = cur->args[i];
 		return (vnp_args(self, cur, v));
 	}
-	if (self->id == 1694 && I.cur_cycle > 12000)
+	if (self->id == 369 && I.cur_cycle > 17500)
 		ft_printf("");
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
@@ -166,7 +166,7 @@ void			perform_next_comm(t_car *self, t_vm *v)
 			self->cycles_to_wait = -1;
 			return ;
 		}
-		if (self->id == 1694 && I.cur_cycle > 12000)
+		if (self->id == 369 && I.cur_cycle > 17500)
 			ft_printf("");
 		g_func_tab[self->cur_operation].f(self, v);
 		ft_bzero(&self->args, sizeof(self->args));

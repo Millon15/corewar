@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:41 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/20 03:23:57 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/20 21:35:43 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,16 @@ void		lfork(t_car *self, t_vm *v)
 
 	if (self->id == 27)
 		ft_printf("");
-	argv_nil = (self->arg_val[0] > MEM_SIZE) ? self->arg_val[0] % MEM_SIZE : self->arg_val[0];
+	if ((self->arg_val[0] > MEM_SIZE && self->arg_val[0] % IDX_MOD == self->arg_val[0] % MEM_SIZE)
+	|| (self->arg_val[0] <= MEM_SIZE))
+		argv_nil = self->arg_val[0];
+	else if (self->arg_val[0] > MEM_SIZE)
+		argv_nil = self->arg_val[0] % MEM_SIZE;
+	// argv_nil = (self->arg_val[0] > MEM_SIZE) ? self->arg_val[0] % MEM_SIZE : self->arg_val[0];
 	pc = (argv_nil > space_to_end) ?
 	v->arena + (argv_nil - space_to_end) % MEM_SIZE
 	: self->pc + argv_nil;
-	if (argv_nil > space_to_end)
+	if (argv_nil > space_to_end && self->arg_val[0] % IDX_MOD != self->arg_val[0] % MEM_SIZE)
 		argv_nil -= MEM_SIZE;
 	if (A.verbose_value & 4)
 		self->arg_val[0] > MEM_SIZE ? ft_printf("P %4d | lfork %d (%d)\n", self->id, argv_nil, PC_IND + argv_nil)

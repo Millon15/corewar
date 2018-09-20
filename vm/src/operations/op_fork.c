@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/20 12:46:21 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/20 21:29:29 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void		op_fork(t_car *self, t_vm *v)
 	if (self->arg_val[0] >= IDX_MOD)
 	{
 		// if (arg >= IDX_MOD / 2)
-		if (self->arg_val[0] > MEM_SIZE && arg && self->arg_val[0] % arg)
+		if (self->arg_val[0] > MEM_SIZE && arg && self->arg_val[0] % arg) // or self->arg_val[0] % IDX_MOD, (which is arg) == self->arg_val[0] % MEM_SIZE
 			arg -= IDX_MOD;
 		pc = (mod(arg) > PC_IND) ? 
 		v->arena + (MEM_SIZE + arg + PC_IND) % MEM_SIZE

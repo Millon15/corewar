@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/20 11:59:17 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/20 21:23:08 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,18 @@ void		st(t_car *self, t_vm *v)
 	const unsigned int	space_to_end = MEM_SIZE - PC_IND;
 
 	i = -1;
-	if (I.cur_cycle > 12000)
+	if (self->id == 6211 && I.cur_cycle > 13000)
 		ft_printf("");
 	// first_arg = res % IDX_MOD;
 	if (self->args[1] == T_IND)
 	{
 		if (self->arg_val[1] > IDX_MOD && self->arg_val[1] % IDX_MOD == 0)
+			first_arg = 0;
+		else if ((self->arg_val[1] > IDX_MOD && self->arg_val[1] > MEM_SIZE && self->arg_val[1] <= MEM_SIZE * 2))
 		{
 			// if (res > IDX_MOD && res % first_arg == 0) //or self->arg_val[1] % fa == 0??
-				first_arg = self->arg_val[1];
-		}
+			first_arg = self->arg_val[1];
+		}		
 		else
 		// if (self->arg_val[1] % IDX_MOD != 0)
 		{
@@ -49,6 +51,8 @@ void		st(t_car *self, t_vm *v)
 		while (++i < 4)
 			print_arena(v->arena +(pc_index + i) % MEM_SIZE, PUMPKIN, self, v);
 			// v->arena[(pc_index + ind) % MEM_SIZE] = PUMPKIN;
+		if (self->arg_val[1] > IDX_MOD && self->arg_val[1] % IDX_MOD == 0)
+			first_arg = self->arg_val[1];
 	}
 	else if (self->args[1] == T_REG)
 		self->reg[self->arg_val[1]] = res;
