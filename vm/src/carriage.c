@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/19 21:08:14 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/20 12:04:37 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ static bool		pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v, int n)
 			padding = 2;
 		else if (self->args[i] == T_REG)
 			padding = 1;
+		else
+			padding = 0;
 		self->pc_padding += padding;		
 	}
 	return (true);
@@ -92,30 +94,9 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 	}
 	self->pc_padding += pc_padding;
 	if (inv_arg_fl == true)
-		// move_pc(self, v, self->pc_padding, false);
 		return (-1);
-	// i = -1;
-	// while (++i < cur->nb_arg)
-	// 	ft_printf("%dL: %0.2x\n", i, self->arg_val[i]);
-	// ft_printf("!!!self->arg_val[%d] :%0.2x!!!, self->pc_padding: %d\n", i- 1, self->arg_val[i - 1], self->pc_padding);	
 	return (0);
 }
-
-// int				duplicate_args(const t_op *cur)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (i < 3)
-// 	{
-// 		if (cur->args[i] == (T_DIR | T_IND) ||
-// 		cur->args[i] == (T_REG | T_IND) || cur->args[i] == (T_IND | T_DIR)
-// 		|| cur->args[i] == (T_REG | T_IND | T_DIR))
-// 			return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 {
@@ -124,61 +105,41 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	int						i;
 
 	i = 0;
-	// if (self->id == 34/* && ft_strequ(cur->name, "live")*/)
-	if (self->id == 1016 && I.cur_cycle > 8000)
+	if (self->id == 1694 && I.cur_cycle > 12000)
 		ft_printf("");
 	if (!(MEM_SIZE - (PC_IND)))
 		codage = (cur->octal) ? (*v->arena >> 2) : 0;
 	else
-	{
 		codage = (cur->octal) ? (*(self->pc + 1) >> 2) : 0;
-		// ft_printf("*(self->pc + 1) %0.2x: ", *(self->pc + 1));
-	}
-	self->pc_padding = 1;
-	// ft_printf("codage: %d\n", codage);
-	if (codage == 0x0 && /*duplicate_args(cur)*/cur->octal)
-	{
-		self->pc_padding++;
+	self->pc_padding = 2;
+	if (codage == 0x0 && cur->octal)
 		return (-1);
-	}
 	else if (codage == 0x0)
 	{
 		i = -1;
+		self->pc_padding--;
 		while (++i < cur->nb_arg)
 			self->args[i] = cur->args[i];
 		return (vnp_args(self, cur, v));
 	}
-	else
-		self->pc_padding++;
-	if (self->id == 1016 && I.cur_cycle > 8000)
+	if (self->id == 1694 && I.cur_cycle > 12000)
 		ft_printf("");
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
-
-	// i = 0;
-	// ft_putstr("-------------------------------------->\nOur pc is: \n");
-	// while (i < 10)
-	// 	ft_printf("%0.2x ", self->pc[i++]);
-	// ft_putchar('\n');
-	// ft_putstr("The end of our pc\n-------------------------------------->\n");
-
 	i = -1;
-	while (++i < 3 /*&& cod[i] != 0x0*/)
+	while (++i < 3)
 	{
-		// ft_printf("cod[%d] : %0.2d\n", i, cod[i]);
 		if ((cod[i] & IND_CODE) == IND_CODE)
 			self->args[i] = T_IND;
 		else if ((cod[i] & DIR_CODE) == DIR_CODE)
 			self->args[i] = T_DIR;
 		else if ((cod[i] & REG_CODE) == REG_CODE)
 			self->args[i] = T_REG;
-		// else
-		// 	return (-1);
 	}
 	i = -1;
 	while (cod[++i] != 0x0)
 		;
-	if (i != cur->nb_arg)
+	if (i < cur->nb_arg)
 		return (-1 * pass_arg_if_invalid(self, cur, v, i));
 	return (vnp_args(self, cur, v));
 }
@@ -192,35 +153,9 @@ void			perform_next_comm(t_car *self, t_vm *v)
 	}
 	while (self->cycles_to_wait < 0 && ++self->cur_operation < REG_NUMBER)
 		if (g_func_tab[self->cur_operation].opcode == *self->pc)
-		{
 			self->cycles_to_wait = g_func_tab[self->cur_operation].cycles;
-			// if (self->id == 16)
-			// 	ft_printf("");
-		}
-	// if (self->cur_operation >= REG_NUMBER || *self->pc == 0)
-	// {
-	// 	move_pc(self, v, 1, false);
-	// 	self->cur_operation = -1;
-	// 	self->cycles_to_wait = -1;
-	// 	return ;
-	// }
 	if (--self->cycles_to_wait == 0)
 	{
-
-		// if (I.cur_cycle == 2754)
-		// {
-		// 	dprintf(fd, "oper name: %s\n", g_func_tab[self->cur_operation].name);
-		// 	dprintf(fd, "cycles num: %d\n", g_func_tab[self->cur_operation].cycles);
-		// }
-		// dprintf(fd, "cur_car: %p |s I.cur_cycle: %u\n", self->prev, I.cur_cycle);
-
-		// int i = 0;
-		// ft_putstr("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>\nOur pc is: \n");
-		// while (i < 20)
-		// 	ft_printf("%0.2x ", self->pc[i++]);
-		// ft_putchar('\n');
-		// ft_putstr("The end of our pc\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>\n");
-		// ft_printf("oper name: %s\n", g_func_tab[self->cur_operation].name);
 		if (vnp_codage(self, &g_func_tab[self->cur_operation], v) < 0)
 		{
 			move_pc(self, v, self->pc_padding, false);
@@ -231,18 +166,9 @@ void			perform_next_comm(t_car *self, t_vm *v)
 			self->cycles_to_wait = -1;
 			return ;
 		}
-		if (self->id == 1016 && I.cur_cycle > 8000)
+		if (self->id == 1694 && I.cur_cycle > 12000)
 			ft_printf("");
-		// if (self->id == 34)
-		// if (self->id == 2 && I.cur_cycle > 4000)
-		// 	ft_printf("");
 		g_func_tab[self->cur_operation].f(self, v);
-		// i = 0;
-		// ft_putstr("-------------------------------------->\nOur pc is: \n");
-		// while (i < 20)
-		// 	ft_printf("%0.2x ", self->pc[i++]);
-		// ft_putchar('\n')-;
-		// ft_putstr("The end of our pc\n-------------------------------------->\n");
 		ft_bzero(&self->args, sizeof(self->args));
 		ft_bzero(&self->arg_val, sizeof(self->arg_val));
 		self->cur_operation = -1;

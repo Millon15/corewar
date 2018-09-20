@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/19 19:35:59 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/20 12:46:21 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		op_fork(t_car *self, t_vm *v)
 {
-	const int		to_subtract = MEM_SIZE - PC_IND;
+	const int		space_to_end = MEM_SIZE - PC_IND;
 	unsigned char	*pc;
 	t_car			tmp;
 	int				arg;
@@ -22,15 +22,16 @@ void		op_fork(t_car *self, t_vm *v)
 	arg = self->arg_val[0] % IDX_MOD;
 	if (self->arg_val[0] >= IDX_MOD)
 	{
-		if (arg >= IDX_MOD / 2)
+		// if (arg >= IDX_MOD / 2)
+		if (self->arg_val[0] > MEM_SIZE && arg && self->arg_val[0] % arg)
 			arg -= IDX_MOD;
 		pc = (mod(arg) > PC_IND) ? 
 		v->arena + (MEM_SIZE + arg + PC_IND) % MEM_SIZE
 		: v->arena + (PC_IND + arg) % MEM_SIZE;
 	}
 	else
-		pc = (arg > to_subtract) ?
-		v->arena + (arg - to_subtract) % MEM_SIZE
+		pc = (arg > space_to_end) ?
+		v->arena + (arg - space_to_end) % MEM_SIZE
 		: self->pc + arg;
 	if (A.verbose_value & 4)
 		arg > 0 ? ft_printf("P %4d | fork %d (%d)\n", self->id, self->arg_val[0], (pc - v->arena) % MEM_SIZE)

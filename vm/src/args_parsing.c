@@ -3,48 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   args_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/19 22:10:23 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/19 23:25:55 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline void		open_one_file(char *av, int np, t_vm *v)
+static inline void		open_one_file(char **av, t_vm *v, int i)
 {
-	// (av[i] == NULL) ? put_usage(4) : false;
-	if ((v->player[np].fd = open(av, O_RDONLY)) == -1)
-		put_error(0, av, 0, 0);
-	v->player[np].filename = av;
+	(av[i] == NULL) ? put_usage(4) : false;
+	if ((v->player[v->player_amount].fd = open(av[i], O_RDONLY)) == -1)
+		put_error(0, av[i], 0, 0);
+	v->player[v->player_amount].filename = av[i];
 	(++v->player_amount > MAX_PLAYERS) ? put_usage(3) : false;
 }
 
 static inline void		open_files(int ac, char **av, t_vm *v, int i)
 {
-	int np;
-
-	if (ft_strequ(av[i], "-n"))
+	while (i < ac)
 	{
-		if (!av[i + 1] || !av[i + 2] || (np = ft_atoi(av[i + 1])) > MAX_PLAYERS
-		|| np < 1 || v->player[np - 1].fd != 0)
-			put_usage(5);
-		open_one_file(av[i + 2], np - 1, v);
+		open_one_file(av, v, i++);
 	}
-	else
-	{
-		np = 0;
-		while (np < MAX_PLAYERS)
-			if (v->player[np].fd != 0)
-				np++;
-		open_one_file(av[i], np, v);
-	}
-	// while (i < ac)
-	// {
-	// 	open_one_file(av, v, i++);
-	// }
-	// (v->player_amount <= 0) ? put_usage(4) : false;
+	(v->player_amount <= 0) ? put_usage(4) : false;
 }
 
 inline void				check_and_obtain_args(int ac, char **av, t_vm *v)
@@ -77,6 +60,7 @@ inline void				check_and_obtain_args(int ac, char **av, t_vm *v)
 		else if (ft_strequ(av[i], "--stealth"))
 			A.is_stealth = true;
 		else
-			open_files(ac, av, v, i);
+			break ;
 	}
+	open_files(ac, av, v, i);
 }

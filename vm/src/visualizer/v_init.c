@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 15:52:52 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 23:45:22 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static inline void		init_visualizer(void)
 	start_color();
 	init_color(COLOR_DARK, 550, 550, 550);
 	init_color(COLOR_DARKEST, 0, 0, 0);
-	init_pair(BORDER, COLOR_MAGENTA, COLOR_MAGENTA);
+	init_pair(BORDER, COLOR_YELLOW, COLOR_YELLOW);
 	init_pair(MAIN, COLOR_WHITE, COLOR_BLACK);
 	init_pair(INFO, COLOR_WHITE, COLOR_BLACK);
 }
@@ -114,10 +114,10 @@ void					init_windows(t_vm *v)
 	wattroff(N->infow, COLOR_PAIR(BORDER));
 	wattron(N->infow, COLOR_PAIR(INFO) | A_BOLD);
 	N->t = clock();
-	// N->is_run = true;
-	// N->cycpersec = SQMAX_VAL;
-	N->is_run = false;
-	N->cycpersec = START_CYCLES_PER_SEC;
+	N->is_run = true;
+	N->cycpersec = SQMAX_VAL;
+	// N->is_run = false;
+	// N->cycpersec = START_CYCLES_PER_SEC;
 	(A.vis_start_value) ? set_start_vis_cycle(v) : false;
 	refresh();
 	if (I.cycle_to_die > 0 && v->head)
