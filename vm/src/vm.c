@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/19 23:28:20 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/23 20:01:03 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static inline void		play_the_game(t_vm *v)
 	start_the_game(v);
 	if (A.is_dump)
 	{
-		while (I.cycle_to_die > 0 && v->head && A.dump_value != I.cur_cycle)
+		while (v->head && A.dump_value > I.cur_cycle)
 			pass_one_cycle(v);
 		dump_printer(v->arena, MEM_SIZE);
 	}

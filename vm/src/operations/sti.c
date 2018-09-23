@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sti.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/20 17:29:39 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/23 20:00:59 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void					sti(t_car *self, t_vm *v)
 	bool				as;
 	const unsigned int	space_to_end = MEM_SIZE - PC_IND;
 
-	if (self->id == 19 && I.cur_cycle > 2500)
+	if (I.cur_cycle == 13102)
 		ft_printf("");
 	fa_uint = false;
 	sa_uint = false;

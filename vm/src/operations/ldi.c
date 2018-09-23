@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ldi.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/19 18:52:41 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/23 20:00:46 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void			ldi(t_car *self, t_vm *v)
 	else if (as == true)
 	{
 		// if (arg_sum + PC_IND > MEM_SIZE)
-			arg_sum %= IDX_MOD;
+		arg_sum %= IDX_MOD;
 		arg_sum += PC_IND;
 	}
 	if ((as == true) && (arg_sum < 0))

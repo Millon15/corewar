@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   st.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/20 21:23:08 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/23 20:00:57 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void		st(t_car *self, t_vm *v)
 	const unsigned int	space_to_end = MEM_SIZE - PC_IND;
 
 	i = -1;
-	if (self->id == 6211 && I.cur_cycle > 13000)
+	if (I.cur_cycle == 13102)
 		ft_printf("");
 	// first_arg = res % IDX_MOD;
 	if (self->args[1] == T_IND)
@@ -46,8 +46,14 @@ void		st(t_car *self, t_vm *v)
 		if (first_arg == IDX_MOD)
 			pc_index = PC_IND;
 		else
-			pc_index = (mod(first_arg) > space_to_end) ?
-		(first_arg - space_to_end) : first_arg % MEM_SIZE + PC_IND;
+		{
+			if (mod(first_arg) > space_to_end)
+				pc_index = PC_IND + first_arg % IDX_MOD;
+			else
+				pc_index = first_arg % MEM_SIZE + PC_IND;
+		}
+		// 	pc_index = (mod(first_arg) > space_to_end) ?
+		// (first_arg - space_to_end) : first_arg % MEM_SIZE + PC_IND;
 		while (++i < 4)
 			print_arena(v->arena +(pc_index + i) % MEM_SIZE, PUMPKIN, self, v);
 			// v->arena[(pc_index + ind) % MEM_SIZE] = PUMPKIN;

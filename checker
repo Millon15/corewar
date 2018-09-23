@@ -1,0 +1,10 @@
+#!/bin/bash
+
+make -C ..
+./corewar -v 15 $* > log &
+../corewar -v 15 $* > log1
+diff log log1 > diff; wc -l < diff; sleep 3;
+if [[ $(cat diff) ]];
+then
+	less diff;
+fi
