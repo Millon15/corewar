@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   zjmp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/14 23:36:58 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/23 20:00:56 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static inline void		jump_car(t_car *self, t_vm *v, int val,
 	bool is_jump_car)
 {
 	int		res;
+	const unsigned int	space_to_end = MEM_SIZE - PC_IND;
+	
 
 	// 	if (MEM_SIZE - val > PC_IND)
 	// 		res = -1 * (MEM_SIZE - val + PC_IND);
@@ -24,13 +26,15 @@ static inline void		jump_car(t_car *self, t_vm *v, int val,
 		// res = (MEM_SIZE - val > PC_IND) ? (-1 * (MEM_SIZE - val + PC_IND)) : (val);
 		// if (val - PC_IND > 0 && val - PC_IND > MEM_SIZE / 2)
 		// 	res = -1 * (MEM_SIZE - val + PC_IND);
-	res = (val - PC_IND > 0 && val - PC_IND > MEM_SIZE / 2) ?
+	res = (val - PC_IND > MEM_SIZE / 2) ?
 	(-1 * (MEM_SIZE - val + PC_IND)) : (val);
 	if (self->carry == true)
 		move_pc(self, v, val, is_jump_car);
+	if (res + space_to_end == self->arg_val[0])
+		res = self->arg_val[0];
 	if (A.verbose_value & 4)
-		ft_printf("P %4d | zjmp %d %s\n", self->id, res,
-		(self->carry == true) ? "OK" : "FAILED");
+		ft_printf("P %4d | zjmp %d %s\n", self->id, self->arg_val[0] <= MEM_SIZE * 2
+		? self->arg_val[0] : res, (self->carry == true) ? "OK" : "FAILED");
 }
 
 // void					zjmp(t_car *self, t_vm *v)
@@ -63,25 +67,36 @@ static inline void		jump_car(t_car *self, t_vm *v, int val,
 
 void					zjmp(t_car *self, t_vm *v)
 {
-	unsigned int		space_to_end;
+	const unsigned int	space_to_end = MEM_SIZE - PC_IND;
 	bool				fl;
+	int					fa;
 
+	// if (I.cur_cycle > 2700)
+		ft_printf("");
 	fl = false;
-	space_to_end = MEM_SIZE - PC_IND;
+
 	if (self->arg_val[0] >= IDX_MOD)
 	{
-		self->arg_val[0] %= IDX_MOD;
-		if (self->arg_val[0])
-			self->arg_val[0] -= IDX_MOD;
+		fa = self->arg_val[0] % IDX_MOD;
+		// if (fa > space_to_end)
+		// {
+		// 	fa -= IDX_MOD;
+		// 	fl = true;
+		// }
+		if (self->arg_val[0] > MEM_SIZE && self->arg_val[0] % MEM_SIZE > MEM_SIZE / 2)
+		// if (self->arg_val[0] > MEM_SIZE)
+			fa -= IDX_MOD;
 		fl = true;
-	}
-	if (fl && mod(self->arg_val[0]) > PC_IND)
-		jump_car(self, v,
-		MEM_SIZE - (mod(self->arg_val[0]) - PC_IND), true);
-	else if (!fl && self->arg_val[0] > space_to_end)
-		jump_car(self, v, self->arg_val[0] - space_to_end, true);
+	}	
 	else
-		jump_car(self, v, self->arg_val[0], false);
+		fa = self->arg_val[0];
+	if (fl && fa < 0 && mod(fa) > PC_IND)
+		jump_car(self, v,
+		MEM_SIZE - (mod(fa) - PC_IND), true);
+	else if (!fl && fa > space_to_end)
+		jump_car(self, v, fa - space_to_end, true);
+	else
+		jump_car(self, v, fa, false);
 	if (self->carry == false)
 		move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;

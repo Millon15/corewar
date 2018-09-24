@@ -62,6 +62,7 @@ corewar
 !src/asm
 *champs*
 log*
+dump*
 diff*
 leaks*
 *cmake*

@@ -6,7 +6,7 @@
 /*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/24 17:21:14 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/24 18:06:38 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static inline void		open_one_file(char *av, int np, t_vm *v)
 {
-	// (av[i] == NULL) ? put_usage(4) : false;
 	if ((v->player[np].fd = open(av, O_RDONLY)) == -1)
 		put_error(0, av, 0, 0);
 	v->player[np].filename = av;

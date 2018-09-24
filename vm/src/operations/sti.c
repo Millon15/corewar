@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sti.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 19:35:52 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/23 20:00:59 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,39 @@ static inline unsigned int	set_uns_val(t_car *self, t_vm *v, unsigned int arg_su
 	return (module);
 }
 
+bool						is_four_bytes(t_vm *v, unsigned int val)
+{
+	unsigned int	res;
+
+	res = val >> 6;
+	return ((val >> 6) < 255 ? false : true);
+}
+
 void					sti(t_car *self, t_vm *v)
 {
-	unsigned char	*pc;
-	int				arg_sum;
-	unsigned int	u_arg_sum;
-	unsigned int	first_arg;
-	int				fa;
-	int				module;
-	unsigned int	sec_arg;
-	int				sa;
-	bool			fa_uint;
-	bool			sa_uint;
-	bool			as;
+	unsigned char		*pc;
+	int					arg_sum;
+	unsigned int		u_arg_sum;
+	unsigned int		first_arg;
+	int					fa;
+	int					module;
+	unsigned int		sec_arg;
+	int					sa;
+	bool				fa_uint;
+	bool				sa_uint;
+	bool				as;
+	const unsigned int	space_to_end = MEM_SIZE - PC_IND;
 
-	// if (self->id == 34)
-	// 	ft_printf("");
+	if (I.cur_cycle == 13102)
+		ft_printf("");
 	fa_uint = false;
 	sa_uint = false;
 	as = false;
 	if (self->args[1] == T_IND)
 	{
 		self->arg_val[1] %= IDX_MOD;
-		if (self->arg_val[1] > MEM_SIZE - PC_IND)
-			pc = &v->arena[self->arg_val[1] - MEM_SIZE - PC_IND];
+		if (self->arg_val[1] > space_to_end)
+			pc = &v->arena[self->arg_val[1] - space_to_end];
 		else
 			pc = &self->pc[self->arg_val[1]];
 		first_arg = get_raw_num(pc, REG_SIZE, v);
@@ -99,26 +108,37 @@ void					sti(t_car *self, t_vm *v)
 		first_arg = self->args[1] == T_REG ? self->reg[self->arg_val[1]] : self->arg_val[1];
 	if (first_arg >= IDX_MOD)
 	{
-		if (first_arg == IDX_MOD || first_arg % IDX_MOD == 0)
+		// if (first_arg % IDX_MOD == 256/* && first_arg % MEM_SIZE > space_to_end*/)
+		// 	ft_printf("");
+		// // 	fa_uint = true;
+		// if (first_arg == IDX_MOD || first_arg % IDX_MOD == 0/* || first_arg % IDX_MOD == 256*/) //if first_arg % MEM_SIZE < MEM_SIZE / 2 => fa_uint = true, else false;
+		// 	fa_uint = true;
+		if (first_arg == IDX_MOD
+		|| first_arg % IDX_MOD == 0
+		|| first_arg % MEM_SIZE == 0)
+		/*|| first_arg % IDX_MOD == first_arg % MEM_SIZE
+		|| ((first_arg % IDX_MOD) % (first_arg % MEM_SIZE)) == 0
+		|| ((first_arg % MEM_SIZE) % (first_arg % IDX_MOD)) == 0) && (self->args[1] != T_REG)*/			//dikie kostyli
+			fa_uint = true;
+		else if (((first_arg >> 24) < 255) && self->args[1] == T_REG)
 			fa_uint = true;
 		else
-		{
-			first_arg %= IDX_MOD;
-			fa = first_arg - IDX_MOD;
-		}
+			fa = first_arg % IDX_MOD - IDX_MOD;
 	}
 	else
 		fa = first_arg;
 	sec_arg = self->args[2] == T_REG ? self->reg[self->arg_val[2]] : self->arg_val[2];
 	if (sec_arg >= IDX_MOD)
 	{
-		if (sec_arg == IDX_MOD || sec_arg % IDX_MOD == 0)
+		// if (sec_arg % IDX_MOD == 256 && sec_arg % MEM_SIZE > space_to_end)
+		// 	sa_uint = true;
+		if ((sec_arg == IDX_MOD || sec_arg % IDX_MOD == 0 || sec_arg % MEM_SIZE == 0 || sec_arg % IDX_MOD == sec_arg % MEM_SIZE
+		|| ((sec_arg % IDX_MOD) % (sec_arg % MEM_SIZE)) == 0 || ((sec_arg % MEM_SIZE) % (sec_arg % IDX_MOD)) == 0)/* && (self->args[2] != T_REG)*/)			//dikie kostyli
+			sa_uint = true;
+		else if (((sec_arg >> 24) < 255) && self->args[1] == T_REG)
 			sa_uint = true;
 		else
-		{
-			sec_arg %= IDX_MOD;
-			sa = sec_arg - IDX_MOD;
-		}
+			sa = sec_arg % IDX_MOD - IDX_MOD;
 	}
 	else
 		sa = sec_arg;

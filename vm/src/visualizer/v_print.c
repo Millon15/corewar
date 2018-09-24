@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 06:29:54 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 23:41:28 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static inline void		print_main(t_vm *v)
 		(N->clr[i].bold > 0) ? N->clr[i].bold-- : false;
 		(N->clr[i].undrln > 0) ? N->clr[i].undrln-- : false;
 	}
-	wattroff(N->mainw, attrs);
 	wrefresh(N->mainw);
 }
 
@@ -57,11 +56,11 @@ static inline void		print_full_info(t_vm *v, int row, int i)
 	while (++i < v->player_amount)
 	{
 		mvwprintw(N->infow, (row += 2), 4, "Player -%d : ", i + 1);
-		wattroff(N->infow, COLOR_PAIR(INFO) | A_BOLD);
-		wattron(N->infow, COLOR_PAIR(N->pcolors[i]) | A_BOLD);
-		wprintw(N->infow, "%s", P(i).prog_name);
-		wattroff(N->infow, COLOR_PAIR(N->pcolors[i]) | A_BOLD);
-		wattron(N->infow, COLOR_PAIR(INFO) | A_BOLD);
+		wattroff(N->infow, COLOR_PAIR(INFO));
+		wattron(N->infow, COLOR_PAIR(N->pcolors[i]));
+		wprintw(N->infow, "%.*s", START_IW_WIDTH - 18, P(i).prog_name);
+		wattroff(N->infow, COLOR_PAIR(N->pcolors[i]));
+		wattron(N->infow, COLOR_PAIR(INFO));
 		mvwprintw(N->infow, ++row, 6, "Last live :\t\t\t%-*d",
 		CLEAR_LINE_PADD, P(i).points);
 		mvwprintw(N->infow, ++row, 6, "Lives in current period :\t\t%-*d",
@@ -78,7 +77,7 @@ static inline void		print_full_info(t_vm *v, int row, int i)
 	CLEAR_LINE_PADD, MAX_CHECKS);
 }
 
-void					print_info(t_vm *v, const bool is_print_full_info)
+inline void				print_info(t_vm *v, const bool is_print_full_info)
 {
 	int			row;
 	int			i;

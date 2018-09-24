@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   live.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:10 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 06:51:44 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/22 00:46:59 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void		live(t_car *self, t_vm *v)
 	self->live_cycle = I.cur_cycle;
 	if (A.verbose_value & 4)
 		ft_printf("P %4d | live %d\n", self->id, self->arg_val[0]);
+	if (self->id == 369 && I.cur_cycle > 17500)
+		ft_printf("");
 	while (++i < v->player_amount)
 	{
 		if (self->arg_val[0] == v->player[i].name)
