@@ -6,7 +6,7 @@
 /*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/19 22:10:23 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/24 17:21:14 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,43 @@ static inline void		open_one_file(char *av, int np, t_vm *v)
 
 static inline void		open_files(int ac, char **av, t_vm *v, int i)
 {
-	int np;
+	static int	max_np;
+	int			np;
+	int			j;
 
-	if (ft_strequ(av[i], "-n"))
+	j = i;
+	while (av[i])
 	{
-		if (!av[i + 1] || !av[i + 2] || (np = ft_atoi(av[i + 1])) > MAX_PLAYERS
-		|| np < 1 || v->player[np - 1].fd != 0)
-			put_usage(5);
-		open_one_file(av[i + 2], np - 1, v);
+		if (ft_strequ(av[i], "-n"))
+		{
+			if (!av[i + 1] || !av[i + 2] || (np = ft_atoi(av[i + 1])) > MAX_PLAYERS
+			|| np < 1 || v->player[np - 1].fd != 0)
+				put_usage(5);
+			max_np = (np > max_np) ? np : max_np;
+			open_one_file(av[i + 2], np - 1, v);
+		}
+		i++;
 	}
-	else
+	while(av[j])
 	{
-		np = 0;
-		while (np < MAX_PLAYERS)
-			if (v->player[np].fd != 0)
-				np++;
-		open_one_file(av[i], np, v);
+		if (!ft_strequ(av[j], "-n"))
+		{
+			np = 0;
+			while (np < MAX_PLAYERS)
+			{
+				if (v->player[np].fd != 0)
+					np++;
+				else
+					break;
+			}
+			open_one_file(av[j], np, v);
+			j++;		
+		}
+		else
+			j += 3;
 	}
-	// while (i < ac)
-	// {
-	// 	open_one_file(av, v, i++);
-	// }
-	// (v->player_amount <= 0) ? put_usage(4) : false;
+	if (max_np > v->player_amount)
+		put_usage(5);	
 }
 
 inline void				check_and_obtain_args(int ac, char **av, t_vm *v)
@@ -77,6 +92,7 @@ inline void				check_and_obtain_args(int ac, char **av, t_vm *v)
 		else if (ft_strequ(av[i], "--stealth"))
 			A.is_stealth = true;
 		else
-			open_files(ac, av, v, i);
+			break ;
 	}
+	open_files(ac, av, v, i);
 }
