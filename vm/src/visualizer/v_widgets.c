@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 17:41:42 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/18 05:47:59 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/25 17:55:52 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static inline void	print_widget(t_vm *v, int row, int *pval, int totliv)
 	mvwprintw(N->infow, row, 4, "%c", '[');
 	if (totliv == 0)
 	{
-		wattron(N->infow, COLOR_PAIR(COLOR_DARKEST));
+		wattron(N->infow, COLOR_PAIR(COLOR_DARK));
 		while (++i < WIDGET_LENGTH)
 			wprintw(N->infow, "%c", '-');
-		wattroff(N->infow, COLOR_PAIR(COLOR_DARKEST));
+		wattroff(N->infow, COLOR_PAIR(COLOR_DARK));
 	}
 	else
 		while (++i < WIDGET_LENGTH)

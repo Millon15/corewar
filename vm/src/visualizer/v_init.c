@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/19 23:45:22 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/25 18:05:08 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ static inline void		init_visualizer(void)
 	noecho();
 	use_default_colors();
 	start_color();
-	init_color(COLOR_DARK, 550, 550, 550);
-	init_color(COLOR_DARKEST, 0, 0, 0);
-	init_pair(BORDER, COLOR_YELLOW, COLOR_YELLOW);
+	init_color(COLOR_DARK, 355, 355, 355);
+	init_color(COLOR_ORANGE, 755, 500, 0);
+	init_pair(BORDER, COLOR_ORANGE, COLOR_ORANGE);
 	init_pair(MAIN, COLOR_WHITE, COLOR_BLACK);
 	init_pair(INFO, COLOR_WHITE, COLOR_BLACK);
 }

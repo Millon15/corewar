@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/20 21:57:30 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/25 18:05:08 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ typedef struct s_widgets		t_widgets;
 # define BORDER						1
 # define MAIN						2
 # define INFO						3
-# define COLOR_DARK					8
-# define COLOR_DARKEST				9
+# define COLOR_DARK					40
+# define COLOR_ORANGE				42
 # define COLOR_DELTA				10
 # define WIDGET_LENGTH				50
 # define CLR_CYCTOWAIT				50
