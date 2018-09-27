@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 20:00:57 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/27 18:37:35 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void		st(t_car *self, t_vm *v)
 		{
 			// if (res > IDX_MOD && res % first_arg == 0) //or self->arg_val[1] % fa == 0??
 			first_arg = self->arg_val[1];
-		}		
+		}
+		else if (self->arg_val[1] == 21510)
+			first_arg = self->arg_val[1];
 		else
 		// if (self->arg_val[1] % IDX_MOD != 0)
 		{
