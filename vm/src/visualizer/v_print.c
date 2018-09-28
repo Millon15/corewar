@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   v_print.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/19 23:41:28 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/28 12:20:06 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static inline void		put_car_color_to_arena(t_vm *v)
 	self = v->head;
 	while (self)
 	{
+		if (self->id == 42)
+			ft_printf("");
 		N->clr[PC_IND].main +=
 		(N->clr[PC_IND].main < N->ccolors[0]) ? COLOR_DELTA : 0;
 		self = self->next;
@@ -33,6 +35,8 @@ static inline void		print_main(t_vm *v)
 
 	i = -1;
 	row = START_ROW_MAIN - 1;
+	if (I.cur_cycle >= 3575)
+		ft_printf("");
 	put_car_color_to_arena(v);
 	while (++i < MEM_SIZE)
 	{

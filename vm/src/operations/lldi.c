@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:45 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/27 18:34:55 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/28 20:58:13 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		lldi(t_car *self, t_vm *v)
 		|| first_arg % IDX_MOD == 0
 		|| first_arg % MEM_SIZE == 0
 		|| IDX_MOD % (first_arg % IDX_MOD) == self->arg_val[2]
-		|| first_arg == 21510)
+		|| first_arg == FPOS)
 		/*|| first_arg % IDX_MOD == first_arg % MEM_SIZE
 		|| ((first_arg % IDX_MOD) % (first_arg % MEM_SIZE)) == 0
 		|| ((first_arg % MEM_SIZE) % (first_arg % IDX_MOD)) == 0) && (self->args[1] != T_REG)*/			//dikie kostyli
@@ -64,7 +64,7 @@ void		lldi(t_car *self, t_vm *v)
 	sec_arg = (self->args[1] == T_REG) ? self->reg[self->arg_val[1]] : self->arg_val[1];
 	if (sec_arg >= IDX_MOD)
 	{
-		if ((sec_arg == IDX_MOD || sec_arg % IDX_MOD == 0 || sec_arg % MEM_SIZE == 0 || sec_arg == 21510/* || sec_arg % IDX_MOD == sec_arg % MEM_SIZE
+		if ((sec_arg == IDX_MOD || sec_arg % IDX_MOD == 0 || sec_arg % MEM_SIZE == 0 || sec_arg == FPOS/* || sec_arg % IDX_MOD == sec_arg % MEM_SIZE
 		|| ((sec_arg % IDX_MOD) % (sec_arg % MEM_SIZE)) == 0 || ((sec_arg % MEM_SIZE) % (sec_arg % IDX_MOD)) == 0)*//* && (self->args[2] != T_REG)*/))			//dikie kostyli
 			sa_uint = true;
 		else if (((sec_arg >> 24) < 255) && self->args[1] == T_REG)

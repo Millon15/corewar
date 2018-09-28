@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 20:01:13 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/28 12:14:42 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void			init_car(unsigned char *where, unsigned int name, t_vm *v,
 	t_car			**tmp;
 	static int		id = 0;
 
+	if (id == 41)
+		ft_printf("");
 	tmp = (v->head == NULL) ? &v->head : &(v->head->prev);
 	(*tmp) = ft_memalloc(sizeof(t_car));
 	(*tmp)->carry = true;

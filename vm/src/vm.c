@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/24 17:24:33 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/28 12:23:13 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ void					pass_one_cycle(t_vm *v)
 	!(A.verbose_value & 2) ? ++I.cur_cycle :
 	ft_printf("It is now cycle %d\n", ++I.cur_cycle);
 	last_check++;
-	if (I.cur_cycle == 24367 || I.cur_cycle == 25974)
+	if (I.cur_cycle >= 3576 || I.cur_cycle == 25974)
 		ft_printf("");
 	cur_car = v->head;
 	while (cur_car)
 	{
 		if ((I.cur_cycle == 24367) && (cur_car->id == 4450 || cur_car->id == 4449 || cur_car->id == 4448 || cur_car->id == 4447 || cur_car->id == 4446))
+			ft_printf("");
+		if (cur_car->id == 42)
 			ft_printf("");
 		perform_next_comm(cur_car, v);
 		cur_car = cur_car->next;

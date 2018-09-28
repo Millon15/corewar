@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/25 18:05:08 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/28 20:57:53 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ typedef struct s_widgets		t_widgets;
 # define COLOR_DELTA				10
 # define WIDGET_LENGTH				50
 # define CLR_CYCTOWAIT				50
+# define TWOSIXTEEN					65536
+# define FPOS						21510
 
 # define N			(v->ncurses)
 

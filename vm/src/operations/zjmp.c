@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 20:00:56 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/28 21:16:24 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 static inline void		jump_car(t_car *self, t_vm *v, int val,
 	bool is_jump_car)
 {
-	int		res;
+	int					res;
 	const unsigned int	space_to_end = MEM_SIZE - PC_IND;
+	int					valmints;
 	
 
 	// 	if (MEM_SIZE - val > PC_IND)
@@ -32,6 +33,12 @@ static inline void		jump_car(t_car *self, t_vm *v, int val,
 		move_pc(self, v, val, is_jump_car);
 	if (res + space_to_end == self->arg_val[0])
 		res = self->arg_val[0];
+	valmints = self->arg_val[0] - TWOSIXTEEN;
+	if (self->arg_val[0] > MEM_SIZE && self->arg_val[0] < TWOSIXTEEN
+	&& valmints % IDX_MOD == res)
+		res = self->arg_val[0] - TWOSIXTEEN;
+	if (self->arg_val[0] == FPOS)
+		res = FPOS;
 	if (A.verbose_value & 4)
 		ft_printf("P %4d | zjmp %d %s\n", self->id, self->arg_val[0] <= MEM_SIZE * 2
 		? self->arg_val[0] : res, (self->carry == true) ? "OK" : "FAILED");
@@ -71,10 +78,9 @@ void					zjmp(t_car *self, t_vm *v)
 	bool				fl;
 	int					fa;
 
-	// if (I.cur_cycle > 2700)
+	if (I.cur_cycle > 9700 && self->id == 721)
 		ft_printf("");
 	fl = false;
-
 	if (self->arg_val[0] >= IDX_MOD)
 	{
 		fa = self->arg_val[0] % IDX_MOD;
@@ -90,11 +96,19 @@ void					zjmp(t_car *self, t_vm *v)
 	}	
 	else
 		fa = self->arg_val[0];
-	if (fl && fa < 0 && mod(fa) > PC_IND)
+	// if (self->arg_val[0] == FPOS)
+	// {
+	// 	fa = FPOS;
+	// 	if (fa % IDX_MOD > space_to_end)
+	// 		jump_car(self, v, (fa % IDX_MOD) - space_to_end, false);
+	// 	else
+	// 		jump_car(self, v, fa, false);
+	// }
+	if (fl && fa < 0 && (mod(fa) % IDX_MOD) > PC_IND)
 		jump_car(self, v,
 		MEM_SIZE - (mod(fa) - PC_IND), true);
-	else if (!fl && fa > space_to_end)
-		jump_car(self, v, fa - space_to_end, true);
+	else if (!fl && fa % IDX_MOD > space_to_end)
+		jump_car(self, v, (fa % IDX_MOD) - space_to_end, true);
 	else
 		jump_car(self, v, fa, false);
 	if (self->carry == false)
