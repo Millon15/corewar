@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/28 20:57:53 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 00:50:30 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ typedef struct s_widgets		t_widgets;
 # define COLOR_DELTA				10
 # define WIDGET_LENGTH				50
 # define CLR_CYCTOWAIT				50
-# define TWOSIXTEEN					65536
-# define FPOS						21510
 
 # define N			(v->ncurses)
 
@@ -250,7 +248,11 @@ void				get_winner(t_vm *v);
 /*
 ** Operations functions
 */
-#define PUMPKIN		(res << (8 * i)) >> (8 * (size - 1))
+# define PUMPKIN		(res << (8 * i)) >> (8 * (size - 1))
+# define SHORT_RANGE	(USHRT_MAX + 1)
+# define FPOS			21510
+# define TNTZEROS		2900
+# define FPOS1			21530
 
 void				add(t_car *self, t_vm *v);
 void				aff(t_car *self, t_vm *v);

@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:41 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/28 12:45:45 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/29 20:33:14 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		lfork(t_car *self, t_vm *v)
 	t_car			tmp;
 	int				argv_nil;
 
-	if (self->id == 1215 && I.cur_cycle > 10400)
+	if (self->id == 20 && I.cur_cycle > 5000)
 		ft_printf("");
 	if ((self->arg_val[0] > MEM_SIZE && self->arg_val[0] % IDX_MOD == self->arg_val[0] % MEM_SIZE)
 	|| (self->arg_val[0] <= MEM_SIZE))
@@ -33,7 +33,7 @@ void		lfork(t_car *self, t_vm *v)
 	if (argv_nil > space_to_end && self->arg_val[0] % IDX_MOD != self->arg_val[0] % MEM_SIZE)
 		argv_nil -= MEM_SIZE;
 	if (A.verbose_value & 4)
-		self->arg_val[0] > MEM_SIZE * 2 ? ft_printf("P %4d | lfork %d (%d)\n", self->id, argv_nil, PC_IND + argv_nil)
+		self->arg_val[0] > FPOS ? ft_printf("P %4d | lfork %d (%d)\n", self->id, argv_nil, PC_IND + argv_nil)
 		: ft_printf("P %4d | lfork %d (%d)\n", self->id, self->arg_val[0], PC_IND + self->arg_val[0]);
 	copy_car(self, v, pc);
 	move_pc(self, v, self->pc_padding, false);

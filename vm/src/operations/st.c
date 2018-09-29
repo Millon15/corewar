@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/28 20:58:13 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 02:13:19 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ void		st(t_car *self, t_vm *v)
 	const unsigned int	res = self->reg[self->arg_val[0]];
 	const unsigned int	size = sizeof(res);
 	const unsigned int	space_to_end = MEM_SIZE - PC_IND;
+	int					tmp;
 
 	i = -1;
-	if (self->id == 35 && I.cur_cycle > 7100)
+	if (self->id == 12 && I.cur_cycle > 4415)
 		ft_printf("");
 	// first_arg = res % IDX_MOD;
 	if (self->args[1] == T_IND)
 	{
+		tmp = self->arg_val[1];
 		if (self->arg_val[1] > IDX_MOD && !(self->arg_val[1] % IDX_MOD))
 			first_arg = 0;
 		else if ((self->arg_val[1] > IDX_MOD && self->arg_val[1] > MEM_SIZE && self->arg_val[1] <= MEM_SIZE * 2)
@@ -36,7 +38,9 @@ void		st(t_car *self, t_vm *v)
 			// if (res > IDX_MOD && res % first_arg == 0) //or self->arg_val[1] % fa == 0??
 			first_arg = self->arg_val[1];
 		}
-		else if (self->arg_val[1] == FPOS)
+		else if (self->arg_val[1] == FPOS || self->arg_val[1] == FPOS1)
+			first_arg = self->arg_val[1];
+		else if (tmp > MEM_SIZE && tmp < FPOS && (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD)
 			first_arg = self->arg_val[1];
 		else
 		// if (self->arg_val[1] % IDX_MOD != 0)
@@ -62,7 +66,16 @@ void		st(t_car *self, t_vm *v)
 		while (++i < 4)
 			print_arena(v->arena +(pc_index + i) % MEM_SIZE, PUMPKIN, self, v);
 			// v->arena[(pc_index + ind) % MEM_SIZE] = PUMPKIN;
-		if (self->arg_val[1] > IDX_MOD && self->arg_val[1] <= MEM_SIZE && !(self->arg_val[1] % IDX_MOD))
+		if (self->arg_val[1] > SHORT_RANGE / 2 && self->arg_val[1] <= SHORT_RANGE
+		&& self->arg_val[1] % IDX_MOD == IDX_MOD / 2)
+			first_arg = self->arg_val[1] - SHORT_RANGE;
+		else if (self->arg_val[1] > IDX_MOD && self->arg_val[1] <= MEM_SIZE && !(self->arg_val[1] % IDX_MOD))
+			first_arg = self->arg_val[1];
+		else if (self->arg_val[1] > MEM_SIZE && !(self->arg_val[1] % IDX_MOD)
+		&& !(self->arg_val[1] % MEM_SIZE))
+			first_arg = self->arg_val[1] - SHORT_RANGE;
+		else if (self->arg_val[1] > MEM_SIZE && !(self->arg_val[1] % IDX_MOD)
+		&& (self->arg_val[1] % MEM_SIZE) <= MEM_SIZE / 2 && !((self->arg_val[1] % MEM_SIZE) % IDX_MOD))
 			first_arg = self->arg_val[1];
 		else if (self->arg_val[1] > MEM_SIZE && !(self->arg_val[1] % IDX_MOD))
 			first_arg -= IDX_MOD;

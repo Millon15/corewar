@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 20:00:49 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/29 21:40:33 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void		op_fork(t_car *self, t_vm *v)
 	t_car			tmp;
 	int				arg;
 
+	if (self->id == 45 && I.cur_cycle > 4800)
+		ft_printf("");
 	arg = self->arg_val[0] % IDX_MOD;
 	if (self->arg_val[0] >= IDX_MOD)
 	{
@@ -35,7 +37,8 @@ void		op_fork(t_car *self, t_vm *v)
 		: self->pc + arg;
 	if (A.verbose_value & 4)
 		arg > 0 ? ft_printf("P %4d | fork %d (%d)\n", self->id, self->arg_val[0], (pc - v->arena) % MEM_SIZE)
-		: ft_printf("P %4d | fork %d (%d)\n", self->id, pc - self->pc, (pc - v->arena) % MEM_SIZE);
+		: ft_printf("P %4d | fork %d (%d)\n", self->id, !((self->arg_val[0] % MEM_SIZE) % IDX_MOD) && self->arg_val[0]
+		? -IDX_MOD : pc - self->pc, (pc - v->arena) % MEM_SIZE);
 	copy_car(self, v, pc);
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;

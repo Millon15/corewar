@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/28 20:58:15 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/29 22:23:09 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static inline int			set_val(t_car *self, t_vm *v, int arg_sum)
 	// 	module = arg_sum - (MEM_SIZE - PC_IND);
 	// else
 	// 	module = arg_sum + PC_IND;
-	module = PC_IND + arg_sum % IDX_MOD;
+	module = PC_IND + arg_sum;
 	i = -1;
 	while (++i < size)
 		print_arena(arena + (module + i) % MEM_SIZE, PUMPKIN, self, v);
@@ -82,7 +82,7 @@ void					sti(t_car *self, t_vm *v)
 	bool				as;
 	const unsigned int	space_to_end = MEM_SIZE - PC_IND;
 
-	if (self->id == 19 && I.cur_cycle > 3300)
+	if (self->id == 63 && I.cur_cycle > 4700)
 		ft_printf("");
 	fa_uint = false;
 	sa_uint = false;
@@ -111,17 +111,22 @@ void					sti(t_car *self, t_vm *v)
 		||first_arg == IDX_MOD
 		|| first_arg % IDX_MOD == 0
 		|| first_arg % MEM_SIZE == 0
-		|| first_arg == FPOS) //what the fuck, man?
+		|| first_arg == FPOS || first_arg == FPOS1) //what the fuck, man?
 		/*IDX_MOD % (sec_arg % IDX_MOD) == self->arg_val[0])
 		|| IDX_MOD % (first_arg % IDX_MOD) == self->arg_val[0]
 		|| first_arg % IDX_MOD == first_arg % MEM_SIZE
 		|| ((first_arg % IDX_MOD) % (first_arg % MEM_SIZE)) == 0
 		|| ((first_arg % MEM_SIZE) % (first_arg % IDX_MOD)) == 0) && (self->args[1] != T_REG)*/			//dikie kostyli
 			fa_uint = true;
-		else if (((first_arg >> 24) < 255) && self->args[1] == T_REG)
+		else if (((first_arg >> 24) < 254 && (first_arg >> 24)) && self->args[1] == T_REG)
 			fa_uint = true;
+		else if ((first_arg >> 24) == 254)
+			fa = first_arg;
 		else if (first_arg % IDX_MOD == first_arg % MEM_SIZE)
-			sa = -1 * ((first_arg >> 16) - (first_arg % IDX_MOD) + 1);
+			fa = first_arg;
+			// sa = -1 * ((first_arg >> 16) - (first_arg % IDX_MOD) + 1);
+		else if (first_arg <= MEM_SIZE * 2)
+			fa = first_arg;
 		else
 			fa = first_arg % IDX_MOD - IDX_MOD;
 	}
@@ -134,13 +139,18 @@ void					sti(t_car *self, t_vm *v)
 		// 	sa_uint = true;
 		if ((sec_arg <= MEM_SIZE
 		|| sec_arg == IDX_MOD || sec_arg % IDX_MOD == 0 || sec_arg % MEM_SIZE == 0
-		|| sec_arg == FPOS))/*  || IDX_MOD % (sec_arg % IDX_MOD) == self->arg_val[0] || sec_arg % IDX_MOD == sec_arg % MEM_SIZE
+		|| sec_arg == FPOS || first_arg == FPOS1))/*  || IDX_MOD % (sec_arg % IDX_MOD) == self->arg_val[0] || sec_arg % IDX_MOD == sec_arg % MEM_SIZE
 		|| ((sec_arg % IDX_MOD) % (sec_arg % MEM_SIZE)) == 0 || ((sec_arg % MEM_SIZE) % (sec_arg % IDX_MOD)) == 0) && (self->args[2] != T_REG)*/		//dikie kostyli
 			sa_uint = true;
-		else if (((sec_arg >> 24) < 255) && self->args[2] == T_REG)
+		else if (((sec_arg >> 24) < 254 && (sec_arg >> 24)) && self->args[2] == T_REG)
 			sa_uint = true;
+		else if ((sec_arg >> 24) == 254)
+			sa = sec_arg;
 		else if (sec_arg % IDX_MOD == sec_arg % MEM_SIZE)
-			sa = -1 * ((sec_arg >> 16) - (sec_arg % IDX_MOD) + 1);
+			sa = sec_arg;
+			// sa = -1 * ((sec_arg >> 16) - (sec_arg % IDX_MOD) + 1);
+		else if (sec_arg <= MEM_SIZE * 2)
+			sa = sec_arg;
 		else
 			sa = sec_arg % IDX_MOD - IDX_MOD;
 	}
@@ -180,7 +190,7 @@ void					sti(t_car *self, t_vm *v)
 	else if ((as == true) && (arg_sum >= 0))
 		module = set_val(self, v, arg_sum % IDX_MOD); // ?IDX_MOD?
 	else if (as == false)
-		module = set_uns_val(self, v, u_arg_sum % IDX_MOD); // ?IDX_MOD?
+		module = set_uns_val(self, v, u_arg_sum); // ?IDX_MOD?
 	// module = (arg_sum < 0) ? set_val_neg(self, v, arg_sum)
 	// : set_val(self, v, arg_sum);
 	if (!module && ((as == true && !arg_sum) || (as == false && !u_arg_sum)))

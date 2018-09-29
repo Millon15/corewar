@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:45 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/28 20:58:13 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/29 22:17:50 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ void		lldi(t_car *self, t_vm *v)
 		|| first_arg % IDX_MOD == 0
 		|| first_arg % MEM_SIZE == 0
 		|| IDX_MOD % (first_arg % IDX_MOD) == self->arg_val[2]
-		|| first_arg == FPOS)
+		|| first_arg == FPOS || first_arg == FPOS1)
 		/*|| first_arg % IDX_MOD == first_arg % MEM_SIZE
 		|| ((first_arg % IDX_MOD) % (first_arg % MEM_SIZE)) == 0
 		|| ((first_arg % MEM_SIZE) % (first_arg % IDX_MOD)) == 0) && (self->args[1] != T_REG)*/			//dikie kostyli
 			fa_uint = true;
-		else if (((first_arg >> 24) < 255) && self->args[0] == T_REG)
+		else if (((first_arg >> 24) < 254 && (first_arg >> 24)) && self->args[0] == T_REG)
 			fa_uint = true;
 		else
 			fa = first_arg % IDX_MOD - IDX_MOD;
@@ -64,10 +64,11 @@ void		lldi(t_car *self, t_vm *v)
 	sec_arg = (self->args[1] == T_REG) ? self->reg[self->arg_val[1]] : self->arg_val[1];
 	if (sec_arg >= IDX_MOD)
 	{
-		if ((sec_arg == IDX_MOD || sec_arg % IDX_MOD == 0 || sec_arg % MEM_SIZE == 0 || sec_arg == FPOS/* || sec_arg % IDX_MOD == sec_arg % MEM_SIZE
+		if ((sec_arg == IDX_MOD || sec_arg % IDX_MOD == 0 || sec_arg % MEM_SIZE == 0 || sec_arg == FPOS
+		|| sec_arg == FPOS1/* || sec_arg % IDX_MOD == sec_arg % MEM_SIZE
 		|| ((sec_arg % IDX_MOD) % (sec_arg % MEM_SIZE)) == 0 || ((sec_arg % MEM_SIZE) % (sec_arg % IDX_MOD)) == 0)*//* && (self->args[2] != T_REG)*/))			//dikie kostyli
 			sa_uint = true;
-		else if (((sec_arg >> 24) < 255) && self->args[1] == T_REG)
+		else if (((sec_arg >> 24) < 254 && (sec_arg >> 24)) && self->args[1] == T_REG)
 			sa_uint = true;
 		else
 			sa = sec_arg % IDX_MOD - IDX_MOD;

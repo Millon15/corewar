@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/28 20:58:10 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/29 22:17:44 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void			ldi(t_car *self, t_vm *v)
 	as = false;
 	sa = 0;
 	fa = 0;
-	if (self->id == 5 && I.cur_cycle == 3600)
+	if (self->id == 39 && I.cur_cycle >= 3600)
 		ft_printf("");
 	if (self->args[0] == T_IND)
 	{
@@ -49,15 +49,19 @@ void			ldi(t_car *self, t_vm *v)
 		|| first_arg % IDX_MOD == 0
 		|| first_arg % MEM_SIZE == 0
 		|| IDX_MOD % (first_arg % IDX_MOD) == self->arg_val[2]
-		|| first_arg == FPOS)
+		|| first_arg == FPOS
+		|| first_arg == FPOS1)
 		/*|| first_arg % IDX_MOD == first_arg % MEM_SIZE
 		|| ((first_arg % IDX_MOD) % (first_arg % MEM_SIZE)) == 0
 		|| ((first_arg % MEM_SIZE) % (first_arg % IDX_MOD)) == 0) && (self->args[1] != T_REG)*/			//dikie kostyli
 			fa_uint = true;
-		else if (((first_arg >> 24) < 255) && self->args[0] == T_REG)
+		else if (((first_arg >> 24) < 254 && (first_arg >> 24)) && self->args[0] == T_REG)
 			fa_uint = true;
 		else if (first_arg % IDX_MOD == first_arg % MEM_SIZE)
-			sa = -1 * ((first_arg >> 16) - (first_arg % IDX_MOD) + 1);
+			sa = first_arg;
+			// sa = -1 * ((first_arg >> 16) - (first_arg % IDX_MOD) + 1);
+		else if (first_arg <= MEM_SIZE * 2)
+			fa = first_arg;
 		else
 			fa = first_arg % IDX_MOD - IDX_MOD;
 	}
@@ -66,13 +70,17 @@ void			ldi(t_car *self, t_vm *v)
 	sec_arg = (self->args[1] == T_REG) ? self->reg[self->arg_val[1]] : self->arg_val[1];
 	if (sec_arg >= IDX_MOD)
 	{
-		if ((sec_arg == IDX_MOD || sec_arg % IDX_MOD == 0 || sec_arg % MEM_SIZE == 0 || sec_arg == FPOS/* || sec_arg % IDX_MOD == sec_arg % MEM_SIZE
+		if ((sec_arg == IDX_MOD || sec_arg % IDX_MOD == 0 || sec_arg % MEM_SIZE == 0 || sec_arg == FPOS
+		|| sec_arg == FPOS1/* || sec_arg % IDX_MOD == sec_arg % MEM_SIZE
 		|| ((sec_arg % IDX_MOD) % (sec_arg % MEM_SIZE)) == 0 || ((sec_arg % MEM_SIZE) % (sec_arg % IDX_MOD)) == 0)*//* && (self->args[2] != T_REG)*/))			//dikie kostyli
 			sa_uint = true;
-		else if (((sec_arg >> 24) < 255) && self->args[1] == T_REG)
+		else if (((sec_arg >> 24) < 254 && (sec_arg >> 24)) && self->args[1] == T_REG)
 			sa_uint = true;
 		else if (sec_arg % IDX_MOD == sec_arg % MEM_SIZE)
-			sa = -1 * ((sec_arg >> 16) - (sec_arg % IDX_MOD) + 1);
+			sa = sec_arg;
+			// sa = -1 * ((sec_arg >> 16) - (sec_arg % IDX_MOD) + 1);
+		else if (sec_arg <= MEM_SIZE * 2)
+			sa = sec_arg;
 		else
 			sa = sec_arg % IDX_MOD - IDX_MOD;
 	}
