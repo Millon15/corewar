@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/09/30 00:50:30 by akupriia         ###   ########.fr       */
-=======
-/*   Updated: 2018/09/29 21:18:19 by apyltsov         ###   ########.fr       */
->>>>>>> 91731d854faf60f4d2292c42460a9b92ec80a8df
+/*   Updated: 2018/09/30 02:25:51 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,15 +247,10 @@ void				get_winner(t_vm *v);
 ** Operations functions
 */
 # define PUMPKIN		(res << (8 * i)) >> (8 * (size - 1))
-<<<<<<< HEAD
 # define SHORT_RANGE	(USHRT_MAX + 1)
 # define FPOS			21510
 # define TNTZEROS		2900
 # define FPOS1			21530
-=======
-# define TWOSIXTEEN		65536
-# define FPOS			21510
->>>>>>> 91731d854faf60f4d2292c42460a9b92ec80a8df
 
 void				add(t_car *self, t_vm *v);
 void				aff(t_car *self, t_vm *v);
