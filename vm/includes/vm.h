@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/28 20:57:53 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/29 21:18:19 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VM_H
 # define VM_H
 
+# include <curses.h>
+# include <time.h>
 # include <libftprintf.h>
 # include <op.h>
 
@@ -29,9 +31,6 @@ typedef struct s_widgets		t_widgets;
 /*
 ** ncurses visualizer info
 */
-
-# include <curses.h>
-# include <time.h>
 
 # define EXIT_KEY					27
 # define RUN						' '
@@ -65,8 +64,6 @@ typedef struct s_widgets		t_widgets;
 # define COLOR_DELTA				10
 # define WIDGET_LENGTH				50
 # define CLR_CYCTOWAIT				50
-# define TWOSIXTEEN					65536
-# define FPOS						21510
 
 # define N			(v->ncurses)
 
@@ -135,7 +132,6 @@ struct				s_info
 
 struct				s_args
 {
-	// unsigned int		is_binary : 1;
 	unsigned int		is_ncurses : 1;
 	unsigned int		is_dump : 1;
 	unsigned int		is_stealth : 1;
@@ -250,7 +246,9 @@ void				get_winner(t_vm *v);
 /*
 ** Operations functions
 */
-#define PUMPKIN		(res << (8 * i)) >> (8 * (size - 1))
+# define PUMPKIN		(res << (8 * i)) >> (8 * (size - 1))
+# define TWOSIXTEEN		65536
+# define FPOS			21510
 
 void				add(t_car *self, t_vm *v);
 void				aff(t_car *self, t_vm *v);

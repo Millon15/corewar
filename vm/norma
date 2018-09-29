@@ -1,0 +1,365 @@
+Norme: ./src/carriage_utils2.c
+Error (line 20): C++ comment
+Error (line 21): C++ comment
+Error (line 22): C++ comment
+Error (line 24): C++ comment
+Error (line 25): C++ comment
+Error (line 26): C++ comment
+Error (line 27): C++ comment
+Error (line 28): C++ comment
+Error (line 29): C++ comment
+Error (line 30): C++ comment
+Error (line 31): C++ comment
+Error (line 32): C++ comment
+Error (line 33): C++ comment
+Error (line 41): C++ comment
+Norme: ./src/errors.c
+Error (line 29): C++ comment
+Error (line 30): C++ comment
+Norme: ./src/carriage_utils.c
+Norme: ./src/fill_the_map.c
+Norme: ./src/operations/add.c
+Norme: ./src/args_parsing.c
+Error (line 108, col 3): missing space after break
+Norme: ./src/operations/aff.c
+Norme: ./src/main_cycle_funcs.c
+Error (line 22): comment not well placed
+Error (line 22): comment not well formatted
+Norme: ./src/operations/ld.c
+Error (line 32): line has 100 characters
+Error (line 32, col 44): bad spacing
+Norme: ./src/operations/lfork.c
+Error (line 24): line has 99 characters
+Error (line 29): line has 98 characters
+Error (line 29): C++ comment
+Error (line 29): bad indentation
+Error (line 33): line has 94 characters
+Error (line 36): line has 118 characters
+Error (line 37): line has 103 characters
+Norme: ./src/operations/live.c
+Error (line 36): line has 90 characters
+Error (line 37, col 3): missing space after break
+Norme: ./src/operations/lld.c
+Error (line 33): line has 101 characters
+Error (line 33, col 45): bad spacing
+Norme: ./src/carriage.c
+Error: global scope bad aligned
+Error (line 42): line has 86 characters
+Error (line 50): C++ comment
+Error (line 62): spaces at the end of line
+Error (line 62, col 29): bad character after ;
+Error (line 67): function vnp_args has 30 lines
+Error (line 90): line has 116 characters
+Error (line 91): line has 87 characters
+Error (line 101): function vnp_codage has 42 lines
+Error (line 108): C++ comment
+Error (line 109): C++ comment
+Error (line 125): C++ comment
+Error (line 126): C++ comment
+Error (line 157): line has 82 characters
+Error (line 174): C++ comment
+Error (line 175): C++ comment
+Norme: ./src/operations/and.c
+Error: file must end with a single empty line
+Error (line 31, col 0): no newline after block
+Norme: ./src/operations/ldi.c
+Error (line 15): function ldi has 130 lines
+Error (line 15, col 0): ldi has 10 variables
+Error (line 45): line has 95 characters
+Error (line 53): comment not well placed
+Error (line 53): comment not well formatted
+Error (line 55): line has 120 characters
+Error (line 55): C++ comment
+Error (line 66): line has 89 characters
+Error (line 69): missing newline after if
+Error (line 69): line has 149 characters
+Error (line 69): comment not well placed
+Error (line 69): comment not well formatted
+Error (line 70): line has 176 characters
+Error (line 70): comment not well placed
+Error (line 70): comment not well formatted
+Error (line 70): C++ comment
+Error (line 85): C++ comment
+Error (line 85): bad indentation
+Error (line 86): C++ comment
+Error (line 86): bad indentation
+Error (line 87): C++ comment
+Error (line 87): bad indentation
+Error (line 88): C++ comment
+Error (line 88): bad indentation
+Error (line 90): bad indentation
+Error (line 90): spaces at the end of line
+Error (line 109): C++ comment
+Error (line 109, col 19): bad character after ;
+Error (line 110): C++ comment
+Error (line 110): bad indentation
+Error (line 111): C++ comment
+Error (line 111): bad indentation
+Error (line 112): comment not well formatted
+Error (line 119): C++ comment
+Error (line 119): bad indentation
+Error (line 129): C++ comment
+Error (line 129): bad indentation
+Error (line 130): C++ comment
+Error (line 130): bad indentation
+Error (line 131): C++ comment
+Error (line 131): bad indentation
+Error (line 132): C++ comment
+Error (line 132): bad indentation
+Error (line 136): line has 82 characters
+Error (line 138): C++ comment
+Error (line 139): C++ comment
+Norme: ./src/operations/op_fork.c
+Error (line 25): C++ comment
+Error (line 25): bad indentation
+Error (line 26): missing newline after if
+Error (line 26): line has 154 characters
+Error (line 26): C++ comment
+Error (line 28): spaces at the end of line
+Error (line 37): line has 110 characters
+Error (line 38): line has 100 characters
+Norme: ./src/operations/or.c
+Error: file must end with a single empty line
+Error (line 31, col 0): no newline after block
+Norme: ./src/operations/sub.c
+Norme: ./src/operations/lldi.c
+Error (line 15): function lldi has 149 lines
+Error (line 15, col 0): lldi has 10 variables
+Error (line 45): line has 95 characters
+Error (line 53): comment not well placed
+Error (line 53): comment not well formatted
+Error (line 55): line has 120 characters
+Error (line 55): C++ comment
+Error (line 64): line has 89 characters
+Error (line 67): missing newline after if
+Error (line 67): line has 149 characters
+Error (line 67): comment not well placed
+Error (line 67): comment not well formatted
+Error (line 68): line has 176 characters
+Error (line 68): comment not well placed
+Error (line 68): comment not well formatted
+Error (line 68): C++ comment
+Error (line 81): C++ comment
+Error (line 81): bad indentation
+Error (line 82): C++ comment
+Error (line 82): bad indentation
+Error (line 83): C++ comment
+Error (line 83): bad indentation
+Error (line 84): C++ comment
+Error (line 84): bad indentation
+Error (line 86): bad indentation
+Error (line 86): spaces at the end of line
+Error (line 105): C++ comment
+Error (line 105, col 19): bad character after ;
+Error (line 106): C++ comment
+Error (line 106): bad indentation
+Error (line 107): C++ comment
+Error (line 107): bad indentation
+Error (line 108): comment not well formatted
+Error (line 115): C++ comment
+Error (line 115): bad indentation
+Error (line 125): C++ comment
+Error (line 125): bad indentation
+Error (line 126): C++ comment
+Error (line 126): bad indentation
+Error (line 127): C++ comment
+Error (line 127): bad indentation
+Error (line 128): C++ comment
+Error (line 128): bad indentation
+Error (line 132): line has 83 characters
+Error (line 134): C++ comment
+Error (line 135): C++ comment
+Error (line 143): C++ comment
+Error (line 144): C++ comment
+Error (line 145): Empty line
+Error (line 146): C++ comment
+Error (line 147): C++ comment
+Error (line 148): C++ comment
+Error (line 149): C++ comment
+Error (line 150): C++ comment
+Error (line 151): C++ comment
+Error (line 152): C++ comment
+Error (line 153): C++ comment
+Error (line 154): C++ comment
+Error (line 155): C++ comment
+Error (line 156): C++ comment
+Error (line 157): C++ comment
+Error (line 158): C++ comment
+Error (line 159): C++ comment
+Error (line 160): C++ comment
+Error (line 161): C++ comment
+Error (line 162): C++ comment
+Error (line 163): C++ comment
+Error (line 164): C++ comment
+Error (line 165): C++ comment
+Norme: ./src/operations/xor.c
+Norme: ./src/operations/st.c
+Error (line 15): function st has 60 lines
+Error (line 15, col 0): st has 7 variables
+Error (line 28): C++ comment
+Error (line 28): bad indentation
+Error (line 33): line has 113 characters
+Error (line 36): line has 92 characters
+Error (line 36): C++ comment
+Error (line 36): bad indentation
+Error (line 42): C++ comment
+Error (line 60): C++ comment
+Error (line 61): C++ comment
+Error (line 63, col 24): missing space around +
+Error (line 64): C++ comment
+Error (line 65): line has 105 characters
+Norme: ./src/utils.c
+Norme: ./src/operations/zjmp.c
+Error (line 15): function jump_car has 27 lines
+Error (line 15): declarations must be followed by one empty line in jump_car
+Error (line 21): spaces at the end of line
+Error (line 22): Empty line
+Error (line 23): C++ comment
+Error (line 24): C++ comment
+Error (line 25): C++ comment
+Error (line 26): C++ comment
+Error (line 27): line has 87 characters
+Error (line 27): C++ comment
+Error (line 27): bad indentation
+Error (line 28): C++ comment
+Error (line 28): bad indentation
+Error (line 29): C++ comment
+Error (line 29): bad indentation
+Error (line 43): line has 85 characters
+Error (line 47): C++ comment
+Error (line 48): C++ comment
+Error (line 49): C++ comment
+Error (line 50): bad indentation
+Error (line 50): spaces at the end of line
+Error (line 51): C++ comment
+Error (line 52): C++ comment
+Error (line 53): C++ comment
+Error (line 54): C++ comment
+Error (line 55): C++ comment
+Error (line 56): C++ comment
+Error (line 57): C++ comment
+Error (line 58): C++ comment
+Error (line 59): C++ comment
+Error (line 60): C++ comment
+Error (line 61): C++ comment
+Error (line 62): C++ comment
+Error (line 63): C++ comment
+Error (line 64): C++ comment
+Error (line 65): C++ comment
+Error (line 66): C++ comment
+Error (line 67): C++ comment
+Error (line 68): C++ comment
+Error (line 69): C++ comment
+Error (line 70): C++ comment
+Error (line 71): C++ comment
+Error (line 72): C++ comment
+Error (line 73): C++ comment
+Error (line 75): function zjmp has 40 lines
+Error (line 87): C++ comment
+Error (line 88): C++ comment
+Error (line 89): C++ comment
+Error (line 90): C++ comment
+Error (line 91): C++ comment
+Error (line 92): line has 87 characters
+Error (line 93): C++ comment
+Error (line 96): spaces at the end of line
+Error (line 96, col 1): no newline after block
+Error (line 99): C++ comment
+Error (line 99): bad indentation
+Error (line 100): C++ comment
+Error (line 100): bad indentation
+Error (line 101): C++ comment
+Error (line 101): bad indentation
+Error (line 102): C++ comment
+Error (line 102): bad indentation
+Error (line 103): C++ comment
+Error (line 103): bad indentation
+Error (line 104): C++ comment
+Error (line 104): bad indentation
+Error (line 105): C++ comment
+Error (line 105): bad indentation
+Error (line 106): C++ comment
+Error (line 106): bad indentation
+Norme: ./src/visualizer/v_deinit.c
+Norme: ./src/visualizer/v_main.c
+Norme: ./src/visualizer/v_init.c
+Error (line 117): C++ comment
+Error (line 118): C++ comment
+Norme: ./src/visualizer/v_widgets.c
+Norme: ./src/vm.c
+Error (line 37): function pass_one_cycle has 32 lines
+Error (line 50): line has 153 characters
+Norme: ./src/operations/sti.c
+Error: global scope bad aligned
+Error (line 26): line has 83 characters
+Error (line 39): C++ comment
+Error (line 40): C++ comment
+Error (line 41): C++ comment
+Error (line 42): C++ comment
+Error (line 50): line has 84 characters
+Error (line 59): C++ comment
+Error (line 60): C++ comment
+Error (line 61): C++ comment
+Error (line 62): C++ comment
+Error (line 70): function sti has 133 lines
+Error (line 70, col 0): sti has 12 variables
+Error (line 102): line has 93 characters
+Error (line 105): line has 86 characters
+Error (line 105): C++ comment
+Error (line 105): bad indentation
+Error (line 106): C++ comment
+Error (line 106): bad indentation
+Error (line 107): C++ comment
+Error (line 107): bad indentation
+Error (line 108): line has 171 characters
+Error (line 108): C++ comment
+Error (line 108): bad indentation
+Error (line 109): C++ comment
+Error (line 109): bad indentation
+Error (line 110): missing newline after if
+Error (line 111, col 2): missing space around ||
+Error (line 114): C++ comment
+Error (line 115): comment not well placed
+Error (line 115): comment not well formatted
+Error (line 119): line has 120 characters
+Error (line 119): C++ comment
+Error (line 130): line has 87 characters
+Error (line 133): C++ comment
+Error (line 133): bad indentation
+Error (line 134): C++ comment
+Error (line 134): bad indentation
+Error (line 136): line has 83 characters
+Error (line 137): line has 128 characters
+Error (line 137): comment not well placed
+Error (line 137): comment not well formatted
+Error (line 138): line has 168 characters
+Error (line 138): C++ comment
+Error (line 153): C++ comment
+Error (line 153): bad indentation
+Error (line 154): C++ comment
+Error (line 154): bad indentation
+Error (line 155): C++ comment
+Error (line 155): bad indentation
+Error (line 156): C++ comment
+Error (line 156): bad indentation
+Error (line 157): spaces at the end of line
+Error (line 157, col 1): no newline after block
+Error (line 177): C++ comment
+Error (line 177): bad indentation
+Error (line 181): C++ comment
+Error (line 183): C++ comment
+Error (line 184): C++ comment
+Error (line 184): bad indentation
+Error (line 185): C++ comment
+Error (line 185): bad indentation
+Error (line 190): line has 107 characters
+Error (line 194): line has 112 characters
+Error (line 195): line has 84 characters
+Error (line 197): C++ comment
+Error (line 198): C++ comment
+Error (line 199): C++ comment
+Error (line 200): C++ comment
+Error (line 201): C++ comment
+Error (line 201): bad indentation
+Error (line 202): C++ comment
+Norme: ./src/visualizer/v_print.c
