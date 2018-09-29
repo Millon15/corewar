@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# That file needs to be launched in corewar/vm/(task|vm_champs) folder
+
+make -C ..
+echo -n > diff; echo -n > log; echo -n > log1
+./corewar $* > log1 &
+../corewar $* > log
+sleep 3
+diff log log1 > diff; wc -l < diff; sleep 3;
+if [[ $(cat diff) ]];
+then
+	less diff;
+fi

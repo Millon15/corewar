@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/28 12:14:42 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/29 21:02:06 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void			copy_car(t_car *self, t_vm *v, unsigned char *pc)
 void			init_car(unsigned char *where, unsigned int name, t_vm *v,
 	bool are_initialized_colors)
 {
-	t_car			*next = v->head;
+	const t_car		*next = v->head;
 	t_car			**tmp;
 	static int		id = 0;
 

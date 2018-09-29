@@ -59,8 +59,6 @@ task
 obj
 asm
 corewar
-!src/asm
-*champs*
 log*
 dump*
 diff*

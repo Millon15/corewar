@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 20:01:11 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/29 21:06:43 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static const t_op	g_func_tab[17] =
 	{0, 0, {0}, 0, 0, 0, 0, 0, NULL}
 };
 
-static bool		pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v, int n)
+static bool			pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v, int n)
 {
 	int	i;
 	int	padding;
@@ -64,7 +64,7 @@ static bool		pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v, int n)
 	return (true);
 }
 
-static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
+static int				vnp_args(t_car *self, const t_op *cur, t_vm *v)
 {
 	int						padding;
 	int						i;
@@ -98,15 +98,15 @@ static int		vnp_args(t_car *self, const t_op *cur, t_vm *v)
 	return (0);
 }
 
-static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
+static int			vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 {
 	unsigned char			codage;
 	unsigned char			cod[3];
 	int						i;
 
 	i = 0;
-	if (self->id == 369 && I.cur_cycle > 17500)
-		ft_printf("");
+	// if (self->id == 369 && I.cur_cycle > 17500)
+	// 	ft_printf("");
 	if (!(MEM_SIZE - (PC_IND)))
 		codage = (cur->octal) ? (*v->arena >> 2) : 0;
 	else
@@ -122,8 +122,8 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 			self->args[i] = cur->args[i];
 		return (vnp_args(self, cur, v));
 	}
-	if (self->id == 369 && I.cur_cycle > 17500)
-		ft_printf("");
+	// if (self->id == 369 && I.cur_cycle > 17500)
+	// 	ft_printf("");
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
 	i = -1;
@@ -144,7 +144,15 @@ static int		vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	return (vnp_args(self, cur, v));
 }
 
-void			perform_next_comm(t_car *self, t_vm *v)
+static inline void	carriage_refresh(t_car *self)
+{
+	ft_bzero(&self->args, sizeof(self->args));
+	ft_bzero(&self->arg_val, sizeof(self->arg_val));
+	self->cur_operation = -1;
+	self->cycles_to_wait = -1;
+}
+
+void				perform_next_comm(t_car *self, t_vm *v)
 {
 	if ((*self->pc > REG_NUMBER || *self->pc == 0) && (self->cycles_to_wait < 0))
 	{
@@ -160,18 +168,12 @@ void			perform_next_comm(t_car *self, t_vm *v)
 		{
 			move_pc(self, v, self->pc_padding, false);
 			self->pc_padding = 0;
-			ft_bzero(&self->args, sizeof(self->args));
-			ft_bzero(&self->arg_val, sizeof(self->arg_val));
-			self->cur_operation = -1;
-			self->cycles_to_wait = -1;
+			carriage_refresh(self);
 			return ;
 		}
-		if (self->id == 369 && I.cur_cycle > 17500)
-			ft_printf("");
+		// if (self->id == 369 && I.cur_cycle > 17500)
+		// 	ft_printf("");
 		g_func_tab[self->cur_operation].f(self, v);
-		ft_bzero(&self->args, sizeof(self->args));
-		ft_bzero(&self->arg_val, sizeof(self->arg_val));
-		self->cur_operation = -1;
-		self->cycles_to_wait = -1;
+		carriage_refresh(self);
 	}
 }

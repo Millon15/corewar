@@ -6,7 +6,7 @@
 /*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/24 18:06:38 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/29 21:20:50 by apyltsov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,29 @@ static inline void		open_one_file(char *av, int np, t_vm *v)
 	(++v->player_amount > MAX_PLAYERS) ? put_usage(3) : false;
 }
 
-static inline void		open_files(int ac, char **av, t_vm *v, int i)
+static inline void		help_handle_n(char **av, int j, t_vm *v)
+{
+	int					np;
+
+	while (av[j])
+	{
+		if (!ft_strequ(av[j], "-n"))
+		{
+			np = 0;
+			while (np < MAX_PLAYERS)
+				if (v->player[np].fd != 0)
+					np++;
+				else
+					break ;
+			open_one_file(av[j], np, v);
+			j++;
+		}
+		else
+			j += 3;
+	}
+}
+
+static inline void		handle_n(int ac, char **av, t_vm *v, int i)
 {
 	static int	max_np;
 	int			np;
@@ -31,67 +53,61 @@ static inline void		open_files(int ac, char **av, t_vm *v, int i)
 	{
 		if (ft_strequ(av[i], "-n"))
 		{
-			if (!av[i + 1] || !av[i + 2] || (np = ft_atoi(av[i + 1])) > MAX_PLAYERS
-			|| np < 1 || v->player[np - 1].fd != 0)
+			if (!av[i + 1] || !av[i + 2]
+			|| (np = ft_atoi(av[i + 1])) > MAX_PLAYERS
+			|| np < 1 || P(np - 1).fd != 0)
 				put_usage(5);
 			max_np = (np > max_np) ? np : max_np;
 			open_one_file(av[i + 2], np - 1, v);
 		}
 		i++;
 	}
-	while(av[j])
-	{
-		if (!ft_strequ(av[j], "-n"))
-		{
-			np = 0;
-			while (np < MAX_PLAYERS)
-			{
-				if (v->player[np].fd != 0)
-					np++;
-				else
-					break;
-			}
-			open_one_file(av[j], np, v);
-			j++;		
-		}
-		else
-			j += 3;
-	}
+	help_handle_n(av, j, v);
 	if (max_np > v->player_amount)
-		put_usage(5);	
+		put_usage(5);
+}
+
+static inline int		help_check_and_obtain_args(char **av, int i, t_vm *v)
+{
+	if (ft_strequ(av[i], "--ncurses"))
+		A.is_ncurses = true;
+	else if (ft_strequ(av[i], "-d") || ft_strequ(av[i], "-dump")
+	|| ft_strequ(av[i], "--dump"))
+	{
+		(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(2) : false;
+		A.is_dump = true;
+		A.dump_value = (unsigned int)ft_atoi(av[i]);
+	}
+	else if (ft_strequ(av[i], "-v"))
+	{
+		(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(6) : false;
+		A.verbose_value = (unsigned int)ft_atoi(av[i]);
+	}
+	else if (ft_strequ(av[i], "--start-in"))
+	{
+		(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(6) : false;
+		A.vis_start_value = (unsigned int)ft_atoi(av[i]);
+	}
+	else if (ft_strequ(av[i], "--stealth"))
+		A.is_stealth = true;
+	else
+		return (-1);
+	return (i);
 }
 
 inline void				check_and_obtain_args(int ac, char **av, t_vm *v)
 {
 	int		i;
+	int		j;
 
 	(ac == 1) ? put_usage(1) : false;
 	i = 0;
 	while (++i < ac)
 	{
-		if (ft_strequ(av[i], "--ncurses"))
-			A.is_ncurses = true;
-		else if (ft_strequ(av[i], "-d") || ft_strequ(av[i], "-dump")
-		|| ft_strequ(av[i], "--dump"))
-		{
-			(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(2) : false;
-			A.is_dump = true;
-			A.dump_value = (unsigned int)ft_atoi(av[i]);
-		}
-		else if (ft_strequ(av[i], "-v"))
-		{
-			(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(6) : false;
-			A.verbose_value = (unsigned int)ft_atoi(av[i]);
-		}
-		else if (ft_strequ(av[i], "--start-in"))
-		{
-			(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(6) : false;
-			A.vis_start_value = (unsigned int)ft_atoi(av[i]);
-		}
-		else if (ft_strequ(av[i], "--stealth"))
-			A.is_stealth = true;
-		else
+		if ((j = help_check_and_obtain_args(av, i, v)) == -1)
 			break ;
+		else
+			i = j;
 	}
-	open_files(ac, av, v, i);
+	handle_n(ac, av, v, i);
 }
