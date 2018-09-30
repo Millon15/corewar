@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 07:49:16 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 08:27:28 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void		st(t_car *self, t_vm *v)
 	int					tmp;
 
 	i = -1;
-	if (self->id == 49 && I.cur_cycle > 5880)
+	if (self->id == 45 && I.cur_cycle > 4200)
 		ft_printf("");
 	// first_arg = res % IDX_MOD;
 	tmp = self->arg_val[1];
@@ -32,7 +32,7 @@ void		st(t_car *self, t_vm *v)
 	{
 		if (tmp > IDX_MOD && !(tmp % IDX_MOD))
 			first_arg = 0;
-		else if ((tmp > MEM_SIZE * 2) && (tmp % IDX_MOD == tmp % MEM_SIZE)
+		else if ((tmp > SHORT_RANGE / 2) && (tmp % IDX_MOD == tmp % MEM_SIZE)
 		&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD)
 			first_arg = tmp - SHORT_RANGE;
 		else if ((tmp >= FPOS && tmp <= FPOS1))
