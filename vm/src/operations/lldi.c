@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:45 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/29 22:17:50 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 05:32:49 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void		lldi(t_car *self, t_vm *v)
 	as = false;
 	sa = 0;
 	fa = 0;
-	if (self->id == 5 && I.cur_cycle == 3600)
+	if (self->id == 39 && I.cur_cycle >= 3600)
 		ft_printf("");
 	if (self->args[0] == T_IND)
 	{
@@ -49,13 +49,21 @@ void		lldi(t_car *self, t_vm *v)
 		|| first_arg % IDX_MOD == 0
 		|| first_arg % MEM_SIZE == 0
 		|| IDX_MOD % (first_arg % IDX_MOD) == self->arg_val[2]
-		|| first_arg == FPOS || first_arg == FPOS1)
+		|| first_arg == FPOS
+		|| first_arg == FPOS1)
 		/*|| first_arg % IDX_MOD == first_arg % MEM_SIZE
 		|| ((first_arg % IDX_MOD) % (first_arg % MEM_SIZE)) == 0
 		|| ((first_arg % MEM_SIZE) % (first_arg % IDX_MOD)) == 0) && (self->args[1] != T_REG)*/			//dikie kostyli
 			fa_uint = true;
 		else if (((first_arg >> 24) < 254 && (first_arg >> 24)) && self->args[0] == T_REG)
 			fa_uint = true;
+		else if ((first_arg >> 24) == 254)
+			fa = first_arg;
+		else if (first_arg % IDX_MOD == first_arg % MEM_SIZE)
+			sa = first_arg;
+			// sa = -1 * ((first_arg >> 16) - (first_arg % IDX_MOD) + 1);
+		else if (first_arg <= MEM_SIZE * 2)
+			fa = first_arg;
 		else
 			fa = first_arg % IDX_MOD - IDX_MOD;
 	}
@@ -70,6 +78,13 @@ void		lldi(t_car *self, t_vm *v)
 			sa_uint = true;
 		else if (((sec_arg >> 24) < 254 && (sec_arg >> 24)) && self->args[1] == T_REG)
 			sa_uint = true;
+		else if ((sec_arg >> 24) == 254)
+			fa = sec_arg;
+		else if (sec_arg % IDX_MOD == sec_arg % MEM_SIZE)
+			sa = sec_arg;
+			// sa = -1 * ((sec_arg >> 16) - (sec_arg % IDX_MOD) + 1);
+		else if (sec_arg <= MEM_SIZE * 2)
+			sa = sec_arg;
 		else
 			sa = sec_arg % IDX_MOD - IDX_MOD;
 	}
@@ -108,13 +123,13 @@ void		lldi(t_car *self, t_vm *v)
 	// arg_sum += PC_IND;
 	if (as == false/* && u_arg_sum + PC_IND > MEM_SIZE*/)
 	{
-		u_arg_sum %= IDX_MOD;
+		// u_arg_sum %= IDX_MOD;
 		u_arg_sum += PC_IND;
 	}
 	else if (as == true)
 	{
 		// if (arg_sum + PC_IND > MEM_SIZE)
-		arg_sum %= IDX_MOD;
+		// arg_sum %= IDX_MOD;
 		arg_sum += PC_IND;
 	}
 	if ((as == true) && (arg_sum < 0))
@@ -134,7 +149,7 @@ void		lldi(t_car *self, t_vm *v)
 		, (sa_uint) ? sec_arg : sa, self->arg_val[2]);
 		// if (as == false && u_arg_sum > MEM_SIZE)
 		// 	u_arg_sum = ((u_arg_sum - PC_IND) % IDX_MOD) + PC_IND;
-		ft_printf("%8c -> load from %d + %d = %d (with pc and mod %d)\n", '|',
+		ft_printf("%8c -> load from %d + %d = %d (with pc %d)\n", '|',
 		fa_uint == true ? first_arg : fa, sa_uint == true ? sec_arg : sa,
 		(fa_uint == true ? first_arg : fa) + (sa_uint == true ? sec_arg : sa),
 		as == false ? u_arg_sum : arg_sum);

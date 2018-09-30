@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/29 22:17:44 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 05:30:59 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void			ldi(t_car *self, t_vm *v)
 			fa_uint = true;
 		else if (((first_arg >> 24) < 254 && (first_arg >> 24)) && self->args[0] == T_REG)
 			fa_uint = true;
+		else if ((first_arg >> 24) == 254)
+			fa = first_arg;
 		else if (first_arg % IDX_MOD == first_arg % MEM_SIZE)
 			sa = first_arg;
 			// sa = -1 * ((first_arg >> 16) - (first_arg % IDX_MOD) + 1);
@@ -76,6 +78,8 @@ void			ldi(t_car *self, t_vm *v)
 			sa_uint = true;
 		else if (((sec_arg >> 24) < 254 && (sec_arg >> 24)) && self->args[1] == T_REG)
 			sa_uint = true;
+		else if ((sec_arg >> 24) == 254)
+			fa = sec_arg;
 		else if (sec_arg % IDX_MOD == sec_arg % MEM_SIZE)
 			sa = sec_arg;
 			// sa = -1 * ((sec_arg >> 16) - (sec_arg % IDX_MOD) + 1);
