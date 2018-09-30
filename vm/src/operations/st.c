@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 11:42:45 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 16:13:03 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void				st(t_car *self, t_vm *v)
 	const unsigned int	size = sizeof(res);
 	int					tmp;
 
+	if (self->id == 1 && I.cur_cycle == 6250)
+		ft_printf("");
 	tmp = self->arg_val[1];
 	if (self->args[1] == T_IND)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/29 21:06:43 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/30 16:37:50 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ static inline void	carriage_refresh(t_car *self)
 
 void				perform_next_comm(t_car *self, t_vm *v)
 {
+	if (self->id == 1 && I.cur_cycle > 6250)
+			ft_printf("");
 	if ((*self->pc > REG_NUMBER || *self->pc == 0) && (self->cycles_to_wait < 0))
 	{
 		move_pc(self, v, 1, false);
@@ -171,8 +173,6 @@ void				perform_next_comm(t_car *self, t_vm *v)
 			carriage_refresh(self);
 			return ;
 		}
-		// if (self->id == 369 && I.cur_cycle > 17500)
-		// 	ft_printf("");
 		g_func_tab[self->cur_operation].f(self, v);
 		carriage_refresh(self);
 	}
