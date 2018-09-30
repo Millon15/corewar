@@ -6,7 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-#    Updated: 2018/09/16 17:42:31 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/09/30 17:36:49 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LFLAGS := -lncurses
 HFILES :=		vm op
 OPERATIONS :=	add aff and ld ldi lfork live lld lldi op_fork or st sti sub xor zjmp
 FILES :=		vm errors utils args_parsing fill_the_map carriage carriage_utils carriage_utils2 main_cycle_funcs
-VISUALIZER :=	v_main v_init v_print v_widgets v_deinit
+VISUALIZER :=	v_main v_init v_print v_widgets v_deinit v_print_stat
 LIB :=			$(LIB_PATH)libftprintf.a
 
 HDRS := $(addprefix $(INC_PATH), $(addsuffix .h, $(HFILES)))

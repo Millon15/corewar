@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 14:16:57 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:03:32 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_widgets		t_widgets;
 # define SQBIG_VAL					10
 # define SQSMALL_VAL				1
 # define CLEAR_LINE_PADD			20
-# define MW_ROW_LENGHT				64
+# define MW_ROW_LENGTH				64
 # define COLOR_AMOUNT				(MAX_PLAYERS + 1)
 # define COMMON_HEIGHT				(MEM_SIZE / 64 + 4)
 # define STAT_HEIGHT				(MAX_PLAYERS + 4)
@@ -59,6 +59,7 @@ typedef struct s_widgets		t_widgets;
 # define START_ROW_STAT				2
 
 # define ALIGN_CENTER(width, len)	(((width)-(len))?(((width)-(len))/2):0)
+# define STAT_FIELD					(SW_WIDTH - STAT_LENGTH - 3)
 
 # define BORDER						31
 # define MAIN						32
@@ -69,6 +70,7 @@ typedef struct s_widgets		t_widgets;
 # define STAT						42
 # define COLOR_DELTA				10
 # define WIDGET_LENGTH				50
+# define STAT_LENGTH				61
 # define CLR_CYCTOWAIT				50
 
 # define N			v->ncurses
@@ -116,6 +118,7 @@ void				put_car_color_to_arena(t_vm *v);
 void				print_one_cycle(t_vm *v, const bool is_pass_cycle);
 void				print_widgets(t_vm *v, int *row);
 void				print_info(t_vm *v, const bool is_print_full_info);
+void				print_stats(t_vm *v);
 void				deinit_windows(t_vm *v);
 
 /*

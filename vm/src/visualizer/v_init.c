@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 13:12:46 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/30 20:28:18 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void					init_windows(t_vm *v)
 	N->t = clock();
 	N->is_run = false;
 	N->cycpersec = START_CYCLES_PER_SEC;
+	N->is_run = true;
+	N->cycpersec = SQMAX_VAL;
 	(A.vis_start_value) ? set_start_vis_cycle(v) : false;
 	refresh();
 	(I.cycle_to_die > 0 && v->head) ? print_one_cycle(v, false) : false;
