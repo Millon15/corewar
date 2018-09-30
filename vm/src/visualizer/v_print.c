@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   v_print.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/28 12:20:06 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 08:51:01 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static inline void		put_car_color_to_arena(t_vm *v)
 	self = v->head;
 	while (self)
 	{
-		if (self->id == 42)
-			ft_printf("");
 		N->clr[PC_IND].main +=
 		(N->clr[PC_IND].main < N->ccolors[0]) ? COLOR_DELTA : 0;
 		self = self->next;
@@ -35,8 +33,6 @@ static inline void		print_main(t_vm *v)
 
 	i = -1;
 	row = START_ROW_MAIN - 1;
-	if (I.cur_cycle >= 3575)
-		ft_printf("");
 	put_car_color_to_arena(v);
 	while (++i < MEM_SIZE)
 	{
@@ -62,7 +58,7 @@ static inline void		print_full_info(t_vm *v, int row, int i)
 		mvwprintw(N->infow, (row += 2), 4, "Player -%d : ", i + 1);
 		wattroff(N->infow, COLOR_PAIR(INFO));
 		wattron(N->infow, COLOR_PAIR(N->pcolors[i]));
-		wprintw(N->infow, "%.*s", START_IW_WIDTH - 18, P(i).prog_name);
+		wprintw(N->infow, "%.*s", IW_WIDTH - 18, P(i).prog_name);
 		wattroff(N->infow, COLOR_PAIR(N->pcolors[i]));
 		wattron(N->infow, COLOR_PAIR(INFO));
 		mvwprintw(N->infow, ++row, 6, "Last live :\t\t\t%-*d",
@@ -88,7 +84,7 @@ inline void				print_info(t_vm *v, const bool is_print_full_info)
 
 	row = START_ROW_INFO;
 	i = -1;
-	mvwprintw(N->infow, COMMON_HEIGHT - 4, ALIGN_CENTER(START_IW_WIDTH, 13),
+	mvwprintw(N->infow, COMMON_HEIGHT - 4, ALIGN_CENTER(IW_WIDTH, 13),
 	"%-*s", CLEAR_LINE_PADD, (N->is_run) ? "** RUNNING **" : "** PAUSED **");
 	mvwprintw(N->infow, row, 4, "Cycles/second limit :\t%-*d",
 	CLEAR_LINE_PADD, N->cycpersec);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 06:45:37 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 08:03:04 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ typedef struct s_widgets		t_widgets;
 # define MW_ROW_LENGHT				64
 # define COLOR_AMOUNT				(MAX_PLAYERS + 1)
 # define COMMON_HEIGHT				(MEM_SIZE / 64 + 4)
-# define START_MW_WIDTH				(64 * 3 + 7)
-# define START_IW_WIDTH				(START_MW_WIDTH / 3)
+# define STAT_HEIGHT				(MAX_PLAYERS + 2)
+# define MW_WIDTH					(64 * 3 + 7)
+# define IW_WIDTH					(MW_WIDTH / 3)
+# define SW_WIDTH					(MW_WIDTH+IW_WIDTH+1)
 # define START_CYCLES_PER_SEC		50
 # define START_ROW_MAIN				2
 # define START_ROW_INFO				2
@@ -65,7 +67,7 @@ typedef struct s_widgets		t_widgets;
 # define WIDGET_LENGTH				50
 # define CLR_CYCTOWAIT				50
 
-# define N			(v->ncurses)
+# define N			v->ncurses
 
 struct				s_widgets
 {
@@ -92,6 +94,7 @@ struct				s_curses
 
 	WINDOW			*mainw;
 	WINDOW			*infow;
+	WINDOW			*statw;
 
 	t_colors		clr[MEM_SIZE];
 
@@ -112,7 +115,7 @@ void				deinit_windows(t_vm *v);
 ** Info structure
 */
 
-# define I			(v->info)
+# define I			v->info
 # define PC_IND		(self->pc - v->arena)
 
 struct				s_info
@@ -128,7 +131,7 @@ struct				s_info
 ** Structure of passed args
 */
 
-# define A			(v->args)
+# define A			v->args
 
 struct				s_args
 {
@@ -161,7 +164,7 @@ struct				s_operations
 ** Structure of the single player
 */
 
-# define P(x)		(v->player[(x)])
+# define P(x)		v->player[x]
 
 struct				s_player
 {

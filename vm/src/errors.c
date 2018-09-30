@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 16:45:51 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/05 15:52:54 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/30 08:49:17 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <string.h>
 
 static const char	g_usage[] = "Usage: ./corewar "
-"./corewar -v N|(-d|-dump|--dump) N|--ncurses|-n N championN.cor"
+"-v N|(-d|-dump|--dump) N|--ncurses|-n N championN.cor"
 " <champion1.cor> <...>\n"
 "\t(-d|-dump|--dump) N\t: dumps memory after N cycles then exits\n"
 "\t--ncurses\t\t: ncurses output mode\n"
@@ -26,8 +26,6 @@ static const char	g_usage[] = "Usage: ./corewar "
 "\t\t\t\t- 4 : Show operations (Params are NOT litteral ...)\n"
 "\t\t\t\t- 8 : Show deaths\n"
 "\t\t\t\t- 16 : Show PC movements (Except for jumps)\n";
-// "\t-b\t\t: Binary output mode for corewar.42.fr\n"
-// "\t--stealth\t: Hides the real contents of the memory\n";
 
 bool				put_usage(const int errnum)
 {
@@ -44,7 +42,7 @@ bool				put_usage(const int errnum)
 	else
 		errstr = "";
 	ft_dprintf(2, (is_invalid_error) ? "%.s%.s\n\n%s" : "%s%s\n\n%s",
-	"ERROR: ", errstr, g_usage);
+	"Error: ", errstr, g_usage);
 	exit(1);
 }
 
@@ -55,6 +53,6 @@ bool				put_error(const int errnum, const char *errstr,
 	"%sFile %s has no magic number in its header\n",
 	"%sFile %s has too large source code (%u bytes > %u bytes)\n"};
 
-	ft_dprintf(2, errors[errnum], "ERROR: ", errstr, i1, i2);
+	ft_dprintf(2, errors[errnum], "Error: ", errstr, i1, i2);
 	exit(2);
 }

@@ -59,6 +59,7 @@ task
 obj
 asm
 corewar
+*.cor
 log*
 dump*
 diff*

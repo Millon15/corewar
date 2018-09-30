@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   v_init.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/29 21:07:52 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/30 08:50:08 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,18 @@ static inline void		init_colors(t_vm *v)
 	}
 }
 
-static inline void		init_visualizer(void)
+static inline void		put_border(WINDOW *win)
 {
+	wattron(win, COLOR_PAIR(BORDER));
+	wborder(win, BORDC, BORDC, BORDC, BORDC,
+	BORDC, BORDC, BORDC, BORDC);
+	wattroff(win, COLOR_PAIR(BORDER));
+}
+
+static inline void		init_visualizer(t_vm *v)
+{
+	N = (t_curses *)ft_memalloc(sizeof(t_curses));
+	ft_bzero(&N->w, sizeof(t_widgets));
 	initscr();
 	keypad(stdscr, true);
 	nodelay(stdscr, true);
@@ -93,33 +103,26 @@ static inline void		init_visualizer(void)
 	init_pair(BORDER, COLOR_ORANGE, COLOR_ORANGE);
 	init_pair(MAIN, COLOR_WHITE, COLOR_BLACK);
 	init_pair(INFO, COLOR_WHITE, COLOR_BLACK);
+	init_colors(v);
+	put_colors(v);
 }
 
 void					init_windows(t_vm *v)
 {
-	N = (t_curses *)ft_memalloc(sizeof(t_curses));
-	ft_bzero(&N->w, sizeof(t_widgets));
-	init_visualizer();
-	init_colors(v);
-	put_colors(v);
-	N->mainw = newwin(COMMON_HEIGHT, START_MW_WIDTH, 0, 0);
-	wattron(N->mainw, COLOR_PAIR(BORDER));
-	wborder(N->mainw, BORDC, BORDC, BORDC, BORDC,
-	BORDC, BORDC, BORDC, BORDC);
-	wattroff(N->mainw, COLOR_PAIR(BORDER));
-	N->infow = newwin(COMMON_HEIGHT, START_IW_WIDTH, 0, START_MW_WIDTH - 1);
-	wattron(N->infow, COLOR_PAIR(BORDER));
-	wborder(N->infow, BORDC, BORDC, BORDC, BORDC,
-	BORDC, BORDC, BORDC, BORDC);
-	wattroff(N->infow, COLOR_PAIR(BORDER));
+	init_visualizer(v);
+	N->mainw = newwin(COMMON_HEIGHT, MW_WIDTH, 0, 0);
+	put_border(N->mainw);
+	N->infow = newwin(COMMON_HEIGHT, IW_WIDTH, 0, MW_WIDTH - 1);
 	wattron(N->infow, COLOR_PAIR(INFO) | A_BOLD);
+	put_border(N->infow);
+	N->statw = newwin(20, 50, COMMON_HEIGHT + 4, 5);
+	put_border(N->statw);
 	N->t = clock();
-	// N->is_run = true;
-	// N->cycpersec = SQMAX_VAL;
-	N->is_run = false;
-	N->cycpersec = START_CYCLES_PER_SEC;
+	N->is_run = true;
+	N->cycpersec = SQMAX_VAL;
+	// N->is_run = false;
+	// N->cycpersec = START_CYCLES_PER_SEC;
 	(A.vis_start_value) ? set_start_vis_cycle(v) : false;
 	refresh();
-	if (I.cycle_to_die > 0 && v->head)
-		print_one_cycle(v, false);
+	(I.cycle_to_die > 0 && v->head) ? print_one_cycle(v, false) : false;
 }

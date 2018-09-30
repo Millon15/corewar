@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_cycle_funcs.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/29 21:02:41 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/30 07:38:50 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,5 @@ void		get_winner(t_vm *v)
 		else if (P(i).points == P(I.winner).points && i != I.winner)
 			if (P(i).lives_in_cp_sum < P(I.winner).lives_in_cp_sum)
 				I.winner = i;
-		close(P(i).fd);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/28 12:23:13 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 07:37:48 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 static inline void		end_the_game(t_vm *v)
 {
-	int		i;
-
-	i = -1;
 	get_winner(v);
-	ft_printf("Contestant %d, \"%s\", has won !\n",
-	I.winner + 1, P(I.winner).prog_name);
+	ft_printf("Contestant %d, \"%s\", has won !\n"
+	, I.winner + 1, P(I.winner).prog_name);
 }
 
 static inline void		start_the_game(t_vm *v)

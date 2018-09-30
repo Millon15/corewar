@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_the_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 20:01:07 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 07:27:02 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void		fill_players(t_vm *v)
 		|| P(i).prog_size > CHAMP_MAX_SIZE) ? put_error(2,
 		P(i).filename, P(i).prog_size, CHAMP_MAX_SIZE) : 0;
 		P(i).is_alive = true;
+		close(P(i).fd);
 	}
 }
 
