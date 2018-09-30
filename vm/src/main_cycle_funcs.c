@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 07:38:50 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/30 11:28:59 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		make_live_nil(t_vm *v)
 	i = -1;
 	while (++i < v->player_amount)
 	{
-		P(i).lives_in_cp_sum += P(i).lives_in_cp;
+		P(i).total_lives += P(i).lives_in_cp;
 		P(i).lives_in_cp = 0;
 	}
 }
@@ -76,7 +76,7 @@ void		get_winner(t_vm *v)
 		if (P(i).points > P(I.winner).points)
 			I.winner = i;
 		else if (P(i).points == P(I.winner).points && i != I.winner)
-			if (P(i).lives_in_cp_sum < P(I.winner).lives_in_cp_sum)
+			if (P(i).total_lives < P(I.winner).total_lives)
 				I.winner = i;
 	}
 }

@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   v_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 21:53:27 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/24 16:19:51 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/09/30 13:44:31 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
+
+inline void				put_car_color_to_arena(t_vm *v)
+{
+	t_car	*self;
+
+	self = v->head;
+	while (self)
+	{
+		N->clr[PC_IND].main +=
+		(N->clr[PC_IND].main < N->ccolors[0]) ? COLOR_DELTA : 0;
+		self = self->next;
+	}
+}
+
+inline void				set_start_vis_cycle(t_vm *v)
+{
+	int					i;
+
+	while (I.cycle_to_die > 0 && v->head && A.vis_start_value--)
+	{
+		pass_one_cycle(v);
+		i = -1;
+		while (++i < MEM_SIZE)
+			(N->clr[i].bold > 0) ? N->clr[i].bold-- : false;
+	}
+}
 
 static bool				quicker_slower(t_vm *v)
 {
@@ -24,7 +50,7 @@ static bool				quicker_slower(t_vm *v)
 		N->cycpersec -= SQSMALL_VAL;
 	else
 		return (false);
-	if (N->cycpersec < 1)
+	if (N->cycpersec <= 1)
 		N->cycpersec = 1;
 	else if (N->cycpersec > SQMAX_VAL)
 		N->cycpersec = SQMAX_VAL;

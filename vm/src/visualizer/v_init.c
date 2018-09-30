@@ -6,24 +6,11 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 08:50:08 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/30 13:12:46 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
-
-static inline void		set_start_vis_cycle(t_vm *v)
-{
-	int					i;
-
-	while (I.cycle_to_die > 0 && v->head && A.vis_start_value--)
-	{
-		pass_one_cycle(v);
-		i = -1;
-		while (++i < MEM_SIZE)
-			(N->clr[i].bold > 0) ? N->clr[i].bold-- : false;
-	}
-}
 
 static inline void		put_colors(t_vm *v)
 {
@@ -70,6 +57,8 @@ static inline void		init_colors(t_vm *v)
 	j = COLOR_DELTA;
 	while (++i < COLOR_AMOUNT)
 	{
+		N->scolors[i] = STAT + i;
+		init_pair(N->scolors[i], color_pairs[l], color_pairs[l]);
 		N->ccolors[i] = j + COLOR_DELTA;
 		init_pair(N->ccolors[i], color_pairs[l + 1], color_pairs[l]);
 		N->pcolors[i] = j++;
@@ -103,6 +92,7 @@ static inline void		init_visualizer(t_vm *v)
 	init_pair(BORDER, COLOR_ORANGE, COLOR_ORANGE);
 	init_pair(MAIN, COLOR_WHITE, COLOR_BLACK);
 	init_pair(INFO, COLOR_WHITE, COLOR_BLACK);
+	init_pair(STAT, COLOR_WHITE, COLOR_BLACK);
 	init_colors(v);
 	put_colors(v);
 }
@@ -115,13 +105,12 @@ void					init_windows(t_vm *v)
 	N->infow = newwin(COMMON_HEIGHT, IW_WIDTH, 0, MW_WIDTH - 1);
 	wattron(N->infow, COLOR_PAIR(INFO) | A_BOLD);
 	put_border(N->infow);
-	N->statw = newwin(20, 50, COMMON_HEIGHT + 4, 5);
+	N->statw = newwin(STAT_HEIGHT, SW_WIDTH, COMMON_HEIGHT - 1, 0);
+	wattron(N->statw, COLOR_PAIR(STAT) | A_BOLD);
 	put_border(N->statw);
 	N->t = clock();
-	N->is_run = true;
-	N->cycpersec = SQMAX_VAL;
-	// N->is_run = false;
-	// N->cycpersec = START_CYCLES_PER_SEC;
+	N->is_run = false;
+	N->cycpersec = START_CYCLES_PER_SEC;
 	(A.vis_start_value) ? set_start_vis_cycle(v) : false;
 	refresh();
 	(I.cycle_to_die > 0 && v->head) ? print_one_cycle(v, false) : false;
