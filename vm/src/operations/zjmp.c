@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 04:05:28 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 06:44:26 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,8 @@ static inline void		jump_car(t_car *self, t_vm *v, int val,
 	if (self->arg_val[0] > MEM_SIZE && self->arg_val[0] < SHORT_RANGE
 	&& valmints % IDX_MOD == res)
 		res = self->arg_val[0] - SHORT_RANGE;
-	else if (self->arg_val[0] == FPOS)
-		res = FPOS;
-	else if (self->arg_val[0] == FPOS1)
-		res = FPOS1;
+	else if (self->arg_val[0] >= FPOS && self->arg_val[0] <= FPOS1)
+		res = self->arg_val[0];
 	else if (self->arg_val[0] > MEM_SIZE && !(self->arg_val[0] % IDX_MOD)
 		&& !(self->arg_val[0] % MEM_SIZE))
 		res = self->arg_val[0] - SHORT_RANGE;
