@@ -6,31 +6,61 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:31 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 19:56:08 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 15:19:22 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
+static inline int	calc_fa(int tmp)
+{
+	int	first_arg;
+
+	if (tmp > IDX_MOD && !(tmp % IDX_MOD))
+		first_arg = 0;
+	else if ((tmp > SHORT_RANGE / 2) && (tmp % IDX_MOD == tmp % MEM_SIZE)
+	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD)
+		first_arg = tmp - SHORT_RANGE;
+	else if ((tmp > IDX_MOD && tmp > MEM_SIZE && tmp <= MEM_SIZE * 2)
+	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp >= FPOS && tmp <= FPOS1)
+	|| (tmp > MEM_SIZE && tmp < FPOS
+	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD))
+		first_arg = tmp;
+	else
+	{
+		first_arg = (tmp > IDX_MOD) ?
+		tmp % IDX_MOD : tmp;
+		if (tmp > MEM_SIZE)
+			first_arg -= IDX_MOD;
+	}
+	return (first_arg);
+}
+
 void		lld(t_car *self, t_vm *v)
 {
-	int				i;
 	unsigned char	*pc;
+	long			tmp;
+	long			first_arg;
 
-	i = 0;
+	if (self->id == 4 && I.cur_cycle == 50)
+		ft_printf("");
+	tmp = self->arg_val[0];
 	if (self->args[0] == T_DIR)
-		self->reg[self->arg_val[i]] = self->arg_val[0];
+		self->reg[self->arg_val[1]] = tmp;
 	else if (self->args[0] == T_IND)
 	{
-		if (self->arg_val[0] > MEM_SIZE - PC_IND)
-			pc = &v->arena[self->arg_val[0] - MEM_SIZE - PC_IND];
+		// if (mod(tmp - SHORT_RANGE) )
+		first_arg = calc_fa(tmp);
+		if (first_arg > MEM_SIZE - PC_IND)
+			pc = &v->arena[first_arg - MEM_SIZE - PC_IND];
 		else
-			pc = &self->pc[self->arg_val[0]];
-		self->reg[self->arg_val[i]] = get_raw_num(pc, REG_SIZE, v);
+			pc = &v->arena[PC_IND + first_arg];
+		self->reg[self->arg_val[1]] = get_raw_num(pc, REG_SIZE, v);
 	}
-	self->carry = self->reg[self->arg_val[i]] ? false : true;
+	self->carry = self->reg[self->arg_val[1]] ? false : true;
 	if (A.verbose_value & 4)
-		ft_printf("P %4d | lld %d r%d\n", self->id,  self->reg[self->arg_val[1]], self->arg_val[1]);
+		ft_printf("P %4d | lld %d r%d\n", self->id,
+		self->reg[self->arg_val[1]], self->arg_val[1]);
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }

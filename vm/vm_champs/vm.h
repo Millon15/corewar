@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 14:16:57 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 11:21:39 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,36 +42,30 @@ typedef struct s_widgets		t_widgets;
 
 # define BORDC						'*'
 # define SQMAX_VAL					777
-# define TOT_LIVES_TERM				1000
 # define SQBIG_VAL					10
 # define SQSMALL_VAL				1
 # define CLEAR_LINE_PADD			20
 # define MW_ROW_LENGHT				64
 # define COLOR_AMOUNT				(MAX_PLAYERS + 1)
 # define COMMON_HEIGHT				(MEM_SIZE / 64 + 4)
-# define STAT_HEIGHT				(MAX_PLAYERS + 4)
-# define MW_WIDTH					(64 * 3 + 7)
-# define IW_WIDTH					(MW_WIDTH / 3)
-# define SW_WIDTH					(MW_WIDTH + IW_WIDTH - 1)
+# define START_MW_WIDTH				(64 * 3 + 7)
+# define START_IW_WIDTH				(START_MW_WIDTH / 3)
 # define START_CYCLES_PER_SEC		50
 # define START_ROW_MAIN				2
 # define START_ROW_INFO				2
-# define START_ROW_STAT				2
 
 # define ALIGN_CENTER(width, len)	(((width)-(len))?(((width)-(len))/2):0)
 
-# define BORDER						31
-# define MAIN						32
-# define INFO						33
-# define COLOR_REDDY				34
+# define BORDER						1
+# define MAIN						2
+# define INFO						3
 # define COLOR_DARK					40
-# define COLOR_ORANGE				41
-# define STAT						42
+# define COLOR_ORANGE				42
 # define COLOR_DELTA				10
 # define WIDGET_LENGTH				50
 # define CLR_CYCTOWAIT				50
 
-# define N			v->ncurses
+# define N			(v->ncurses)
 
 struct				s_widgets
 {
@@ -93,26 +87,22 @@ struct				s_curses
 {
 	bool			is_run;
 	char			c;
-	int				cycpersec;
+	unsigned int	cycpersec;
 	clock_t			t;
 
 	WINDOW			*mainw;
 	WINDOW			*infow;
-	WINDOW			*statw;
 
 	t_colors		clr[MEM_SIZE];
 
 	short			ccolors[COLOR_AMOUNT];
 	short			pcolors[COLOR_AMOUNT];
-	short			scolors[COLOR_AMOUNT];
 
 	t_widgets		w;
 };
 
 void				visualize_the_game(t_vm *v);
 void				init_windows(t_vm *v);
-void				set_start_vis_cycle(t_vm *v);
-void				put_car_color_to_arena(t_vm *v);
 void				print_one_cycle(t_vm *v, const bool is_pass_cycle);
 void				print_widgets(t_vm *v, int *row);
 void				print_info(t_vm *v, const bool is_print_full_info);
@@ -122,7 +112,7 @@ void				deinit_windows(t_vm *v);
 ** Info structure
 */
 
-# define I			v->info
+# define I			(v->info)
 # define PC_IND		(self->pc - v->arena)
 
 struct				s_info
@@ -138,7 +128,7 @@ struct				s_info
 ** Structure of passed args
 */
 
-# define A			v->args
+# define A			(v->args)
 
 struct				s_args
 {
@@ -171,7 +161,7 @@ struct				s_operations
 ** Structure of the single player
 */
 
-# define P(x)		v->player[x]
+# define P(x)		(v->player[(x)])
 
 struct				s_player
 {
@@ -183,7 +173,7 @@ struct				s_player
 	unsigned int	magic;
 	unsigned int	points;
 	unsigned int	prog_size;
-	unsigned int	total_lives;
+	unsigned int	lives_in_cp_sum;
 
 	char			*filename;
 	char			prog_name[PROG_NAME_LENGTH + 1];
@@ -257,7 +247,7 @@ void				get_winner(t_vm *v);
 ** Operations functions
 */
 # define PUMPKIN		(res << (8 * i)) >> (8 * (size - 1))
-# define SPACE_TO_END   (MEM_SIZE - PC_IND)
+# define SPACE_TO_END	(MEM_SIZE - PC_IND)
 # define SHORT_RANGE	(USHRT_MAX + 1)
 # define FPOS			21510
 # define TNTZEROS		2900

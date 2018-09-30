@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 05:10:41 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 14:38:42 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void			init_car(unsigned char *where, unsigned int name, t_vm *v,
 		ft_printf("");
 	tmp = (v->head == NULL) ? &v->head : &(v->head->prev);
 	(*tmp) = ft_memalloc(sizeof(t_car));
-	(*tmp)->carry = true;
+	(*tmp)->carry = false;
 	(*tmp)->cycles_to_wait = -1;
 	(*tmp)->cur_operation = -1;
 	(*tmp)->nb_lives = 0;

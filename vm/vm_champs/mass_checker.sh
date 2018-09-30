@@ -89,7 +89,7 @@ do
 done
 echo "Number of wrong player combinations: $(($j-$ERRNUM))"
 sleep 5
-if [[ $ERRNUM < $j)) ]];
+if [[ $ERRNUM < $j ]];
 then
 	less $ERRORS
 else

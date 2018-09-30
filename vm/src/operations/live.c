@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:10 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/22 00:46:59 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/09/30 14:01:12 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void		live(t_car *self, t_vm *v)
 	self->live_cycle = I.cur_cycle;
 	if (A.verbose_value & 4)
 		ft_printf("P %4d | live %d\n", self->id, self->arg_val[0]);
-	if (self->id == 369 && I.cur_cycle > 17500)
-		ft_printf("");
 	while (++i < v->player_amount)
 	{
 		if (self->arg_val[0] == v->player[i].name)
@@ -33,8 +31,9 @@ void		live(t_car *self, t_vm *v)
 			P(i).points = I.cur_cycle;
 			P(i).lives_in_cp++;
 			if (A.verbose_value & 1)
-				ft_printf("Player %d (%s) is said to be alive\n", i + 1, P(i).prog_name);
-			break;
+				ft_printf("Player %d (%s) is said to be alive\n",
+				i + 1, P(i).prog_name);
+			break ;
 		}
 	}
 	move_pc(self, v, self->pc_padding, false);

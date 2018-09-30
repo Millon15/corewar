@@ -1,0 +1,23 @@
+if (fa <= MEM_SIZE || fa == IDX_MOD || fa % IDX_MOD == 0
+|| fa % MEM_SIZE == 0 || (fa >= FPOS && fa <= FPOS1))
+else if (((first_arg >> 24) < 254 && (first_arg >> 24)) && self->args[1] == T_REG)
+else if ((first_arg >> 24) == 254)
+else if (first_arg % IDX_MOD == first_arg % MEM_SIZE)
+else if ((fa <= MEM_SIZE * 2) || (fa % IDX_MOD == IDX_MOD - 1
+&& fa % MEM_SIZE == MEM_SIZE - 1))
+fa = fa;
+// if (mod(fa - SHORT_RANGE) <= IDX_MOD)
+		// 	fa = fa % IDX_MOD - IDX_MOD;
+
+if ((sa <= MEM_SIZE || sa == IDX_MOD || !(sa % IDX_MOD)
+|| !(sa % MEM_SIZE)) || (sa >= FPOS && sa <= FPOS1)
+|| ((sa >> 24) <= 254 && sa >> 24/* && self->args[1] == T_REG*/)
+/*|| ((sa >> 24) == 254)*/ || (sa % IDX_MOD == sa % MEM_SIZE)
+/*|| (sa % IDX_MOD == (sa % MEM_SIZE) % IDX_MOD)*/ || (((sa <= MEM_SIZE * 2)
+|| (sa % IDX_MOD == IDX_MOD - 1 && sa % MEM_SIZE == MEM_SIZE - 1))))
+	sa += 0;
+else
+	sa = sa % IDX_MOD - IDX_MOD;
+
+
+ else if (tmp >= MEM_SIZE * 2 && arg && tmp % arg) // or tmp % IDX_MOD, (which is arg) == tmp % MEM_SIZE !!!!!!!!!! FORK
