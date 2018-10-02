@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 14:41:02 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/02 07:53:11 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ bool is_jump_car)
 	if (self->carry == true)
 		move_pc(self, v, val, is_jump_car);
 	valmints = self->arg_val[0] - SHORT_RANGE;
-	if ((self->arg_val[0] < FPOS || self->arg_val[0]
-	% MEM_SIZE <= MEM_SIZE / 2) || (res + SPACE_TO_END
+	if ((self->arg_val[0] < FPOS/* || self->arg_val[0]
+	% MEM_SIZE <= MEM_SIZE / 2*/) || (res + SPACE_TO_END
 	== self->arg_val[0]) || (self->arg_val[0] >= FPOS
 	&& self->arg_val[0] <= FPOS1) || (self->arg_val[0]
 	% IDX_MOD == self->arg_val[0] % MEM_SIZE))
@@ -33,7 +33,7 @@ bool is_jump_car)
 	< SHORT_RANGE && valmints % IDX_MOD == res) ||
 	((self->arg_val[0] > MEM_SIZE) && !(self->arg_val[0]
 	% IDX_MOD) && !(self->arg_val[0] % MEM_SIZE)))
-		res = self->arg_val[0] - SHORT_RANGE;
+		res = valmints;
 	if (A.verbose_value & 4)
 		ft_printf("P %4d | zjmp %d %s\n", self->id,
 		self->arg_val[0] <= MEM_SIZE * 2
@@ -45,12 +45,19 @@ void					zjmp(t_car *self, t_vm *v)
 {
 	bool				fl;
 	int					fa;
+	int					tmp;
 
-	if (self->arg_val[0] > FPOS && self->arg_val[0]
+	if (I.cur_cycle == 10926)
+		ft_printf("");
+	tmp = self->arg_val[0];
+	if (mod(tmp - SHORT_RANGE) <= MEM_SIZE
+	&& (tmp - SHORT_RANGE) % IDX_MOD == (tmp % IDX_MOD - IDX_MOD))
+		fa = tmp - SHORT_RANGE;
+	else if (tmp > FPOS && tmp
 	% MEM_SIZE > MEM_SIZE / 2)
-		fa = self->arg_val[0] % IDX_MOD - IDX_MOD;
+		fa = tmp % IDX_MOD - IDX_MOD;
 	else
-		fa = self->arg_val[0];
+		fa = tmp;
 	if (fa < 0 && (mod(fa) % IDX_MOD) > PC_IND)
 		jump_car(self, v,
 		MEM_SIZE - (mod(fa) % IDX_MOD - PC_IND), true);

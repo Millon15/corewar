@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 15:44:15 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/02 07:07:56 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,12 @@ static inline void		set_va_v(long arg_sum, t_car *self, t_vm *v, long *args)
 void					sti(t_car *self, t_vm *v)
 {
 	unsigned char		*pc;
-	long				arg_sum;
+	int					arg_sum;
 	long				args[2];
 
 	args[0] = 0;
 	args[1] = 0;
-	if (self->id == 20 && I.cur_cycle == 4073)
+	if (self->id == 137 && I.cur_cycle == 9872)
 		ft_printf("");
 	if (self->args[1] == T_IND)
 	{

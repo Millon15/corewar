@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/02 03:15:48 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/02 07:17:30 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,8 @@ static int			vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	i = 0;
 	// if (self->id == 369 && I.cur_cycle > 17500)
 	// 	ft_printf("");
-	if (!(MEM_SIZE - (PC_IND)))
-		codage = (cur->octal) ? (*v->arena >> 2) : 0;
-	else
-		codage = (cur->octal) ? (*(self->pc + 1) >> 2) : 0;
+	ft_bzero((void *)cod, 3);
+	codage = (cur->octal) ? (*(v->arena + ((PC_IND + 1) % MEM_SIZE)) >> 2) : 0;
 	self->pc_padding = 2;
 	if (codage == 0x0 && cur->octal)
 		return (-1);
@@ -154,8 +152,8 @@ static inline void	carriage_refresh(t_car *self)
 
 void				perform_next_comm(t_car *self, t_vm *v)
 {
-	if (self->id == 1 && I.cur_cycle >= 6281)
-			ft_printf("");
+	if (self->id == 137 && I.cur_cycle == 9872)
+		ft_printf("");
 	if ((*self->pc > REG_NUMBER || *self->pc == 0) && (self->cycles_to_wait < 0))
 	{
 		move_pc(self, v, 1, false);

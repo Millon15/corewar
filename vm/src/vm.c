@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 07:37:48 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/02 07:08:08 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void					pass_one_cycle(t_vm *v)
 	!(A.verbose_value & 2) ? ++I.cur_cycle :
 	ft_printf("It is now cycle %d\n", ++I.cur_cycle);
 	last_check++;
-	if (I.cur_cycle >= 3576 || I.cur_cycle == 25974)
+	if (I.cur_cycle == 2748 || I.cur_cycle == 25974)
 		ft_printf("");
 	cur_car = v->head;
 	while (cur_car)

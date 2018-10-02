@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:41 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 13:21:48 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/02 06:47:39 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void		lfork(t_car *self, t_vm *v)
 	IDX_MOD != self->arg_val[0] % MEM_SIZE)
 		argv_nil -= MEM_SIZE;
 	if (A.verbose_value & 4)
-		self->arg_val[0] > FPOS ? ft_printf("P %4d | lfork"
+		self->arg_val[0] > FPOS1 ? ft_printf("P %4d | lfork"
 		" %d (%d)\n", self->id, argv_nil, PC_IND + argv_nil)
 		: ft_printf("P %4d | lfork %d (%d)\n", self->id,
 		self->arg_val[0], PC_IND + self->arg_val[0]);
