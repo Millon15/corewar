@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 16:37:50 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/02 03:15:48 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ static inline void	carriage_refresh(t_car *self)
 
 void				perform_next_comm(t_car *self, t_vm *v)
 {
-	if (self->id == 1 && I.cur_cycle > 6250)
+	if (self->id == 1 && I.cur_cycle >= 6281)
 			ft_printf("");
 	if ((*self->pc > REG_NUMBER || *self->pc == 0) && (self->cycles_to_wait < 0))
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_cycle_funcs.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 11:28:59 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/02 03:19:09 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		make_live_nil(t_vm *v)
 	i = -1;
 	while (++i < v->player_amount)
 	{
-		P(i).total_lives += P(i).lives_in_cp;
+		// P(i).total_lives += P(i).lives_in_cp;
 		P(i).lives_in_cp = 0;
 	}
 }

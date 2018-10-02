@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   v_print_stat.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 17:22:50 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 20:54:05 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/02 03:18:37 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static inline void		print_stats_directly(t_vm *v, int i, int row
 	while (++min < clean_delim)
 		wprintw(N->statw, " ");
 	min = STAT_LENGTH;
-	coef = var * (clean_delim - STAT_LENGTH) + min - 1;
+	coef = var * (clean_delim - STAT_LENGTH - 1) + min - 1;
 	wattron(N->statw, COLOR_PAIR(N->scolors[i]));
 	(P(i).total_lives > 0) ? mvwprintw(N->statw, row, min, " ") : false;
 	while (++min < coef)

@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:10 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 15:57:15 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/02 03:19:34 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void		live(t_car *self, t_vm *v)
 			P(i).is_alive = true;
 			P(i).points = I.cur_cycle;
 			P(i).lives_in_cp++;
+			P(i).total_lives++;
 			if (A.verbose_value & 1)
 				ft_printf("Player %d (%s) is said to be alive\n"
 				, i + 1, P(i).prog_name);
