@@ -1,6 +1,24 @@
 #!/bin/bash
 
 # That file needs to be launched in corewar/vm/vm_champs folder
+# Usage: ./mass_checker.zsh <couple of bots.cor to test vms>
+# ./mass_checker.sh champs/Car.cor champs/Gagnant.cor champs/Octobre_Rouge_V4.2.cor
+# for logs check folder $PREFIX(default: /tmp)
+
+ARGS=($*)
+if [[ ${#ARGS[@]} -eq 0 ]]; then
+	echo "That file needs to be launched in corewar/vm/vm_champs folder"
+	echo "Usage: ./mass_checker.zsh <couple of bots.cor to test vms>"
+	echo "./mass_checker.sh champs/Car.cor champs/Gagnant.cor champs/Octobre_Rouge_V4.2.cor"
+	echo "for logs check folder \$PREFIX(default: /tmp)"
+	exit 1
+fi
+ARG_NUM=4
+PREFIX="/tmp/"
+TO_DO="to_do.sh"
+ERR_D="${PREFIX}/errors/"; mkdir -p $ERR_D
+ERRORS=$ERR_D"err_list"
+ERRNUM=$(ls -1r $ERR_D | grep diff_ | head -1); ERRNUM=$(($ERRNUM+0))
 
 j=1
 fact=1
@@ -10,23 +28,12 @@ do
 	let j++
 done
 let fact*=2
-# let fact=6
 echo "Start testing $fact combinations of this bots: $*"
-
-ARGS=($*)
-ARG_NUM=4
-PREFIX="/tmp/"
-TO_DO="to_do.sh"
-ERR_D="/tmp/errors/"
-mkdir -p $ERR_D
-ERRORS=$ERR_D"err_list"
-ERRNUM=$(ls -1r $ERR_D | grep diff_ | head -1)
-ERRNUM=$(($ERRNUM+0))
 
 make -C ..
 rm -f ${PREFIX}diff_* ${PREFIX}log_* $TO_DO
 echo -n > $TO_DO
-
+# let fact=6
 for i in `seq 1 $fact`;
 do
 	let j=$RANDOM%$ARG_NUM
@@ -80,18 +87,18 @@ do
 			echo >> $ERRORS
 		fi
 		rand=$(echo $i | cut -d'_' -f 2)
-		cp ${PREFIX}diff_$rand ${ERR_D}diff_${j}
-		cp ${PREFIX}log_$rand ${ERR_D}log_${j}
-		cp ${PREFIX}log__$rand ${ERR_D}log__${j}
+		mv ${PREFIX}diff_$rand $ERR_D
+		mv ${PREFIX}log_$rand $ERR_D
+		mv ${PREFIX}log__$rand $ERR_D
 		grep -A 1 $i $TO_DO >> $ERRORS
 		let j++
 	fi
 done
 echo "Number of wrong player combinations: $(($j-$ERRNUM))"
-sleep 5
-if [[ $ERRNUM < $j ]];
+sleep 3
+if [[ $ERRNUM -lt $j ]];
 then
+	echo "Wrong player combinations placed with love in $ERRORS"
 	less $ERRORS
-else
-	rm -f ${PREFIX}diff_* ${PREFIX}log_* $TO_DO
 fi
+rm -rf ${PREFIX}diff_* ${PREFIX}log_* $TO_DO

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 18:03:32 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/02 03:29:31 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ typedef struct s_widgets		t_widgets;
 # define START_ROW_STAT				2
 
 # define ALIGN_CENTER(width, len)	(((width)-(len))?(((width)-(len))/2):0)
-# define STAT_FIELD					(SW_WIDTH - STAT_LENGTH - 3)
 
 # define BORDER						31
 # define MAIN						32
