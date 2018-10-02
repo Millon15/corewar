@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/02 03:29:31 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/02 07:11:45 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_widgets		t_widgets;
 # define STAT						42
 # define COLOR_DELTA				10
 # define WIDGET_LENGTH				50
-# define STAT_LENGTH				61
 # define CLR_CYCTOWAIT				50
 
 # define N			v->ncurses

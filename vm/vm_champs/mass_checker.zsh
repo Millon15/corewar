@@ -20,6 +20,10 @@ ERR_D="${PREFIX}/errors/"; mkdir -p $ERR_D
 ERRORS=$ERR_D"err_list"
 ERRNUM=$(ls -1r $ERR_D | grep diff_ | head -1); ERRNUM=$(($ERRNUM+0))
 
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+RESET='\033[0m'
+
 j=1
 fact=1
 for i in $*;
@@ -94,11 +98,14 @@ do
 		let j++
 	fi
 done
-echo "Number of wrong player combinations: $(($j-$ERRNUM))"
-sleep 3
+# echo $RED
+printf "Number of wrong player combinations: $(($j-$ERRNUM))"
+# echo $GREEN
+printf "Wrong player combinations placed with love in ${ERR_D}"
+# echo $RESET
 if [[ $ERRNUM -lt $j ]];
 then
-	echo "Wrong player combinations placed with love in $ERRORS"
+	sleep 3
 	less $ERRORS
 fi
 rm -rf ${PREFIX}diff_* ${PREFIX}log_* $TO_DO
