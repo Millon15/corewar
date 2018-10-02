@@ -20,6 +20,10 @@ ERR_D="${PREFIX}/errors/"; mkdir -p $ERR_D
 ERRORS=$ERR_D"err_list"
 ERRNUM=$(ls -1r $ERR_D | grep diff_ | head -1); ERRNUM=$(($ERRNUM+0))
 
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+RESET='\033[0m'
+
 j=1
 fact=1
 for i in $*;
@@ -62,7 +66,7 @@ do
 	./corewar -d 16000 $VMAV > $ORIG_LOG &
 	../corewar -d 16000 $VMAV > $OURS_LOG &
 	echo "diff $ORIG_LOG $OURS_LOG > $DIFF" >> $TO_DO
-	echo "# ERRNUM=$ERRNUM # $VMAV" >> $TO_DO
+	echo "# $VMAV" >> $TO_DO
 	sleep 1
 done
 
@@ -84,7 +88,7 @@ do
 	then
 		if [[ $ERRNUM == $j ]];
 		then
-			echo >> $ERRORS
+			echo > $ERRORS
 		fi
 		rand=$(echo $i | cut -d'_' -f 2)
 		mv ${PREFIX}diff_$rand $ERR_D
@@ -94,11 +98,15 @@ do
 		let j++
 	fi
 done
+printf $RED
 echo "Number of wrong player combinations: $(($j-$ERRNUM))"
-sleep 3
+printf $GREEN
+echo "Wrong player combinations placed with love in $ERRORS"
+echo "All logs you can find in ${ERR_D}"
+printf $RESET
 if [[ $ERRNUM -lt $j ]];
 then
-	echo "Wrong player combinations placed with love in $ERRORS"
+	sleep 3
 	less $ERRORS
 fi
 rm -rf ${PREFIX}diff_* ${PREFIX}log_* $TO_DO

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/02 03:29:31 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/02 09:23:02 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_widgets		t_widgets;
 # define STAT						42
 # define COLOR_DELTA				10
 # define WIDGET_LENGTH				50
-# define STAT_LENGTH				61
 # define CLR_CYCTOWAIT				50
 
 # define N			v->ncurses
@@ -307,6 +306,6 @@ bool				put_error(const int errnum, const char *errstr,
 void				kill_process(unsigned int *last_check, t_vm *v);
 bool				nbr_live_exec(t_car *car);
 void				make_live_nil(t_vm *v);
-int					mod(int x);
+int					ft_abs(int x);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:31 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 15:19:22 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/02 09:23:02 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static inline int	calc_fa(int tmp)
 	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD)
 		first_arg = tmp - SHORT_RANGE;
 	else if ((tmp > IDX_MOD && tmp > MEM_SIZE && tmp <= MEM_SIZE * 2)
-	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp >= FPOS && tmp <= FPOS1)
+	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= FPOS1)
 	|| (tmp > MEM_SIZE && tmp < FPOS
 	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD))
 		first_arg = tmp;
@@ -49,7 +49,7 @@ void		lld(t_car *self, t_vm *v)
 		self->reg[self->arg_val[1]] = tmp;
 	else if (self->args[0] == T_IND)
 	{
-		// if (mod(tmp - SHORT_RANGE) )
+		// if (ft_abs(tmp - SHORT_RANGE) )
 		first_arg = calc_fa(tmp);
 		if (first_arg > MEM_SIZE - PC_IND)
 			pc = &v->arena[first_arg - MEM_SIZE - PC_IND];

@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:45 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/02 06:48:23 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/02 09:23:02 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ static inline void		set_args(long *args, t_car *self)
 		if (((int)(args[0])) % IDX_MOD == args[0] % IDX_MOD - IDX_MOD)
 			args[0] = (int)(args[0]);
 		else if (!((!(args[0] % IDX_MOD) || !(args[0] %
-		MEM_SIZE)) || (args[0] >= FPOS && args[0] <= FPOS1) || ((args[0] >>
+		MEM_SIZE)) || (args[0] % SHORT_RANGE >= FPOS && args[0] % SHORT_RANGE <= FPOS1) || ((args[0] >>
 		24) <= 254 && args[0] >> 24) || (args[0] % IDX_MOD == args[0] %
 		MEM_SIZE) || (args[0] <= MEM_SIZE * 2) || (args[0] % IDX_MOD ==
-		IDX_MOD - 1 && args[0] % MEM_SIZE == MEM_SIZE - 1 && mod(args[0]
+		IDX_MOD - 1 && args[0] % MEM_SIZE == MEM_SIZE - 1 && ft_abs(args[0]
 		- SHORT_RANGE) > MEM_SIZE) || ((args[0] % SHORT_RANGE) == (args[0]
-		% MEM_SIZE))))
+		% MEM_SIZE)) || args[0] % SHORT_RANGE - SHORT_RANGE == args[0]
+		% IDX_MOD - IDX_MOD))
 			args[0] = args[0] % IDX_MOD - IDX_MOD;
 	}
 	args[1] = self->args[1] == T_REG ?
@@ -34,12 +35,13 @@ static inline void		set_args(long *args, t_car *self)
 		if (((int)(args[1])) % IDX_MOD == args[1] % IDX_MOD - IDX_MOD)
 			args[1] = (int)(args[1]);
 		else if (!((!(args[1] % IDX_MOD) || !(args[1] %
-		MEM_SIZE)) || (args[1] >= FPOS && args[1] <= FPOS1) || ((args[1] >>
+		MEM_SIZE)) || (args[1] % SHORT_RANGE >= FPOS && args[1] % SHORT_RANGE <= FPOS1) || ((args[1] >>
 		24) <= 254 && args[1] >> 24) || (args[1] % IDX_MOD == args[1] %
 		MEM_SIZE) || (args[1] <= MEM_SIZE * 2) || (args[1] % IDX_MOD ==
-		IDX_MOD - 1 && args[1] % MEM_SIZE == MEM_SIZE - 1 && mod(args[0]
+		IDX_MOD - 1 && args[1] % MEM_SIZE == MEM_SIZE - 1 && ft_abs(args[0]
 		- SHORT_RANGE) > MEM_SIZE) || ((args[1] % SHORT_RANGE) == (args[0]
-		% MEM_SIZE))))
+		% MEM_SIZE)) || args[1] % SHORT_RANGE - SHORT_RANGE == args[1]
+		% IDX_MOD - IDX_MOD))
 			args[1] = args[1] % IDX_MOD - IDX_MOD;
 	}
 }
@@ -51,7 +53,7 @@ static inline void		load_va_v(t_car *self, t_vm *v, long *args)
 
 	arg_sum = (args[0] + args[1]) + PC_IND;
 	if (arg_sum < 0)
-		pc = &v->arena[MEM_SIZE - mod(arg_sum) % MEM_SIZE];
+		pc = &v->arena[MEM_SIZE - ft_abs(arg_sum) % MEM_SIZE];
 	else
 		pc = &v->arena[arg_sum % MEM_SIZE];
 	self->reg[self->arg_val[2]] = get_raw_num(pc, REG_SIZE, v);

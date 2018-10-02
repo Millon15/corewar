@@ -6,13 +6,13 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 23:28:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 20:01:15 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/02 09:24:04 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-int					mod(int x)
+int					ft_abs(int x)
 {
 	return (x >= 0 ? x : -x);
 }

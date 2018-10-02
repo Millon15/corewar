@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:47:36 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 15:18:53 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/02 09:23:02 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ static inline int	calc_fa(int tmp)
 	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD)
 		first_arg = tmp - SHORT_RANGE;
 	else if ((tmp > IDX_MOD && tmp > MEM_SIZE && tmp <= MEM_SIZE * 2)
-	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp >= FPOS && tmp <= FPOS1)
-	|| (tmp > MEM_SIZE && tmp < FPOS
-	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD))
+	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= FPOS1)
+	|| (tmp > MEM_SIZE && tmp < FPOS && (tmp - SHORT_RANGE) % IDX_MOD ==
+	tmp % IDX_MOD - IDX_MOD) || ((tmp - SHORT_RANGE) % IDX_MOD ==
+	tmp % IDX_MOD - IDX_MOD && tmp > FPOS1 && ft_abs(tmp - SHORT_RANGE) > MEM_SIZE))
 		first_arg = tmp;
 	else
 	{
@@ -42,18 +43,20 @@ void		ld(t_car *self, t_vm *v)
 	long			tmp;
 	long			first_arg;
 
-	if (self->id == 4 && I.cur_cycle == 50)
+	if (self->id == 12 && I.cur_cycle == 1690)
 		ft_printf("");
 	tmp = self->arg_val[0];
 	if (self->args[0] == T_DIR)
 		self->reg[self->arg_val[1]] = tmp;
 	else if (self->args[0] == T_IND)
 	{
-		// if (mod(tmp - SHORT_RANGE) )
+		// if (ft_abs(tmp - SHORT_RANGE) )
 		first_arg = calc_fa(tmp);
 		first_arg %= IDX_MOD;
 		if (first_arg > MEM_SIZE - PC_IND)
-			pc = &v->arena[first_arg - MEM_SIZE - PC_IND];
+			pc = &v->arena[first_arg - (MEM_SIZE - PC_IND)];
+		else if (first_arg < 0 && ft_abs(first_arg) > PC_IND)
+			pc = &v->arena[PC_IND + first_arg + MEM_SIZE];
 		else
 			pc = &v->arena[PC_IND + first_arg];
 		self->reg[self->arg_val[1]] = get_raw_num(pc, REG_SIZE, v);
