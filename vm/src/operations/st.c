@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:40:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/03 21:40:04 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/03 22:03:11 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@ static inline int	calc_fa(int tmp)
 	// (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD))
 	else if ((tmp > SHORT_RANGE / 2 && tmp <= SHORT_RANGE && tmp % IDX_MOD == IDX_MOD / 2)
 	|| (tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= FPOS1) || ((ft_abs(tmp - SHORT_RANGE) <= MEM_SIZE)
-	&& (tmp % IDX_MOD == tmp % MEM_SIZE)))
+	&& (tmp % IDX_MOD == tmp % MEM_SIZE)) || ((tmp >= SHORT_RANGE - MEM_SIZE * 2) && (tmp % IDX_MOD == tmp % MEM_SIZE)))
 	{
 		first_arg = (tmp > IDX_MOD) ?
 		tmp % IDX_MOD : tmp;
 		if (tmp > MEM_SIZE && !(tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= FPOS1))
 			first_arg -= IDX_MOD;
 	}
-	else if (((tmp > SHORT_RANGE / 2) && (tmp % IDX_MOD == tmp % MEM_SIZE))
-	|| (tmp > MEM_SIZE * 2 && !(tmp % IDX_MOD) && !(tmp % MEM_SIZE)) ||
+	else if (((tmp > SHORT_RANGE / 2) && (tmp < SHORT_RANGE - MEM_SIZE * 2) && (tmp % IDX_MOD == tmp % MEM_SIZE)) ||
 	(ft_abs(tmp - SHORT_RANGE) <= IDX_MOD))
 		first_arg = tmp - SHORT_RANGE;
 	else if ((tmp > MEM_SIZE && tmp <= MEM_SIZE * 2)
@@ -112,7 +111,7 @@ void				st(t_car *self, t_vm *v)
 	const unsigned int	size = sizeof(res);
 	int					tmp;
 
-	if (I.cur_cycle == 6078)
+	if (I.cur_cycle == 6183)
 		ft_printf("");
 	tmp = self->arg_val[1];
 	if (self->args[1] == T_IND)
