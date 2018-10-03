@@ -1,4 +1,4 @@
-CHFOLDER="champs/championships/2017/"
+CHFOLDER="champs/championships/"
 champs=($(ls -R $CHFOLDER | grep -E "(/|\.s)" | sed -e ':a' -e 'N' -e '$!ba' -e 's|:\n|/|g' -e "s/\.s//g"))
 cn=${#champs[@]}
 NEEDED_CHAMP_NUM=4

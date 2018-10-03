@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/13 19:47:36 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/02 09:23:02 by akupriia         ###   ########.fr       */
+/*   Created: 2018/08/13 19:40:36 by vbrazas           #+#    #+#             */
+/*   Updated: 2018/10/03 17:56:40 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static inline int	calc_fa(int tmp)
 	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= FPOS1)
 	|| (tmp > MEM_SIZE && tmp < FPOS && (tmp - SHORT_RANGE) % IDX_MOD ==
 	tmp % IDX_MOD - IDX_MOD) || ((tmp - SHORT_RANGE) % IDX_MOD ==
-	tmp % IDX_MOD - IDX_MOD && tmp > FPOS1 && ft_abs(tmp - SHORT_RANGE) > MEM_SIZE))
+	tmp % IDX_MOD - IDX_MOD && tmp > SHORT_RANGE / 2 && ft_abs(tmp - SHORT_RANGE) > MEM_SIZE))
 		first_arg = tmp;
 	else
 	{
@@ -43,7 +43,7 @@ void		ld(t_car *self, t_vm *v)
 	long			tmp;
 	long			first_arg;
 
-	if (self->id == 12 && I.cur_cycle == 1690)
+	if (self->id == 15 && I.cur_cycle == 2146)
 		ft_printf("");
 	tmp = self->arg_val[0];
 	if (self->args[0] == T_DIR)

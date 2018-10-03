@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:41 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/02 06:47:39 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/03 09:53:23 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,18 @@ void		lfork(t_car *self, t_vm *v)
 	t_car			tmp;
 	int				argv_nil;
 
+	if (self->id == 4 && I.cur_cycle > 2880)
+		ft_printf("");
 	if ((self->arg_val[0] > MEM_SIZE && self->arg_val[0]
 	% IDX_MOD == self->arg_val[0] % MEM_SIZE)
 	|| (self->arg_val[0] <= MEM_SIZE))
 		argv_nil = self->arg_val[0];
 	else if (self->arg_val[0] > MEM_SIZE)
 		argv_nil = self->arg_val[0] % MEM_SIZE;
-	pc = (argv_nil > SPACE_TO_END) ?
+	pc = (argv_nil >= SPACE_TO_END) ?
 	v->arena + (argv_nil - SPACE_TO_END) % MEM_SIZE
 	: self->pc + argv_nil;
-	if (argv_nil > SPACE_TO_END && self->arg_val[0] %
+	if (argv_nil >= SPACE_TO_END && self->arg_val[0] %
 	IDX_MOD != self->arg_val[0] % MEM_SIZE)
 		argv_nil -= MEM_SIZE;
 	if (A.verbose_value & 4)

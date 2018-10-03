@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/02 09:23:02 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/03 09:59:17 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,7 +260,7 @@ void				get_winner(t_vm *v);
 # define PUMPKIN		(res << (8 * i)) >> (8 * (size - 1))
 # define SPACE_TO_END   (MEM_SIZE - PC_IND)
 # define SHORT_RANGE	(USHRT_MAX + 1)
-# define FPOS			21510
+# define FPOS			21508
 # define TNTZEROS		2900
 # define FPOS1			21530
 

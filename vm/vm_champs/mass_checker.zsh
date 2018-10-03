@@ -22,6 +22,7 @@ ERRNUM=$(ls -1r $ERR_D | grep diff_ | head -1); ERRNUM=$(($ERRNUM+0))
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
+BLUE='\033[1;34m'
 RESET='\033[0m'
 
 j=1
@@ -63,8 +64,8 @@ do
 		DIFF=${PREFIX}diff_$i
 	done
 	echo -n > $DIFF; echo -n > $ORIG_LOG; echo -n > $OURS_LOG
-	./corewar -d 16000 $VMAV > $ORIG_LOG &
-	../corewar -d 16000 $VMAV > $OURS_LOG &
+	./corewar -d 20000 $VMAV > $ORIG_LOG &
+	../corewar -d 20000 $VMAV > $OURS_LOG &
 	echo "diff $ORIG_LOG $OURS_LOG > $DIFF" >> $TO_DO
 	echo "# $VMAV" >> $TO_DO
 	sleep 1
@@ -75,7 +76,7 @@ do
 	echo -n "Waiting... for "
 	echo -n $(pgrep corewar | wc -l)
 	echo " proccesses"
-	sleep 10
+	sleep 5
 done
 chmod 744 $TO_DO
 ./$TO_DO
@@ -98,9 +99,14 @@ do
 		let j++
 	fi
 done
-printf $RED
+if [[ $(($j-$ERRNUM)) -gt 0 ]];
+then
+	printf $RED
+else
+	printf $GREEN
+fi
 echo "Number of wrong player combinations: $(($j-$ERRNUM))"
-printf $GREEN
+printf $BLUE
 echo "Wrong player combinations placed with love in $ERRORS"
 echo "All logs you can find in ${ERR_D}"
 printf $RESET

@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/02 09:23:02 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/03 21:22:20 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ static inline void		set_args(long *args, t_car *self)
 		MEM_SIZE) || (args[0] <= MEM_SIZE * 2) || (args[0] % IDX_MOD ==
 		IDX_MOD - 1 && args[0] % MEM_SIZE == MEM_SIZE - 1 && ft_abs(args[0]
 		- SHORT_RANGE) > MEM_SIZE) || ((args[0] % SHORT_RANGE) == (args[0]
-		% MEM_SIZE)) || args[0] % SHORT_RANGE - SHORT_RANGE == args[0]
-		% IDX_MOD - IDX_MOD))
+		% MEM_SIZE)) || (args[0] % SHORT_RANGE - SHORT_RANGE == args[0] % IDX_MOD - IDX_MOD)
+		|| (args[0] % MEM_SIZE == args[0] % SHORT_RANGE && args[0] > SHORT_RANGE + MEM_SIZE)
+		|| (((args[0] % MEM_SIZE) - (args[0] % IDX_MOD)) == IDX_MOD)))
 			args[0] = args[0] % IDX_MOD - IDX_MOD;
 	}
 	args[1] = self->args[2] == T_REG ?
@@ -77,9 +78,10 @@ static inline void		set_args(long *args, t_car *self)
 		24) <= 254 && args[1] >> 24) || (args[1] % IDX_MOD == args[1] %
 		MEM_SIZE) || (args[1] <= MEM_SIZE * 2) || (args[1] % IDX_MOD ==
 		IDX_MOD - 1 && args[1] % MEM_SIZE == MEM_SIZE - 1 && ft_abs(args[1]
-		- SHORT_RANGE) > MEM_SIZE) || ((args[1] % SHORT_RANGE) == (args[0]
-		% MEM_SIZE)) || args[1] % SHORT_RANGE - SHORT_RANGE == args[1]
-		% IDX_MOD - IDX_MOD))
+		- SHORT_RANGE) > MEM_SIZE) || ((args[1] % SHORT_RANGE) == (args[1]
+		% MEM_SIZE)) || (args[1] % SHORT_RANGE - SHORT_RANGE == args[1] % IDX_MOD - IDX_MOD)
+		|| (args[1] % MEM_SIZE == args[1] % SHORT_RANGE && args[1] > SHORT_RANGE + MEM_SIZE)
+		|| (((args[1] % MEM_SIZE) - (args[1] % IDX_MOD)) == IDX_MOD)))
 			args[1] = args[1] % IDX_MOD - IDX_MOD;
 	}
 }
@@ -113,12 +115,12 @@ void					sti(t_car *self, t_vm *v)
 
 	args[0] = 0;
 	args[1] = 0;
-	if (self->id == 251 && I.cur_cycle == 10561)
+	if (I.cur_cycle == 6078)
 		ft_printf("");
 	if (self->args[1] == T_IND)
 	{
 		self->arg_val[1] %= IDX_MOD;
-		if (self->arg_val[1] > SPACE_TO_END)
+		if (self->arg_val[1] >= SPACE_TO_END)
 			pc = &v->arena[self->arg_val[1] - SPACE_TO_END];
 		else
 			pc = &self->pc[self->arg_val[1]];

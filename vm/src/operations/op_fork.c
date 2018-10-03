@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/02 09:23:02 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/03 10:32:40 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ t_car *self, t_vm *v)
 	(t - SHORT_RANGE) % IDX_MOD == *arg - IDX_MOD)
 		*arg = t - SHORT_RANGE;
 	else if ((t >= MEM_SIZE * 2 &&
-	t % IDX_MOD == t % MEM_SIZE) || (t % SHORT_RANGE >= FPOS && t % SHORT_RANGE <= FPOS1))
+	t % IDX_MOD == t % MEM_SIZE) || (t % SHORT_RANGE >= FPOS && t
+	% SHORT_RANGE <= FPOS1) || ((t - SHORT_RANGE) % IDX_MOD == t %
+	IDX_MOD - IDX_MOD && t > SHORT_RANGE / 2 && ft_abs(t - SHORT_RANGE) > MEM_SIZE)
+	|| (((t % MEM_SIZE) - (t % IDX_MOD)) == IDX_MOD))
 		*arg = t;
 	else if (t >= MEM_SIZE * 2 && *arg && t % *arg)
 		*arg -= IDX_MOD;
@@ -75,17 +78,23 @@ void						op_fork(t_car *self, t_vm *v)
 	unsigned char	*pc;
 	long			tmp;
 	long			arg;
+	int				new_pc;
 
+	// new_pc = (self->pc - v->arena) + (self->arg_val[0] % IDX_MOD);
+	// while (new_pc < 0)
+	// 	new_pc += MEM_SIZE;
+	// new_pc = new_pc % MEM_SIZE;
 	arg = self->arg_val[0] % IDX_MOD;
 	tmp = self->arg_val[0];
-	if (I.cur_cycle == 13115 && self->id == 464)
+	if (I.cur_cycle == 13212 && self->id == 630)
 		ft_printf("");
 	if (tmp >= IDX_MOD)
 		pc = set_arg(tmp, &arg, self, v);
 	else
-		pc = (arg > SPACE_TO_END) ?
+		pc = (arg >= SPACE_TO_END) ?
 		v->arena + (arg - SPACE_TO_END) % MEM_SIZE
 		: self->pc + arg;
+	// pc = v->arena + new_pc;q
 	print_v(self, v, arg, pc);
 	copy_car(self, v, pc);
 	move_pc(self, v, self->pc_padding, false);

@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/02 09:23:02 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/03 09:48:37 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,29 @@ bool is_jump_car)
 {
 	int					res;
 	int					valmints;
+	const int			tmp = self->arg_val[0];
 
 	res = (val - PC_IND > MEM_SIZE / 2) ?
 	(-1 * (MEM_SIZE - val + PC_IND)) : (val);
+	// res = val;
 	if (self->carry == true)
 		move_pc(self, v, val, is_jump_car);
-	valmints = self->arg_val[0] - SHORT_RANGE;
-	if ((self->arg_val[0] < FPOS/* || self->arg_val[0]
+	valmints = tmp - SHORT_RANGE;
+	if ((tmp < FPOS/* || tmp
 	% MEM_SIZE <= MEM_SIZE / 2*/) || (res + SPACE_TO_END
-	== self->arg_val[0]) || (self->arg_val[0] % SHORT_RANGE >= FPOS
-	&& self->arg_val[0] % SHORT_RANGE <= FPOS1) || (self->arg_val[0]
-	% IDX_MOD == self->arg_val[0] % MEM_SIZE))
-		res = self->arg_val[0];
-	else if ((self->arg_val[0] > MEM_SIZE && self->arg_val[0]
+	== tmp) || (tmp % SHORT_RANGE >= FPOS
+	&& tmp % SHORT_RANGE <= FPOS1) || (tmp
+	% IDX_MOD == tmp % MEM_SIZE))
+		res = tmp;
+	else if ((tmp > MEM_SIZE && tmp
 	< SHORT_RANGE && valmints % IDX_MOD == res) ||
-	((self->arg_val[0] > MEM_SIZE) && !(self->arg_val[0]
-	% IDX_MOD) && !(self->arg_val[0] % MEM_SIZE)))
+	((tmp > MEM_SIZE) && !(tmp
+	% IDX_MOD) && !(tmp % MEM_SIZE)))
 		res = valmints;
 	if (A.verbose_value & 4)
 		ft_printf("P %4d | zjmp %d %s\n", self->id,
-		self->arg_val[0] <= MEM_SIZE * 2
-		? self->arg_val[0] : res, (self->carry ==
+		tmp <= MEM_SIZE * 2
+		? tmp : res, (self->carry ==
 		true) ? "OK" : "FAILED");
 }
 
@@ -45,16 +47,15 @@ void					zjmp(t_car *self, t_vm *v)
 {
 	bool				fl;
 	int					fa;
-	int					tmp;
+	long				tmp;
 
-	if (I.cur_cycle == 10926)
+	if (self->id == 212 && I.cur_cycle >= 13622)
 		ft_printf("");
 	tmp = self->arg_val[0];
-	if (ft_abs(tmp - SHORT_RANGE) <= MEM_SIZE
+	if ((tmp > SHORT_RANGE / 2 && tmp <= SHORT_RANGE + MEM_SIZE)
 	&& (tmp - SHORT_RANGE) % IDX_MOD == (tmp % IDX_MOD - IDX_MOD))
 		fa = tmp - SHORT_RANGE;
-	else if (tmp > FPOS && tmp
-	% MEM_SIZE > MEM_SIZE / 2)
+	else if (tmp >= FPOS && tmp % MEM_SIZE > MEM_SIZE / 2)
 		fa = tmp % IDX_MOD - IDX_MOD;
 	else
 		fa = tmp;
