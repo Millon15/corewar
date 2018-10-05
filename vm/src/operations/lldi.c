@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:45 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/03 10:24:07 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/05 11:58:58 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ static inline void		set_args(long *args, t_car *self)
 		24) <= 254 && args[0] >> 24) || (args[0] % IDX_MOD == args[0] %
 		MEM_SIZE) || (args[0] <= MEM_SIZE * 2) || (args[0] % IDX_MOD ==
 		IDX_MOD - 1 && args[0] % MEM_SIZE == MEM_SIZE - 1 && ft_abs(args[0]
-		- SHORT_RANGE) > MEM_SIZE) || ((args[0] % SHORT_RANGE) == (args[0]
-		% MEM_SIZE)) || (args[0] % SHORT_RANGE - SHORT_RANGE == args[0]
-		% IDX_MOD - IDX_MOD && ft_abs(args[0] - SHORT_RANGE) > MEM_SIZE) ||
+		- SHORT_RANGE) > MEM_SIZE) || (ft_abs(args[0] % SHORT_RANGE - SHORT_RANGE) <= MEM_SIZE)
+		|| ((args[0] % SHORT_RANGE) == (args[0]
+		% MEM_SIZE)) || ((args[0] % SHORT_RANGE - SHORT_RANGE) % IDX_MOD == args[0]
+		% IDX_MOD - IDX_MOD && ft_abs(args[0] - SHORT_RANGE) > MEM_SIZE  && args[0] > FPOS1) ||
 		(args[0] % MEM_SIZE == args[0] % SHORT_RANGE && args[0] > SHORT_RANGE + MEM_SIZE)
 		|| (((args[0] % MEM_SIZE) - (args[0] % IDX_MOD)) == IDX_MOD)))
 			args[0] = args[0] % IDX_MOD - IDX_MOD;
@@ -47,9 +48,10 @@ static inline void		set_args(long *args, t_car *self)
 		24) <= 254 && args[1] >> 24) || (args[1] % IDX_MOD == args[1] %
 		MEM_SIZE) || (args[1] <= MEM_SIZE * 2) || (args[1] % IDX_MOD ==
 		IDX_MOD - 1 && args[1] % MEM_SIZE == MEM_SIZE - 1 && ft_abs(args[1]
-		- SHORT_RANGE) > MEM_SIZE) || ((args[1] % SHORT_RANGE) == (args[1]
-		% MEM_SIZE)) || (args[1] % SHORT_RANGE - SHORT_RANGE == args[1]
-		% IDX_MOD - IDX_MOD && ft_abs(args[1] - SHORT_RANGE) > MEM_SIZE) ||
+		- SHORT_RANGE) > MEM_SIZE) || (ft_abs(args[1] % SHORT_RANGE - SHORT_RANGE) <= MEM_SIZE)
+		|| ((args[1] % SHORT_RANGE) == (args[1]
+		% MEM_SIZE)) || ((args[1] % SHORT_RANGE - SHORT_RANGE) % IDX_MOD == args[1]
+		% IDX_MOD - IDX_MOD && ft_abs(args[1] - SHORT_RANGE) > MEM_SIZE && args[1] > FPOS1) ||
 		(args[1] % MEM_SIZE == args[1] % SHORT_RANGE && args[1] > SHORT_RANGE + MEM_SIZE)
 		|| (((args[1] % MEM_SIZE) - (args[1] % IDX_MOD)) == IDX_MOD)))
 			args[1] = args[1] % IDX_MOD - IDX_MOD;

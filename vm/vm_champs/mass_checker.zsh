@@ -64,8 +64,8 @@ do
 		DIFF=${PREFIX}diff_$i
 	done
 	echo -n > $DIFF; echo -n > $ORIG_LOG; echo -n > $OURS_LOG
-	./corewar -d 20000 $VMAV > $ORIG_LOG &
-	../corewar -d 20000 $VMAV > $OURS_LOG &
+	./corewar -d 14000 $VMAV > $ORIG_LOG &
+	../corewar -d 14000 $VMAV > $OURS_LOG &
 	echo "diff $ORIG_LOG $OURS_LOG > $DIFF" >> $TO_DO
 	echo "# $VMAV" >> $TO_DO
 	sleep 1
