@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/05 12:52:13 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/07 00:46:15 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void					sti(t_car *self, t_vm *v)
 
 	args[0] = 0;
 	args[1] = 0;
-	if (I.cur_cycle == 2719)
+	if (I.cur_cycle == 11914)
 		ft_printf("");
 	if (self->args[1] == T_IND)
 	{

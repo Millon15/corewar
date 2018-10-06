@@ -19,6 +19,7 @@ TO_DO="to_do.sh"
 ERR_D="${PREFIX}/errors/"; mkdir -p $ERR_D
 ERRORS=$ERR_D"err_list"
 ERRNUM=$(ls -1r $ERR_D | grep diff_ | head -1); ERRNUM=$(($ERRNUM+0))
+ERR_F="errors_$RANDOM"
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -65,11 +66,16 @@ do
 	done
 	echo -n > $DIFF; echo -n > $ORIG_LOG; echo -n > $OURS_LOG
 	./corewar -d 14000 $VMAV > $ORIG_LOG &
-	../corewar -d 14000 $VMAV > $OURS_LOG &
+	../corewar -d 14000 $VMAV > $OURS_LOG 2>> $ERR_F &
+	if [[ $(cat $ERR_F) ]]; then
+		printf $RED; cat $ERR_F; printf $RESET
+		rm -f $ERR_F; exit 1
+	fi
 	echo "diff $ORIG_LOG $OURS_LOG > $DIFF" >> $TO_DO
 	echo "# $VMAV" >> $TO_DO
 	sleep 1
 done
+rm -f $ERR_F
 
 while [[ $(pgrep corewar) ]];
 do
@@ -99,6 +105,8 @@ do
 		let j++
 	fi
 done
+rm -f $TO_DO
+
 if [[ $(($j-$ERRNUM)) -gt 0 ]];
 then
 	printf $RED
@@ -115,4 +123,4 @@ then
 	sleep 3
 	less $ERRORS
 fi
-rm -rf ${PREFIX}diff_* ${PREFIX}log_* $TO_DO
+rm -rf ${PREFIX}diff_* ${PREFIX}log_*

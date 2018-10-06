@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:40:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/05 19:38:24 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/07 01:30:02 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ static inline int	calc_fa(int tmp)
 
 	if (tmp > IDX_MOD && !(tmp % IDX_MOD))
 		first_arg = 0;
+	// else if (tmp == 6659)
+	// 	first_arg = (tmp > IDX_MOD) ?
+	// 	tmp % IDX_MOD : tmp;
 	else if ((ft_abs(tmp - SHORT_RANGE) <= IDX_MOD) || ((tmp > SHORT_RANGE / 2) &&
 	(tmp < SHORT_RANGE - MEM_SIZE * 2) && (tmp % IDX_MOD == tmp % MEM_SIZE)) ||
 	(ft_abs(tmp - SHORT_RANGE) <= IDX_MOD))
@@ -27,16 +30,18 @@ static inline int	calc_fa(int tmp)
 	// ((tmp > SHORT_RANGE / 2 && tmp < SHORT_RANGE - MEM_SIZE) && 
 	// (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD))
 	else if ((tmp > SHORT_RANGE / 2 && tmp <= SHORT_RANGE && tmp % IDX_MOD == IDX_MOD / 2)
-	|| (tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= SHORT_RANGE / 2) || ((ft_abs(tmp - SHORT_RANGE) <= MEM_SIZE * 2)
+	|| (tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= SHORT_RANGE / 2) || (tmp > MEM_SIZE && tmp <= MEM_SIZE * 2/* && (tmp % MEM_SIZE >= MEM_SIZE / 2)*/) || ((ft_abs(tmp - SHORT_RANGE) <= MEM_SIZE * 2)
 	&& (tmp % IDX_MOD == tmp % MEM_SIZE))/* || (tmp == 16962)*/)
 	{
+		// first_arg = (tmp > MEM_SIZE) ?
+		// tmp % IDX_MOD - IDX_MOD : tmp % IDX_MOD;
 		first_arg = (tmp > IDX_MOD) ?
 		tmp % IDX_MOD : tmp;
-		if (tmp > MEM_SIZE && !(tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= SHORT_RANGE / 2)/* && (tmp != 16962)*/)
+		if (tmp > MEM_SIZE && !(tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= SHORT_RANGE / 2) && !(tmp > MEM_SIZE && tmp <= MEM_SIZE * 2)/* && (tmp != 16962)*/)
 			first_arg -= IDX_MOD;
 	}
-	else if ((tmp > MEM_SIZE && tmp <= MEM_SIZE * 2)
-	|| (tmp % IDX_MOD == tmp % MEM_SIZE)
+	else if (/*(tmp > MEM_SIZE && tmp < MEM_SIZE * 2)
+	|| */(tmp % IDX_MOD == tmp % MEM_SIZE)
 	|| (tmp > MEM_SIZE * 2 && tmp < FPOS) || (tmp > SHORT_RANGE / 2 && tmp < SHORT_RANGE - MEM_SIZE * 2) ||
 	((tmp > IDX_MOD) && (tmp <= MEM_SIZE) && !(tmp % IDX_MOD)) ||
 	((tmp > MEM_SIZE * 2) && !(tmp % IDX_MOD) && ((tmp % MEM_SIZE) <= MEM_SIZE / 2)
@@ -67,10 +72,21 @@ static inline void	output_to_arena(int first_arg, t_car *self, t_vm *v)
 		pc_index = PC_IND;
 	else
 	{
+		// if (first_arg >= 0 && first_arg >= SPACE_TO_END)
+		// {
+		// 	// if ((PC_IND + first_arg % MEM_SIZE) < MEM_SIZE)
+		// 		pc_index = first_arg - SPACE_TO_END;
+		// }
 		if (first_arg >= 0 && first_arg >= SPACE_TO_END)
 		{
 			// if ((PC_IND + first_arg % MEM_SIZE) < MEM_SIZE)
-				pc_index = first_arg - SPACE_TO_END;
+			if (first_arg - SPACE_TO_END >= MEM_SIZE / 2 && first_arg % IDX_MOD <= SPACE_TO_END)
+				pc_index = first_arg % IDX_MOD + SPACE_TO_END;
+			else if (first_arg - SPACE_TO_END >= MEM_SIZE / 2)
+				pc_index = MEM_SIZE + first_arg % IDX_MOD + SPACE_TO_END;
+			else
+				pc_index = MEM_SIZE + first_arg + PC_IND;
+				// pc_index = first_arg - SPACE_TO_END;
 		}
 		else if (first_arg < 0 && ft_abs(first_arg) > PC_IND)
 		{
@@ -96,8 +112,8 @@ static inline void	alter_for_verbose(int tmp, int *first_arg)
 	== tmp % IDX_MOD - IDX_MOD) || ((ft_abs(tmp >= SHORT_RANGE) <= MEM_SIZE * 2) //(tmp >= SHORT_RANGE - MEM_SIZE * 2) ?
 	&& (tmp % IDX_MOD == tmp % MEM_SIZE)) || (ft_abs(tmp - SHORT_RANGE) <= MEM_SIZE * 2))
 		*first_arg = tmp - SHORT_RANGE;
-	else if ((tmp > IDX_MOD && tmp <= MEM_SIZE && !(tmp % IDX_MOD)) ||
-	(tmp > MEM_SIZE && !(tmp % IDX_MOD) && (tmp % MEM_SIZE) <= MEM_SIZE / 2
+	else if ((tmp > IDX_MOD && tmp <= MEM_SIZE && !(tmp % IDX_MOD)) || (tmp > MEM_SIZE && tmp <= MEM_SIZE * 2)
+	|| (tmp > MEM_SIZE && !(tmp % IDX_MOD) && (tmp % MEM_SIZE) <= MEM_SIZE / 2
 	&& !((tmp % MEM_SIZE) % IDX_MOD)) || (tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= FPOS1))
 		*first_arg = tmp;
 	
@@ -111,7 +127,9 @@ void				st(t_car *self, t_vm *v)
 	const unsigned int	size = sizeof(res);
 	int					tmp;
 
-	if (self->id == 52 && I.cur_cycle == 7256)
+	// if (self->id == 52 && I.cur_cycle == 7256)
+	// 	ft_printf("");
+	if (I.cur_cycle == 11914)
 		ft_printf("");
 	tmp = self->arg_val[1];
 	if (self->args[1] == T_IND)
