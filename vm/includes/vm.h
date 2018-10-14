@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/05 14:45:46 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/15 00:35:12 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_info			t_info;
 typedef struct s_curses			t_curses;
 typedef struct s_colors			t_colors;
 typedef struct s_widgets		t_widgets;
+typedef struct s_music			t_music;
 
 /*
 ** ncurses visualizer info
@@ -72,6 +73,9 @@ typedef struct s_widgets		t_widgets;
 # define CLR_CYCTOWAIT				50
 
 # define N			v->ncurses
+# define MSTART		1
+# define MDIE		2
+# define MEND		4
 
 struct				s_widgets
 {
@@ -119,6 +123,31 @@ void				print_info(t_vm *v, const bool is_print_full_info);
 void				print_stats(t_vm *v);
 void				deinit_windows(t_vm *v);
 
+
+void			play_music(t_vm *v, int flag, bool is_allocate);
+
+/*
+** Info structure
+*/
+
+# define M					v->music
+# define VENOM_START_DUR	14
+# define SKIBIDI_START_DUR	8
+# define VENOM_DIE_DUR		2
+# define SKIBIDI_DIE_DUR	4
+
+struct				s_music
+{
+	unsigned char	is_music : 1;
+	unsigned char	is_venom : 1;
+	unsigned char	is_skibidi : 1;
+	unsigned char	to_wait;
+	char			*play_start;
+	char			*play_die;
+	char			*play_end;
+	time_t			playing;
+};
+
 /*
 ** Info structure
 */
@@ -143,12 +172,12 @@ struct				s_info
 
 struct				s_args
 {
-	unsigned int		is_ncurses : 1;
-	unsigned int		is_dump : 1;
-	unsigned int		is_stealth : 1;
-	unsigned int		vis_start_value;
-	unsigned int		dump_value;
-	unsigned int		verbose_value;
+	unsigned int	is_ncurses : 1;
+	unsigned int	is_dump : 1;
+	unsigned int	is_stealth : 1;
+	unsigned int	vis_start_value;
+	unsigned int	dump_value;
+	unsigned int	verbose_value;
 };
 
 /*
@@ -244,6 +273,7 @@ struct				s_corewar
 
 	t_args			args;
 	t_info			info;
+	t_music			music;
 };
 
 void				check_and_obtain_args(int ac, char **av, t_vm *v);
@@ -258,7 +288,7 @@ void				get_winner(t_vm *v);
 ** Operations functions
 */
 # define PUMPKIN		(res << (8 * i)) >> (8 * (size - 1))
-# define SPACE_TO_END   (MEM_SIZE - PC_IND)
+# define SPACE_TO_END	(MEM_SIZE - PC_IND)
 # define SHORT_RANGE	(USHRT_MAX + 1)
 # define FPOS			16962//21508
 # define TNTZEROS		2900

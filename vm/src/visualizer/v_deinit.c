@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/12 02:41:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 13:12:34 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/15 00:35:48 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ static inline void		print_winner(t_vm *v)
 void					deinit_windows(t_vm *v)
 {
 	print_one_cycle(v, false);
+	(M.is_music) ? play_music(v, MEND, false) : false;
 	if (N->c != EXIT_KEY)
 		print_winner(v);
 	delwin(N->mainw);
 	delwin(N->infow);
 	delwin(N->statw);
 	endwin();
+	system("pkill afplay");
 	exit(0);
 }

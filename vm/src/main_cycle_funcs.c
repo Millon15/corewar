@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_cycle_funcs.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/02 03:19:09 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/15 00:20:05 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 void		kill_process(unsigned int *last_check, t_vm *v)
 {
 	t_car	*car;
+	bool	was_one_death;
 
 	car = v->head;
+	was_one_death = false;
 	while (car)
 	{
 		if (/*!car->nb_lives || */
@@ -26,10 +28,13 @@ void		kill_process(unsigned int *last_check, t_vm *v)
 				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n"
 				, car->id, I.cur_cycle - car->live_cycle, I.cycle_to_die);
 			delete_this_car(&car, v);
+			was_one_death = true;
 			continue ;
 		}
 		car = car->next;
 	}
+	if (I.cycle_to_die > 500 && was_one_death && A.is_ncurses && M.is_music)
+		play_music(v, MDIE, false);
 	*last_check = 0;
 }
 

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 16:45:51 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 08:49:17 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/15 00:41:17 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 #include <string.h>
 
 static const char	g_usage[] = "Usage: ./corewar "
-"-v N|(-d|-dump|--dump) N|--ncurses|-n N championN.cor"
-" <champion1.cor> <...>\n"
-"\t(-d|-dump|--dump) N\t: dumps memory after N cycles then exits\n"
+"[-v N] [(-d|-dump) N] [--ncurses [--start-in N] "
+"[(--venom|--skibidi)]] [-n N champion.cor] <champion1.cor> <...>\n"
+"\t(-d|-dump) N\t\t: dumps memory after N cycles then exits\n"
 "\t--ncurses\t\t: ncurses output mode\n"
-"\t-n N championN.cor\t: sets the N of the next player\n"
+"\t\t\t\t--start-in N : waits N cycles, then starts the ncurses mode\n"
+"\t\t\t\t--venom : playing venom sounds in ncurses mode\n"
+"\t\t\t\t--skibidi : playing skibidi sounds in ncurses mode\n"
+"\t-n N champion.cor\t: sets the N of the next player\n"
 "\t-v N\t\t\t: verbosity levels, can be added together to enable several\n"
 "\t\t\t\t- 0 : Show only essentials\n"
 "\t\t\t\t- 1 : Show lives\n"

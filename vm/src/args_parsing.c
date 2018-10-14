@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apyltsov <apyltsov@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/29 21:20:50 by apyltsov         ###   ########.fr       */
+/*   Updated: 2018/10/15 00:40:48 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,23 @@ static inline int		help_check_and_obtain_args(char **av, int i, t_vm *v)
 {
 	if (ft_strequ(av[i], "--ncurses"))
 		A.is_ncurses = true;
-	else if (ft_strequ(av[i], "-d") || ft_strequ(av[i], "-dump")
-	|| ft_strequ(av[i], "--dump"))
-	{
-		(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(2) : false;
-		A.is_dump = true;
-		A.dump_value = (unsigned int)ft_atoi(av[i]);
-	}
+	else if (ft_strequ(av[i], "-d") || ft_strequ(av[i], "-dump"))
+		(A.is_dump = true)
+		&& (A.dump_value = (unsigned int)ft_atoi(av[i]));
 	else if (ft_strequ(av[i], "-v"))
-	{
-		(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(6) : false;
-		A.verbose_value = (unsigned int)ft_atoi(av[i]);
-	}
+		(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(6) :
+		(A.verbose_value = (unsigned int)ft_atoi(av[i]));
 	else if (ft_strequ(av[i], "--start-in"))
-	{
-		(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(6) : false;
-		A.vis_start_value = (unsigned int)ft_atoi(av[i]);
-	}
+		(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(6) :
+		(A.vis_start_value = (unsigned int)ft_atoi(av[i]));
 	else if (ft_strequ(av[i], "--stealth"))
 		A.is_stealth = true;
+	else if (ft_strequ(av[i], "--venom"))
+		(M.is_music = true)
+		&& (M.is_venom = true);
+	else if (ft_strequ(av[i], "--skibidi"))
+		(M.is_music = true)
+		&& (M.is_skibidi = true);
 	else
 		return (-1);
 	return (i);
