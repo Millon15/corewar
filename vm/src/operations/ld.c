@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:40:36 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/03 17:56:40 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/09 18:43:57 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void		ld(t_car *self, t_vm *v)
 	long			tmp;
 	long			first_arg;
 
-	if (self->id == 15 && I.cur_cycle == 2146)
+	if (I.cur_cycle == 7789)
 		ft_printf("");
 	tmp = self->arg_val[0];
 	if (self->args[0] == T_DIR)
