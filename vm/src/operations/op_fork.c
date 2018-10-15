@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/05 18:15:23 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/15 19:15:08 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_car *self, t_vm *v)
 	(t - SHORT_RANGE) % IDX_MOD == *arg - IDX_MOD) || (t >= SHORT_RANGE / 2
 	&& (t - SHORT_RANGE) % IDX_MOD == t % IDX_MOD - IDX_MOD))
 		*arg = t - SHORT_RANGE;
-	else if ((t >= MEM_SIZE * 2 &&
-	t % IDX_MOD == t % MEM_SIZE) || (t % SHORT_RANGE >= FPOS && t
+	else if ((t >= MEM_SIZE * 2 && t < SHORT_RANGE - MEM_SIZE
+	/*t % IDX_MOD == t % MEM_SIZE*/) || (t % SHORT_RANGE >= FPOS && t
 	% SHORT_RANGE <= FPOS1) || ((t - SHORT_RANGE) % IDX_MOD == t %
 	IDX_MOD - IDX_MOD && t > FPOS1 && ft_abs(t - SHORT_RANGE) > MEM_SIZE) //t > SHORT_RANGE / 2 ?
 	|| (((t % MEM_SIZE) - (t % IDX_MOD)) == IDX_MOD))
@@ -132,7 +132,7 @@ void						op_fork(t_car *self, t_vm *v)
 	// new_pc = new_pc % MEM_SIZE;
 	arg = self->arg_val[0] % IDX_MOD;
 	tmp = self->arg_val[0];
-	if (I.cur_cycle == 1750 && self->id == 7)
+	if (I.cur_cycle == 5189 && self->id == 5)
 		ft_printf("");
 	if (tmp >= IDX_MOD)
 		pc = set_arg(tmp, &arg, self, v);

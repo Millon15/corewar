@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/15 00:40:48 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/15 20:29:55 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,10 @@ static inline int		help_check_and_obtain_args(char **av, int i, t_vm *v)
 {
 	if (ft_strequ(av[i], "--ncurses"))
 		A.is_ncurses = true;
-	else if (ft_strequ(av[i], "-d") || ft_strequ(av[i], "-dump"))
+	else if (ft_strequ(av[i], "-d") || ft_strequ(av[i], "-dump")
+	|| ft_strequ(av[i], "--dump"))
 		(A.is_dump = true)
-		&& (A.dump_value = (unsigned int)ft_atoi(av[i]));
+		&& (A.dump_value = (unsigned int)ft_atoi(av[++i]));
 	else if (ft_strequ(av[i], "-v"))
 		(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(6) :
 		(A.verbose_value = (unsigned int)ft_atoi(av[i]));

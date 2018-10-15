@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:45 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/14 18:13:50 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/16 00:00:03 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ static inline void		set_args(long *args, t_car *self)
 	{
 		if ((ft_abs(args[0] - SHORT_RANGE) <= MEM_SIZE && (args[0] - SHORT_RANGE) % IDX_MOD == args[0]
 		% IDX_MOD - IDX_MOD) || ((args[0] % SHORT_RANGE) > SHORT_RANGE / 2 && (args[0] % SHORT_RANGE) < SHORT_RANGE - MEM_SIZE * 2
-		&& ((args[0] % SHORT_RANGE) % IDX_MOD == (args[0] % SHORT_RANGE) % MEM_SIZE ||
-		((args[0] % SHORT_RANGE) - SHORT_RANGE) % IDX_MOD == 0 || ((args[0] % SHORT_RANGE) - SHORT_RANGE) % MEM_SIZE == 0)))
+		&& ((args[0] % SHORT_RANGE) % IDX_MOD == (args[0] % SHORT_RANGE) % MEM_SIZE || ((args[0] % SHORT_RANGE) - SHORT_RANGE) %
+		IDX_MOD == 0 || ((args[0] % SHORT_RANGE) - SHORT_RANGE) % MEM_SIZE == 0)) || (args[0] > SHORT_RANGE / 2 && args[0] <
+		SHORT_RANGE - MEM_SIZE * 2 && args[0] % IDX_MOD >= IDX_MOD / 2 - 1 && args[0] % IDX_MOD <= IDX_MOD / 2 + 1))				//????????????????????
 			args[0] = args[0] - SHORT_RANGE;
 		else if ((((int)(args[0])) % IDX_MOD == args[0] % IDX_MOD - IDX_MOD) ||
 		((args[0] % SHORT_RANGE) > SHORT_RANGE / 2 && (args[0] % SHORT_RANGE) < SHORT_RANGE - MEM_SIZE * 2
@@ -35,7 +36,7 @@ static inline void		set_args(long *args, t_car *self)
 		% MEM_SIZE)) || ((args[0] % SHORT_RANGE - SHORT_RANGE) % IDX_MOD == args[0] % IDX_MOD - IDX_MOD
 		&& ft_abs(args[0] - SHORT_RANGE) > MEM_SIZE  && args[0] > FPOS1) ||
 		(args[0] % MEM_SIZE == args[0] % SHORT_RANGE && args[0] > SHORT_RANGE + MEM_SIZE)
-		|| (((args[0] % MEM_SIZE) - (args[0] % IDX_MOD)) == IDX_MOD)))
+		|| (((args[0] % MEM_SIZE) - (args[0] % IDX_MOD)) == IDX_MOD) || (args[0] > MEM_SIZE * 2 && args[0] < SHORT_RANGE - MEM_SIZE)))
 			args[0] = args[0] % IDX_MOD - IDX_MOD;
 	}
 	args[1] = self->args[1] == T_REG ?
@@ -61,7 +62,7 @@ static inline void		set_args(long *args, t_car *self)
 		% MEM_SIZE)) || ((args[1] % SHORT_RANGE - SHORT_RANGE) % IDX_MOD == args[1]
 		% IDX_MOD - IDX_MOD && ft_abs(args[1] - SHORT_RANGE) > MEM_SIZE  && args[1] > FPOS1) ||
 		(args[1] % MEM_SIZE == args[1] % SHORT_RANGE && args[1] > SHORT_RANGE + MEM_SIZE)
-		|| (((args[1] % MEM_SIZE) - (args[1] % IDX_MOD)) == IDX_MOD)))
+		|| (((args[1] % MEM_SIZE) - (args[1] % IDX_MOD)) == IDX_MOD) || (args[1] > MEM_SIZE * 2 && args[1] < SHORT_RANGE - MEM_SIZE)))
 			args[1] = args[1] % IDX_MOD - IDX_MOD;
 	}
 }
