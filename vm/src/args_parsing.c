@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 14:33:43 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/16 20:05:46 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ static inline int		help_check_and_obtain_args(char **av, int i, t_vm *v)
 	else if (ft_strequ(av[i], "--skibidi"))
 		(M.is_music = true)
 		&& (M.is_skibidi = true);
+	else if (ft_strequ(av[i], "--no-stat"))
+		(A.is_nostat = true);
 	else
 		return (-1);
 	return (i);

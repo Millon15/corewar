@@ -6,11 +6,14 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 20:56:24 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/16 20:12:12 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
+#define CLEAR_LINE					20
+#define MW_ROW_LENGTH				64
+#define PRINT_WIDGET				(!(I.cur_cycle % 10))
 
 static inline void		print_main(t_vm *v)
 {
@@ -19,7 +22,7 @@ static inline void		print_main(t_vm *v)
 	int					attrs;
 
 	i = -1;
-	row = START_ROW_MAIN - 1;
+	row = START_ROW - 1;
 	put_car_color_to_arena(v);
 	while (++i < MEM_SIZE)
 	{
@@ -47,19 +50,19 @@ static inline void		print_full_info(t_vm *v, int row, int i)
 		wprintw(N->infow, "%.*s", IW_WIDTH - 18, P(i).prog_name);
 		wattroff(N->infow, COLOR_PAIR(N->pcolors[i]));
 		mvwprintw(N->infow, ++row, 6, "Last live :\t\t\t%-*d",
-		CLEAR_LINE_PADD, P(i).points);
+		CLEAR_LINE, P(i).points);
 		mvwprintw(N->infow, ++row, 6, "Lives in current period :\t\t%-*d",
-		CLEAR_LINE_PADD, P(i).lives_in_cp);
+		CLEAR_LINE, P(i).lives_in_cp);
 	}
-	print_widgets(v, &row);
+	(PRINT_WIDGET) ? print_widgets(v, &row) : (row += 6);
 	mvwprintw(N->infow, (row += 2), 4, "CYCLE_TO_DIE :\t%-*d",
-	CLEAR_LINE_PADD, I.cycle_to_die);
+	CLEAR_LINE, I.cycle_to_die);
 	mvwprintw(N->infow, (row += 2), 4, "CYCLE_DELTA :\t%-*d",
-	CLEAR_LINE_PADD, CYCLE_DELTA);
+	CLEAR_LINE, CYCLE_DELTA);
 	mvwprintw(N->infow, (row += 2), 4, "NBR_LIVE :\t\t%-*d",
-	CLEAR_LINE_PADD, NBR_LIVE);
+	CLEAR_LINE, NBR_LIVE);
 	mvwprintw(N->infow, (row += 2), 4, "MAX_CHECKS :\t%-*d",
-	CLEAR_LINE_PADD, MAX_CHECKS);
+	CLEAR_LINE, MAX_CHECKS);
 }
 
 inline void				print_info(t_vm *v, const bool is_print_full_info)
@@ -67,18 +70,18 @@ inline void				print_info(t_vm *v, const bool is_print_full_info)
 	int			row;
 	int			i;
 
-	row = START_ROW_INFO;
+	row = START_ROW;
 	i = -1;
 	wattron(N->infow, COLOR_PAIR(COLOR_DARK));
 	mvwprintw(N->infow, COMMON_HEIGHT - 4, ALIGN_CENTER(IW_WIDTH, 13),
-	"%-*s", CLEAR_LINE_PADD, (N->is_run) ? "** RUNNING **" : "** PAUSED **");
+	"%-*s", CLEAR_LINE, (N->is_run) ? "** RUNNING **" : "** PAUSED **");
 	mvwprintw(N->infow, row, 4, "Cycles/second limit :\t%-*d"
-	, CLEAR_LINE_PADD, N->cycpersec);
+	, CLEAR_LINE, N->cycpersec);
 	wattroff(N->infow, COLOR_PAIR(COLOR_DARK));
 	mvwprintw(N->infow, (row += 3), 4, "Cycle :\t\t%-*d",
-	CLEAR_LINE_PADD, I.cur_cycle);
+	CLEAR_LINE, I.cur_cycle);
 	mvwprintw(N->infow, (row += 2), 4, "Processes :\t\t%-*d",
-	CLEAR_LINE_PADD, I.cursors);
+	CLEAR_LINE, I.cursors);
 	if (is_print_full_info)
 		print_full_info(v, row, i);
 	wrefresh(N->infow);
@@ -88,7 +91,10 @@ void					print_one_cycle(t_vm *v, const bool is_pass_cycle)
 {
 	print_main(v);
 	print_info(v, true);
-	print_stats(v);
+	(PRINT_WIDGET && !A.is_nostat) ? print_stats(v) : false;
+	put_border(N->mainw);
+	put_border(N->infow);
+	put_border(N->statw);
 	if (is_pass_cycle)
 		pass_one_cycle(v);
 }

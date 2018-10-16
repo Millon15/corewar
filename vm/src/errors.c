@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 16:45:51 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 13:59:17 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/16 20:14:07 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static const char	g_usage[] = "Usage: ./corewar "
 "\t--ncurses\t\t: ncurses output mode\n"
 "\t\t\t\t--start-in N\t: waits N cycles, then starts the ncurses mode\n"
 "\t\t\t\t--stealth\t: hides the real contents of the memory in ncurses mode\n"
+"\t\t\t\t--no-stat\t: turn off stat(3rd) window in ncurses mode\n"
 "\t\t\t\t--venom\t\t: playing venom sounds in ncurses mode\n"
 "\t\t\t\t--skibidi\t: playing skibidi sounds in ncurses mode\n"
 "\t-n N champion.cor\t: sets the N of the next player\n"

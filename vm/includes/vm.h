@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 17:31:34 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/16 20:12:05 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,45 @@ typedef struct s_widgets		t_widgets;
 typedef struct s_music			t_music;
 
 /*
+** Music structure
+*/
+
+# define M					v->music
+# define VENOM_START_DUR	14
+# define SKIBIDI_START_DUR	8
+# define VENOM_DIE_DUR		14
+# define SKIBIDI_DIE_DUR	4
+# define MSTART				1
+# define MDIE				2
+# define MEND				4
+
+struct				s_music
+{
+	unsigned char	is_music : 1;
+	unsigned char	is_venom : 1;
+	unsigned char	is_skibidi : 1;
+	unsigned char	to_wait;
+	char			*play_start;
+	char			*play_die;
+	char			*play_end;
+	time_t			playing;
+};
+
+/*
+** Color pair defines
+*/
+
+# define BORDER						31
+# define MAIN						32
+# define INFO						33
+# define COLOR_REDDY				34
+# define COLOR_DARK					40
+# define COLOR_ORANGE				41
+# define STAT						42
+# define COLOR_DELTA				10
+# define CLR_CYCTOWAIT				50
+
+/*
 ** ncurses visualizer info
 */
 
@@ -46,36 +85,15 @@ typedef struct s_music			t_music;
 # define TOT_LIVES_TERM				1000
 # define SQBIG_VAL					10
 # define SQSMALL_VAL				1
-# define CLEAR_LINE_PADD			20
-# define MW_ROW_LENGTH				64
 # define COLOR_AMOUNT				(MAX_PLAYERS + 1)
 # define COMMON_HEIGHT				(MEM_SIZE / 64 + 4)
-# define STAT_HEIGHT				(MAX_PLAYERS + 4)
 # define MW_WIDTH					(64 * 3 + 7)
 # define IW_WIDTH					(MW_WIDTH / 3)
 # define SW_WIDTH					(MW_WIDTH + IW_WIDTH - 1)
 # define START_CYCLES_PER_SEC		50
-# define START_ROW_MAIN				2
-# define START_ROW_INFO				2
-# define START_ROW_STAT				2
+# define START_ROW					2
 
 # define ALIGN_CENTER(width, len)	(((width)-(len))?(((width)-(len))/2):0)
-
-# define BORDER						31
-# define MAIN						32
-# define INFO						33
-# define COLOR_REDDY				34
-# define COLOR_DARK					40
-# define COLOR_ORANGE				41
-# define STAT						42
-# define COLOR_DELTA				10
-# define WIDGET_LENGTH				50
-# define CLR_CYCTOWAIT				50
-
-# define N			v->ncurses
-# define MSTART		1
-# define MDIE		2
-# define MEND		4
 
 struct				s_widgets
 {
@@ -92,6 +110,8 @@ struct				s_colors
 	unsigned char	bold;
 	unsigned char	undrln;
 };
+
+# define N			v->ncurses
 
 struct				s_curses
 {
@@ -122,29 +142,8 @@ void				print_widgets(t_vm *v, int *row);
 void				print_info(t_vm *v, const bool is_print_full_info);
 void				print_stats(t_vm *v);
 void				deinit_windows(t_vm *v);
+void				put_border(WINDOW *win);
 void				play_music(t_vm *v, int flag);
-
-/*
-** Info structure
-*/
-
-# define M					v->music
-# define VENOM_START_DUR	14
-# define SKIBIDI_START_DUR	8
-# define VENOM_DIE_DUR		14
-# define SKIBIDI_DIE_DUR	4
-
-struct				s_music
-{
-	unsigned char	is_music : 1;
-	unsigned char	is_venom : 1;
-	unsigned char	is_skibidi : 1;
-	unsigned char	to_wait;
-	char			*play_start;
-	char			*play_die;
-	char			*play_end;
-	time_t			playing;
-};
 
 /*
 ** Info structure
@@ -171,6 +170,7 @@ struct				s_info
 struct				s_args
 {
 	unsigned int	is_ncurses : 1;
+	unsigned int	is_nostat : 1;
 	unsigned int	is_dump : 1;
 	unsigned int	is_stealth : 1;
 	unsigned int	vis_start_value;
@@ -285,10 +285,11 @@ void				get_winner(t_vm *v);
 /*
 ** Operations functions
 */
+
 # define PUMPKIN		(res << (8 * i)) >> (8 * (size - 1))
 # define SPACE_TO_END	(MEM_SIZE - PC_IND)
 # define SHORT_RANGE	(USHRT_MAX + 1)
-# define FPOS			16962//21508
+# define FPOS			16962
 # define TNTZEROS		2900
 # define FPOS1			21530
 

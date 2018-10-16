@@ -6,11 +6,12 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 17:41:42 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 17:10:13 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/16 19:39:54 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
+#define WIDGET_LENGTH				50
 
 static inline int	calc_value(double lives_in_cp, double totliv_in_cp)
 {

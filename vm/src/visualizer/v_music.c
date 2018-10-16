@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/14 23:46:41 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 17:33:18 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/16 19:22:56 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void					play_music(t_vm *v, int flag)
 			M.to_wait = (M.is_venom) ? VENOM_DIE_DUR : SKIBIDI_DIE_DUR;
 			M.playing = time(NULL);
 		}
-		else if (flag == MEND)
-		{
-			system("pkill afplay");
-			system(M.play_end);
-		}
+	}
+	if (flag == MEND)
+	{
+		system("pkill afplay");
+		system(M.play_end);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 17:32:35 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/16 19:54:09 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void		kill_process(unsigned int *last_check, t_vm *v)
 	was_one_death = false;
 	while (car)
 	{
-		if (/*!car->nb_lives || */
-		I.cur_cycle - car->live_cycle >= I.cycle_to_die || I.cycle_to_die < 0)
+		if (I.cur_cycle - car->live_cycle >= I.cycle_to_die
+		|| I.cycle_to_die < 0)
 		{
 			if (A.verbose_value & 8)
 				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n"
@@ -33,7 +33,7 @@ void		kill_process(unsigned int *last_check, t_vm *v)
 		}
 		car = car->next;
 	}
-	if (was_one_death && A.is_ncurses && M.is_music)
+	if (I.cycle_to_die > 100 && was_one_death && A.is_ncurses && M.is_music)
 		play_music(v, MDIE);
 	*last_check = 0;
 }
@@ -64,10 +64,7 @@ void		make_live_nil(t_vm *v)
 	}
 	i = -1;
 	while (++i < v->player_amount)
-	{
-		// P(i).total_lives += P(i).lives_in_cp;
 		P(i).lives_in_cp = 0;
-	}
 }
 
 void		get_winner(t_vm *v)

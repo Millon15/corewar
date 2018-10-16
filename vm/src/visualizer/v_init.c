@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 17:31:50 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/16 20:11:53 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static inline void		init_colors(t_vm *v)
 	}
 }
 
-static inline void		put_border(WINDOW *win)
+void					put_border(WINDOW *win)
 {
 	wattron(win, COLOR_PAIR(BORDER));
 	wborder(win, BORDC, BORDC, BORDC, BORDC,
@@ -106,15 +106,16 @@ void					init_windows(t_vm *v)
 	N->infow = newwin(COMMON_HEIGHT, IW_WIDTH, 0, MW_WIDTH - 1);
 	wattron(N->infow, COLOR_PAIR(INFO) | A_BOLD);
 	put_border(N->infow);
-	N->statw = newwin(STAT_HEIGHT, SW_WIDTH, COMMON_HEIGHT - 1, 0);
-	wattron(N->statw, COLOR_PAIR(STAT) | A_BOLD);
-	put_border(N->statw);
+	if (!A.is_nostat)
+	{
+		N->statw = newwin(v->player_amount + 4, SW_WIDTH, COMMON_HEIGHT - 1, 0);
+		wattron(N->statw, COLOR_PAIR(STAT) | A_BOLD);
+		put_border(N->statw);
+	}
 	N->t = clock();
 	N->is_run = false;
 	N->cycpersec = START_CYCLES_PER_SEC;
-	N->is_run = true;
-	N->cycpersec = SQMAX_VAL;
+	(I.cycle_to_die > 0 && v->head) ? print_one_cycle(v, false) : false;
 	(A.vis_start_value) ? set_start_vis_cycle(v) : false;
-	refresh();
 	(I.cycle_to_die > 0 && v->head) ? print_one_cycle(v, false) : false;
 }
