@@ -6,9 +6,11 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-#    Updated: 2018/10/15 00:43:42 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/10/16 17:33:24 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+.PHONY: all clean fclean re mclean mfclean mre
 
 NAME := corewar
 
@@ -62,5 +64,3 @@ mfclean:
 	rm -f $(NAME)
 	rm -rf $(OBJ_PATH)
 mre: mfclean all
-
-.PHONY: all clean fclean re mclean mfclean mre

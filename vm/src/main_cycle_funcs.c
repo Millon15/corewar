@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/15 00:20:05 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/16 17:32:35 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void		kill_process(unsigned int *last_check, t_vm *v)
 		}
 		car = car->next;
 	}
-	if (I.cycle_to_die > 500 && was_one_death && A.is_ncurses && M.is_music)
-		play_music(v, MDIE, false);
+	if (was_one_death && A.is_ncurses && M.is_music)
+		play_music(v, MDIE);
 	*last_check = 0;
 }
 

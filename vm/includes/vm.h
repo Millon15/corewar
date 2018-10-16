@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/15 23:53:24 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/16 17:31:34 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,7 @@ void				print_widgets(t_vm *v, int *row);
 void				print_info(t_vm *v, const bool is_print_full_info);
 void				print_stats(t_vm *v);
 void				deinit_windows(t_vm *v);
-
-
-void			play_music(t_vm *v, int flag, bool is_allocate);
+void				play_music(t_vm *v, int flag);
 
 /*
 ** Info structure
@@ -133,7 +131,7 @@ void			play_music(t_vm *v, int flag, bool is_allocate);
 # define M					v->music
 # define VENOM_START_DUR	14
 # define SKIBIDI_START_DUR	8
-# define VENOM_DIE_DUR		2
+# define VENOM_DIE_DUR		14
 # define SKIBIDI_DIE_DUR	4
 
 struct				s_music

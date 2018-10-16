@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/15 00:20:16 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/16 17:31:50 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static inline void		init_visualizer(t_vm *v)
 	init_pair(STAT, COLOR_WHITE, COLOR_BLACK);
 	init_colors(v);
 	put_colors(v);
-	(M.is_music) ? play_music(v, MSTART, true) : false;
+	(M.is_music) ? play_music(v, MSTART) : false;
 }
 
 void					init_windows(t_vm *v)

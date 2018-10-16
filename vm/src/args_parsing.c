@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/15 20:29:55 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/16 14:33:43 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,17 @@ static inline int		help_check_and_obtain_args(char **av, int i, t_vm *v)
 {
 	if (ft_strequ(av[i], "--ncurses"))
 		A.is_ncurses = true;
-	else if (ft_strequ(av[i], "-d") || ft_strequ(av[i], "-dump")
-	|| ft_strequ(av[i], "--dump"))
+	else if (ft_strequ(av[i], "-d") || ft_strequ(av[i], "-dump"))
 		(A.is_dump = true)
 		&& (A.dump_value = (unsigned int)ft_atoi(av[++i]));
 	else if (ft_strequ(av[i], "-v"))
-		(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(6) :
-		(A.verbose_value = (unsigned int)ft_atoi(av[i]));
+		(av[++i] == NULL || !ft_isdigit(av[i][0])) ?
+		put_usage(6) : (A.verbose_value = (unsigned int)ft_atoi(av[i]));
 	else if (ft_strequ(av[i], "--start-in"))
-		(av[++i] == NULL || !ft_isdigit(av[i][0])) ? put_usage(6) :
-		(A.vis_start_value = (unsigned int)ft_atoi(av[i]));
+		(av[++i] == NULL || !ft_isdigit(av[i][0]) || !A.is_ncurses) ?
+		put_usage(7) : (A.vis_start_value = (unsigned int)ft_atoi(av[i]));
 	else if (ft_strequ(av[i], "--stealth"))
-		A.is_stealth = true;
+		(!A.is_ncurses) ? put_usage(8) : (A.is_stealth = true);
 	else if (ft_strequ(av[i], "--venom"))
 		(M.is_music = true)
 		&& (M.is_venom = true);
@@ -99,7 +98,6 @@ inline void				check_and_obtain_args(int ac, char **av, t_vm *v)
 	int		i;
 	int		j;
 
-	(ac == 1) ? put_usage(1) : false;
 	i = 0;
 	while (++i < ac)
 	{
@@ -108,5 +106,6 @@ inline void				check_and_obtain_args(int ac, char **av, t_vm *v)
 		else
 			i = j;
 	}
+	(i >= ac) ? put_usage(4) : false;
 	handle_n(ac, av, v, i);
 }
