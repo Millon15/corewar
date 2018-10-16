@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:31 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/03 07:36:40 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/16 23:26:06 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static inline int	calc_fa(int tmp)
 	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD)
 		first_arg = tmp - SHORT_RANGE;
 	else if ((tmp > IDX_MOD && tmp > MEM_SIZE && tmp <= MEM_SIZE * 2)
-	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= FPOS1)
-	|| (tmp > MEM_SIZE && tmp < FPOS
+	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp % SHORT_RANGE >= FPOS &&
+	tmp % SHORT_RANGE <= FPOS1) || (tmp > MEM_SIZE && tmp < FPOS
 	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD))
 		first_arg = tmp;
 	else
@@ -36,20 +36,17 @@ static inline int	calc_fa(int tmp)
 	return (first_arg);
 }
 
-void		lld(t_car *self, t_vm *v)
+void				lld(t_car *self, t_vm *v)
 {
 	unsigned char	*pc;
 	long			tmp;
 	long			first_arg;
 
-	if (self->id == 4 && I.cur_cycle == 50)
-		ft_printf("");
 	tmp = self->arg_val[0];
 	if (self->args[0] == T_DIR)
 		self->reg[self->arg_val[1]] = tmp;
 	else if (self->args[0] == T_IND)
 	{
-		// if (ft_abs(tmp - SHORT_RANGE) )
 		first_arg = calc_fa(tmp);
 		if (first_arg > MEM_SIZE - PC_IND)
 			pc = &v->arena[first_arg - MEM_SIZE - PC_IND];

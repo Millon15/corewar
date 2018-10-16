@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 20:12:05 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/16 23:15:47 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,6 +305,8 @@ void				lldi(t_car *self, t_vm *v);
 void				op_fork(t_car *self, t_vm *v);
 void				or(t_car *self, t_vm *v);
 void				st(t_car *self, t_vm *v);
+int					set_val_neg(t_car *self, t_vm *v, long arg_sum);
+int					set_val(t_car *self, t_vm *v, long arg_sum);
 void				sti(t_car *self, t_vm *v);
 void				sub(t_car *self, t_vm *v);
 void				xor(t_car *self, t_vm *v);

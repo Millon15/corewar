@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/05 15:22:04 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/16 23:37:04 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,13 @@ bool is_jump_car)
 	int					res;
 	int					valmints;
 	const int			tmp = self->arg_val[0];
-	// res = val;
-	
+
 	res = (val - PC_IND > MEM_SIZE / 2) ?
 	(-1 * (MEM_SIZE - val % MEM_SIZE + PC_IND)) : (val % MEM_SIZE);
 	if (self->carry == true)
 		move_pc(self, v, val, is_jump_car);
 	valmints = tmp - SHORT_RANGE;
-	if ((tmp < FPOS/* || tmp
-	% MEM_SIZE <= MEM_SIZE / 2*/) || (res + SPACE_TO_END
+	if ((tmp < FPOS) || (res + SPACE_TO_END
 	== tmp) || (tmp % SHORT_RANGE >= FPOS
 	&& tmp % SHORT_RANGE <= SHORT_RANGE / 2) || (tmp
 	% IDX_MOD == tmp % MEM_SIZE))
@@ -49,14 +47,10 @@ void					zjmp(t_car *self, t_vm *v)
 	int					fa;
 	long				tmp;
 
-	if (/*self->id == 212 && */I.cur_cycle >= 6416)
-		ft_printf("");
 	tmp = self->arg_val[0];
 	if ((tmp > SHORT_RANGE / 2 && tmp <= SHORT_RANGE + MEM_SIZE)
 	&& (tmp - SHORT_RANGE) % IDX_MOD == (tmp % IDX_MOD - IDX_MOD))
 		fa = tmp - SHORT_RANGE;
-	// else if (tmp >= FPOS && tmp % MEM_SIZE > MEM_SIZE / 2)
-	// 	fa = tmp % IDX_MOD - IDX_MOD;
 	else
 		fa = tmp;
 	if (fa < 0 && (ft_abs(fa) % IDX_MOD) > PC_IND)

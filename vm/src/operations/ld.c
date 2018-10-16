@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:40:36 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/09 18:43:57 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/16 23:25:20 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ static inline int	calc_fa(int tmp)
 	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD)
 		first_arg = tmp - SHORT_RANGE;
 	else if ((tmp > IDX_MOD && tmp > MEM_SIZE && tmp <= MEM_SIZE * 2)
-	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp % SHORT_RANGE >= FPOS && tmp % SHORT_RANGE <= FPOS1)
-	|| (tmp > MEM_SIZE && tmp < FPOS && (tmp - SHORT_RANGE) % IDX_MOD ==
-	tmp % IDX_MOD - IDX_MOD) || ((tmp - SHORT_RANGE) % IDX_MOD ==
-	tmp % IDX_MOD - IDX_MOD && tmp > SHORT_RANGE / 2 && ft_abs(tmp - SHORT_RANGE) > MEM_SIZE))
+	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp % SHORT_RANGE >= FPOS && tmp
+	% SHORT_RANGE <= FPOS1) || (tmp > MEM_SIZE && tmp < FPOS && (tmp -
+	SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD) || ((tmp - SHORT_RANGE)
+	% IDX_MOD == tmp % IDX_MOD - IDX_MOD && tmp > SHORT_RANGE / 2 &&
+	ft_abs(tmp - SHORT_RANGE) > MEM_SIZE))
 		first_arg = tmp;
 	else
 	{
@@ -37,20 +38,17 @@ static inline int	calc_fa(int tmp)
 	return (first_arg);
 }
 
-void		ld(t_car *self, t_vm *v)
+void				ld(t_car *self, t_vm *v)
 {
 	unsigned char	*pc;
 	long			tmp;
 	long			first_arg;
 
-	if (I.cur_cycle == 7789)
-		ft_printf("");
 	tmp = self->arg_val[0];
 	if (self->args[0] == T_DIR)
 		self->reg[self->arg_val[1]] = tmp;
 	else if (self->args[0] == T_IND)
 	{
-		// if (ft_abs(tmp - SHORT_RANGE) )
 		first_arg = calc_fa(tmp);
 		first_arg %= IDX_MOD;
 		if (first_arg > MEM_SIZE - PC_IND)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
+#    By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-#    Updated: 2018/10/16 17:33:24 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/10/16 23:16:43 by akupriia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ IFLAGS := -I $(INC_PATH) -I $(LIB_PATH)
 LFLAGS := -lncurses
 
 HFILES :=		vm op
-OPERATIONS :=	add aff and ld ldi lfork live lld lldi op_fork or st sti sub xor zjmp
+OPERATIONS :=	add aff and ld ldi lfork live lld lldi op_fork or st sti sti_arg sub xor zjmp
 FILES :=		vm errors utils args_parsing fill_the_map carriage carriage_utils carriage_utils2 main_cycle_funcs
 VISUALIZER :=	v_main v_init v_print v_widgets v_deinit v_print_stat v_music
 LIB :=			$(LIB_PATH)libftprintf.a

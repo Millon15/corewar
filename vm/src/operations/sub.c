@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:48:33 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/03 08:50:36 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/16 23:36:35 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void		sub(t_car *self, t_vm *v)
 	val2 = self->reg[self->arg_val[1]];
 	self->reg[self->arg_val[2]] = val1 - val2;
 	self->carry = self->reg[self->arg_val[2]] ? false : true;
-	if (self->id == 6)
-		ft_printf("");
 	if (A.verbose_value & 4)
 		ft_printf("P %4d | sub r%d r%d r%d\n"
 		, self->id, self->arg_val[0], self->arg_val[1], self->arg_val[2]);
