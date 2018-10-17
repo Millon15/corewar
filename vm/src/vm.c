@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/14 21:01:50 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/17 17:08:46 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,12 @@ void					pass_one_cycle(t_vm *v)
 	!(A.verbose_value & 2) ? ++I.cur_cycle :
 	ft_printf("It is now cycle %d\n", ++I.cur_cycle);
 	last_check++;
-	// if (I.cur_cycle == 2748 || I.cur_cycle == 25974)
-	// 	ft_printf("");
 	cur_car = v->head;
 	while (cur_car)
 	{
-		// if ((I.cur_cycle == 24367) && (cur_car->id == 4450 || cur_car->id == 4449 || cur_car->id == 4448 || cur_car->id == 4447 || cur_car->id == 4446))
-		// 	ft_printf("");
-		// if (cur_car->id == 42)
-		// 	ft_printf("");
 		perform_next_comm(cur_car, v);
 		cur_car = cur_car->next;
 	}
-	if (I.cur_cycle == 24367 || I.cur_cycle == 25974)
-		ft_printf("");
 	if (last_check == I.cycle_to_die || I.cycle_to_die < 0)
 	{
 		kill_process(&last_check, v);
@@ -96,9 +88,14 @@ int						main(int ac, char **av)
 	ft_bzero(&(v->args), sizeof(v->args));
 	ft_bzero(&(v->info), sizeof(v->info));
 	check_and_obtain_args(ac, av, v);
+	system("leaks -q corewar &> leaks &");
 	fill_players(v);
+	system("echo; leaks -q corewar &>> leaks &");
 	fill_arena(v);
+	system("echo; leaks -q corewar &>> leaks &");
 	play_the_game(v);
+	system("echo; leaks -q corewar &>> leaks &");
 	end_the_game(v);
+	system("echo; leaks -q corewar &>> leaks &");
 	return (0);
 }

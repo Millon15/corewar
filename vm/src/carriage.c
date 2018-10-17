@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/03 21:01:03 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/17 17:14:01 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static const t_op	g_func_tab[17] =
 	{0, 0, {0}, 0, 0, 0, 0, 0, NULL}
 };
 
-static bool			pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v, int n)
+static bool			pass_arg_if_invalid(t_car *self, const t_op *cur
+	, t_vm *v, int n)
 {
 	int	i;
 	int	padding;
@@ -47,7 +48,6 @@ static bool			pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v, int n)
 
 	i = -1;
 	padding = 0;
-	// num = !n ? cur->nb_arg : n;
 	num = cur->nb_arg;
 	while (++i < num)
 	{
@@ -59,12 +59,12 @@ static bool			pass_arg_if_invalid(t_car *self, const t_op *cur, t_vm *v, int n)
 			padding = 1;
 		else
 			padding = 0;
-		self->pc_padding += padding;		
+		self->pc_padding += padding;
 	}
 	return (true);
 }
 
-static int				vnp_args(t_car *self, const t_op *cur, t_vm *v)
+static int			vnp_args(t_car *self, const t_op *cur, t_vm *v)
 {
 	int						padding;
 	int						i;
@@ -76,8 +76,8 @@ static int				vnp_args(t_car *self, const t_op *cur, t_vm *v)
 	inv_arg_fl = false;
 	while (++i < cur->nb_arg)
 	{
-		if (!(self->args[i] == cur->args[i] - (self->args[i] ^ cur->args[i])) &&
-		(pass_arg_if_invalid(self, cur, v, 0)))
+		if (!(self->args[i] == cur->args[i] - (self->args[i] ^ cur->args[i]))
+		&& (pass_arg_if_invalid(self, cur, v, 0)))
 			return (-1);
 		if (self->args[i] == T_DIR)
 			padding = (cur->label) ? 2 : 4;
@@ -87,8 +87,10 @@ static int				vnp_args(t_car *self, const t_op *cur, t_vm *v)
 			padding = 1;
 		else if (pass_arg_if_invalid(self, cur, v, 0))
 			return (-1);
-		self->arg_val[i] = get_raw_num(v->arena + (PC_IND + self->pc_padding + pc_padding) % MEM_SIZE, padding, v);
-		if (self->args[i] == T_REG && (self->arg_val[i] > 16 || self->arg_val[i] < 1))
+		self->arg_val[i] = get_raw_num(v->arena
+		+ (PC_IND + self->pc_padding + pc_padding) % MEM_SIZE, padding, v);
+		if (self->args[i] == T_REG
+		&& (self->arg_val[i] > 16 || self->arg_val[i] < 1))
 			inv_arg_fl = true;
 		pc_padding += padding;
 	}
@@ -105,8 +107,6 @@ static int			vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 	int						i;
 
 	i = 0;
-	// if (self->id == 369 && I.cur_cycle > 17500)
-	// 	ft_printf("");
 	ft_bzero((void *)cod, 3);
 	codage = (cur->octal) ? (*(v->arena + ((PC_IND + 1) % MEM_SIZE)) >> 2) : 0;
 	self->pc_padding = 2;
@@ -120,8 +120,6 @@ static int			vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 			self->args[i] = cur->args[i];
 		return (vnp_args(self, cur, v));
 	}
-	// if (self->id == 369 && I.cur_cycle > 17500)
-	// 	ft_printf("");
 	while (codage <<= 2)
 		cod[i++] = codage >> 6;
 	i = -1;
@@ -152,9 +150,8 @@ static inline void	carriage_refresh(t_car *self)
 
 void				perform_next_comm(t_car *self, t_vm *v)
 {
-	if (self->id == 143 && I.cur_cycle == 10579)
-		ft_printf("");
-	if ((*self->pc > REG_NUMBER || *self->pc == 0) && (self->cycles_to_wait < 0))
+	if ((*self->pc > REG_NUMBER || *self->pc == 0)
+	&& (self->cycles_to_wait < 0))
 	{
 		move_pc(self, v, 1, false);
 		return ;
@@ -171,8 +168,6 @@ void				perform_next_comm(t_car *self, t_vm *v)
 			carriage_refresh(self);
 			return ;
 		}
-		if (I.cur_cycle == 4284)
-			ft_printf("");
 		g_func_tab[self->cur_operation].f(self, v);
 		carriage_refresh(self);
 	}

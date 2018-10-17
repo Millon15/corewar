@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 21:19:16 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/17 16:36:10 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void			init_car(unsigned char *where, unsigned int name, t_vm *v,
 	t_car			**tmp;
 	static int		id = 0;
 
-	if (id == 17)
-		ft_printf("");
 	tmp = (v->head == NULL) ? &v->head : &(v->head->prev);
 	(*tmp) = ft_memalloc(sizeof(t_car));
 	(*tmp)->carry = false;
