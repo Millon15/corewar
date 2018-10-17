@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 23:15:47 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/17 19:18:56 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,6 +280,7 @@ void				fill_arena(t_vm *v);
 
 void				pass_one_cycle(t_vm *v);
 void				perform_next_comm(t_car *self, t_vm *v);
+int					vnp_codage(t_car *self, const t_op *cur, t_vm *v);
 void				get_winner(t_vm *v);
 
 /*

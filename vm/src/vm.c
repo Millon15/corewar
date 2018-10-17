@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/17 17:08:46 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/17 19:55:18 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,9 @@ int						main(int ac, char **av)
 	ft_bzero(&(v->args), sizeof(v->args));
 	ft_bzero(&(v->info), sizeof(v->info));
 	check_and_obtain_args(ac, av, v);
-	system("leaks -q corewar &> leaks &");
 	fill_players(v);
-	system("echo; leaks -q corewar &>> leaks &");
 	fill_arena(v);
-	system("echo; leaks -q corewar &>> leaks &");
 	play_the_game(v);
-	system("echo; leaks -q corewar &>> leaks &");
 	end_the_game(v);
-	system("echo; leaks -q corewar &>> leaks &");
 	return (0);
 }
