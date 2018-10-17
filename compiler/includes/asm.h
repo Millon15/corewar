@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.h                                              :+:      :+:    :+:   */
+/*   asm1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/02 16:39:40 by ndidenko          #+#    #+#             */
-/*   Updated: 2018/10/17 17:17:59 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/17 20:01:35 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 # include "libft/libft.h"
 # include "op.h"
+# include <stdio.h>
 
 typedef struct			s_label
 {
 	char				*name;
 	struct s_label		*next;
-
 }						t_label;
 
 typedef struct			s_arg
@@ -30,22 +30,20 @@ typedef struct			s_arg
 	unsigned int		value;
 	char				*name_label;
 	struct s_arg		*next;
-
 }						t_arg;
 
 typedef struct			s_command
 {
+	char				*name;
 	int					codage;
 	int					count_args;
 	int					label_size;
-	int					number_byte;
+	int					args[3];
 	int					opcode;
 	t_label				*labels;
-	char				*name;
+	int					number_byte;
 	t_arg				*inst;
 	struct s_command	*next;
-	int					args[3];
-
 }						t_command;
 
 typedef struct			s_champ
@@ -57,7 +55,6 @@ typedef struct			s_champ
 	int					count[3];
 	t_command			*cmds;
 	struct s_champ		*next;
-
 }						t_champ;
 
 t_command				g_operations[17];
@@ -75,10 +72,10 @@ int						ft_emptyline(char *line);
 void					ft_cmd(t_champ	**main_struct);
 void					ft_parse_arg(char *line, t_command **cmd_s);
 void					arg_in_end(t_arg **a, t_arg *b);
-void					ft_parse_ind(char *line, int command
-	, int i, t_command **cmd_s);
-void					ft_parse_dir(char *line, int command, int i
-	, t_command **cmd_s);
+void					ft_parse_ind(char *line, int command,
+												int i, t_command **cmd_s);
+void					ft_parse_dir(char *line, int command, int i,
+														t_command **cmd_s);
 unsigned int			atoi_arg(const char *str);
 void					ft_set_value(t_champ	**main_struct);
 void					ft_write_in_file(char *argv, t_champ	*main_struct);
