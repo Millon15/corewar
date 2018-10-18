@@ -6,18 +6,17 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 19:15:48 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/17 19:21:21 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/17 22:22:14 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static bool			pass_arg_if_invalid(t_car *self, const t_op *cur
-	, t_vm *v, int n)
+static bool			pass_arg_if_invalid(t_car *self, const t_op *cur)
 {
-	int	i;
-	int	padding;
-	int	num;
+	int		i;
+	int		padding;
+	int		num;
 
 	i = -1;
 	padding = 0;
@@ -38,12 +37,13 @@ static bool			pass_arg_if_invalid(t_car *self, const t_op *cur
 }
 
 static inline int	help_vnp_args(t_car *self, const t_op *cur
-	, t_vm *v, int i)
+	, int i)
 {
 	int		padding;
 
+	padding = -1;
 	if (!(self->args[i] == cur->args[i] - (self->args[i] ^ cur->args[i]))
-	&& (pass_arg_if_invalid(self, cur, v, 0)))
+	&& (pass_arg_if_invalid(self, cur)))
 		return (-1);
 	if (self->args[i] == T_DIR)
 		padding = (cur->label) ? 2 : 4;
@@ -51,7 +51,7 @@ static inline int	help_vnp_args(t_car *self, const t_op *cur
 		padding = 2;
 	else if (self->args[i] == T_REG)
 		padding = 1;
-	else if (pass_arg_if_invalid(self, cur, v, 0))
+	else if (pass_arg_if_invalid(self, cur))
 		return (-1);
 	return (padding);
 }
@@ -68,7 +68,7 @@ static inline int	vnp_args(t_car *self, const t_op *cur, t_vm *v)
 	inv_arg_fl = false;
 	while (++i < cur->nb_arg)
 	{
-		if ((padding = help_vnp_args(self, cur, v, i)) == -1)
+		if ((padding = help_vnp_args(self, cur, i)) == -1)
 			return (-1);
 		self->arg_val[i] = get_raw_num(v->arena
 		+ (PC_IND + self->pc_padding + pc_padding) % MEM_SIZE, padding, v);
@@ -100,7 +100,7 @@ static inline int	assign_car_args(t_car *self, const t_op *cur, t_vm *v
 	while (cod[++i] != 0x0)
 		;
 	if (i < cur->nb_arg)
-		return (-1 * pass_arg_if_invalid(self, cur, v, i));
+		return (-1 * pass_arg_if_invalid(self, cur));
 	return (vnp_args(self, cur, v));
 }
 

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/17 16:36:10 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/17 22:22:44 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void			copy_car(t_car *self, t_vm *v, unsigned char *pc)
 	t_car		*first;
 	int			i;
 
-	init_car(pc, self->name, v, true);
+	init_car(pc, self->name, v);
 	first = v->head;
 	first->carry = self->carry;
 	first->live_cycle = self->live_cycle;
@@ -57,8 +57,7 @@ void			copy_car(t_car *self, t_vm *v, unsigned char *pc)
 		first->reg[i] = self->reg[i];
 }
 
-void			init_car(unsigned char *where, unsigned int name, t_vm *v,
-	bool are_initialized_colors)
+void			init_car(unsigned char *where, unsigned int name, t_vm *v)
 {
 	const t_car		*next = v->head;
 	t_car			**tmp;

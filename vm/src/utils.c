@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 19:40:49 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 20:01:04 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/17 22:17:47 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int				meta_reader(const int fd, void *read_in, const int nbytes)
 {
-	int		ret;
+	int			ret;
 
 	ret = read(fd, read_in, nbytes);
 	if (ret < 0)
@@ -65,7 +65,7 @@ unsigned int	get_raw_num(const unsigned char *arena,
 	unsigned int			res;
 	int						b;
 
-	if (bytes_to_read > sizeof(res))
+	if (bytes_to_read > (int)sizeof(res))
 		return (0);
 	res = 0;
 	b = 0;

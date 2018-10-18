@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/17 19:55:18 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/18 17:26:31 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static inline void		start_the_game(t_vm *v)
 void					pass_one_cycle(t_vm *v)
 {
 	t_car					*cur_car;
-	static unsigned int		last_check = 0;
+	static int				last_check = 0;
 
 	!(A.verbose_value & 2) ? ++I.cur_cycle :
 	ft_printf("It is now cycle %d\n", ++I.cur_cycle);
@@ -48,7 +48,7 @@ void					pass_one_cycle(t_vm *v)
 	if (last_check == I.cycle_to_die || I.cycle_to_die < 0)
 	{
 		kill_process(&last_check, v);
-		if (nbr_live_exec(v->head) || I.cycle_to_delta <= I.cur_cycle)
+		if (nbr_live_exec(v->head) || I.cycle_to_delta <= (int)I.cur_cycle)
 		{
 			I.cycle_to_die -= CYCLE_DELTA;
 			if (A.verbose_value & 2 && v->head)

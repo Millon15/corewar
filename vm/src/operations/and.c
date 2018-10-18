@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   and.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:48:50 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 23:23:33 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/18 19:30:41 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static unsigned int	calc_arg(t_car *self, t_vm *v, int i)
 {
-	unsigned int		arg;
-	const unsigned char	*pc;
+	unsigned int			arg;
+	const unsigned char		*pc;
 
 	if (self->args[i] == T_REG)
 		arg = self->reg[self->arg_val[i]];
@@ -25,7 +25,7 @@ static unsigned int	calc_arg(t_car *self, t_vm *v, int i)
 		if (*(self->pc + 1) >= 240)
 			arg -= SHORT_RANGE;
 	}
-	else if (self->args[i] == T_IND)
+	else
 	{
 		pc = v->arena + (PC_IND + self->arg_val[i] % IDX_MOD) % MEM_SIZE;
 		arg = get_raw_num(pc, 4, v);

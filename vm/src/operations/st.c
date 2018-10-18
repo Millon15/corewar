@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   st.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:40:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 23:40:28 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/18 19:36:01 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline int	calc_fa(int tmp, int space_t_end)
+static inline int	calc_fa(int tmp)
 {
 	int	first_arg;
 
@@ -41,9 +41,11 @@ static inline int	calc_fa(int tmp, int space_t_end)
 	return (first_arg);
 }
 
-static inline int	assign_pc_ind(int pc_index, int first_arg, t_car *self,
+static inline int	assign_pc_ind(int first_arg, t_car *self,
 t_vm *v)
 {
+	int					pc_index;
+
 	if (first_arg >= 0 && first_arg >= SPACE_TO_END)
 	{
 		if (first_arg - SPACE_TO_END >= MEM_SIZE / 2 && first_arg % IDX_MOD <=
@@ -81,7 +83,7 @@ static inline void	output_to_arena(int first_arg, t_car *self, t_vm *v)
 	if (first_arg == IDX_MOD)
 		pc_index = PC_IND;
 	else
-		pc_index = assign_pc_ind(pc_index, first_arg, self, v);
+		pc_index = assign_pc_ind(first_arg, self, v);
 	while (++i < 4)
 		print_arena(v->arena + (pc_index + i) % MEM_SIZE, PUMPKIN, self, v);
 }
@@ -105,10 +107,8 @@ static inline void	alter_for_verbose(int tmp, int *first_arg)
 
 void				st(t_car *self, t_vm *v)
 {
-	unsigned char		*pc;
 	int					first_arg;
 	const unsigned int	res = self->reg[self->arg_val[0]];
-	const unsigned int	size = sizeof(res);
 	int					tmp;
 
 	tmp = self->arg_val[1];
@@ -117,7 +117,7 @@ void				st(t_car *self, t_vm *v)
 		if (tmp > IDX_MOD && !(tmp % IDX_MOD))
 			first_arg = 0;
 		else
-			first_arg = calc_fa(tmp, SPACE_TO_END);
+			first_arg = calc_fa(tmp);
 		output_to_arena(first_arg, self, v);
 		alter_for_verbose(tmp, &first_arg);
 	}

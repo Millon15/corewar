@@ -6,7 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-#    Updated: 2018/10/17 19:20:40 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/10/18 19:40:58 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,12 @@ LIB_PATH := ../ft_printf/
 OBJ_PATH := .obj/
 
 CC := clang
-CFLAGS := -g #-Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra
 IFLAGS := -I $(INC_PATH) -I $(LIB_PATH)
 LFLAGS := -lncurses
 
 HFILES :=		vm op
-OPERATIONS :=	add aff and ld ldi lfork live lld lldi op_fork or st sti sti_arg sub xor zjmp
+OPERATIONS :=	add aff and ld ldi lfork live lld lldi op_fork or st sti sti_utils sub xor zjmp
 FILES :=		vm errors utils args_parsing fill_the_map carriage carriage2 carriage_utils carriage_utils2 main_cycle_funcs
 VISUALIZER :=	v_main v_init v_print v_widgets v_deinit v_print_stat v_music
 LIB :=			$(LIB_PATH)libftprintf.a

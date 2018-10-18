@@ -6,13 +6,13 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 19:54:09 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/18 17:26:55 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-void		kill_process(unsigned int *last_check, t_vm *v)
+void		kill_process(int *last_check, t_vm *v)
 {
 	t_car	*car;
 	bool	was_one_death;
@@ -21,7 +21,7 @@ void		kill_process(unsigned int *last_check, t_vm *v)
 	was_one_death = false;
 	while (car)
 	{
-		if (I.cur_cycle - car->live_cycle >= I.cycle_to_die
+		if ((int)I.cur_cycle - car->live_cycle >= I.cycle_to_die
 		|| I.cycle_to_die < 0)
 		{
 			if (A.verbose_value & 8)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 20:29:51 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/17 22:15:12 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static inline void		help_handle_n(char **av, int j, t_vm *v)
 	}
 }
 
-static inline void		handle_n(int ac, char **av, t_vm *v, int i)
+static inline void		handle_n(char **av, t_vm *v, int i)
 {
 	static int	max_np;
 	int			np;
@@ -109,5 +109,5 @@ inline void				check_and_obtain_args(int ac, char **av, t_vm *v)
 			i = j;
 	}
 	(i >= ac) ? put_usage(4) : false;
-	handle_n(ac, av, v, i);
+	handle_n(av, v, i);
 }

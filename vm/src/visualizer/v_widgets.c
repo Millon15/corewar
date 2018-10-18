@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 17:41:42 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 19:39:54 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/18 19:37:54 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static inline void	print_widget(t_vm *v, int row, int *pval, int totliv)
 void				print_widgets(t_vm *v, int *row)
 {
 	int			i;
-	int			j;
 	static int	period = CYCLE_TO_DIE;
 
 	if (period != I.cycle_to_die)

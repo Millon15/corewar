@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 22:42:40 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/18 19:32:43 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void						op_fork(t_car *self, t_vm *v)
 	unsigned char	*pc;
 	long			tmp;
 	long			arg;
-	int				new_pc;
 
 	arg = self->arg_val[0] % IDX_MOD;
 	tmp = self->arg_val[0];

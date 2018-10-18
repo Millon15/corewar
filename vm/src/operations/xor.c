@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   xor.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:23 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 23:36:44 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/18 19:37:35 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static unsigned int	calc_arg(t_car *self, t_vm *v, int i)
 		if (*(self->pc + 1) >= 240)
 			arg -= SHORT_RANGE;
 	}
-	else if (self->args[i] == T_IND)
+	else
 	{
 		pc = v->arena + (PC_IND + self->arg_val[i] % IDX_MOD) % MEM_SIZE;
 		arg = get_raw_num(pc, 4, v);

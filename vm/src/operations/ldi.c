@@ -3,42 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ldi.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 23:36:28 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/18 19:41:18 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
-
-#define SR		(SHORT_RANGE)
-
-static inline long		assign_arg(long arg)
-{
-	if ((ft_abs(arg - SR) <= MEM_SIZE && (arg - SR) % IDX_MOD == arg % IDX_MOD
-	- IDX_MOD) || ((arg % SR) > SR / 2 && (arg % SR) < SR - MEM_SIZE * 2 &&
-	((arg % SR) % IDX_MOD == (arg % SR) % MEM_SIZE || ((arg % SR) - SR) %
-	IDX_MOD == 0 || ((arg % SR) - SR) % MEM_SIZE == 0)) || (arg > SR / 2 && arg
-	< SR - MEM_SIZE * 2 && arg % IDX_MOD >= IDX_MOD / 2 - 10 && arg % IDX_MOD
-	<= IDX_MOD / 2 + 10))
-		arg = arg - SR;
-	else if ((((int)(arg)) % IDX_MOD == arg % IDX_MOD - IDX_MOD) ||
-	((arg % SR) > SR / 2 && (arg % SR) < SR - MEM_SIZE * 2
-	&& ((arg % SR) - SR) % IDX_MOD == (arg % SR) % IDX_MOD - IDX_MOD))
-		arg = (int)(arg);
-	else if (!((!(arg % IDX_MOD) || !(arg % MEM_SIZE)) || (arg % SR >= FPOS &&
-	arg % SR <= FPOS1) || ((arg >> 24) <= 254 && arg >> 24) || (arg % IDX_MOD
-	== arg % MEM_SIZE) || (arg <= MEM_SIZE * 2) || (arg % IDX_MOD == IDX_MOD -
-	1 && arg % MEM_SIZE == MEM_SIZE - 1 && ft_abs(arg - SR) > MEM_SIZE) ||
-	(ft_abs(arg % SR - SR) <= MEM_SIZE) || ((arg % SR) == (arg % MEM_SIZE)) ||
-	((arg % SR - SR) % IDX_MOD == arg % IDX_MOD - IDX_MOD && ft_abs(arg - SR) >
-	MEM_SIZE && arg > FPOS1) || (arg % MEM_SIZE == arg % SR && arg > SR +
-	MEM_SIZE) || (((arg % MEM_SIZE) - (arg % IDX_MOD)) == IDX_MOD) || (arg >
-	MEM_SIZE * 2 && arg < SR - MEM_SIZE)))
-		arg = arg % IDX_MOD - IDX_MOD;
-	return (arg);
-}
 
 static inline void		set_args(long *args, t_car *self)
 {

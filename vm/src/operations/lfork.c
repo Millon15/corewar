@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lfork.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:41 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 22:37:52 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/18 19:32:10 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		lfork(t_car *self, t_vm *v)
 	if ((tmp > MEM_SIZE && tmp % IDX_MOD == tmp % MEM_SIZE)
 	|| (tmp <= MEM_SIZE))
 		argv_nil = tmp;
-	else if (tmp > MEM_SIZE)
+	else
 		argv_nil = tmp % MEM_SIZE;
 	pc = (argv_nil >= SPACE_TO_END) ? v->arena + (argv_nil
 	- SPACE_TO_END) % MEM_SIZE : self->pc + argv_nil;

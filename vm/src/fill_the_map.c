@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 16:56:29 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/30 11:28:59 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/17 22:23:03 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void		fill_players(t_vm *v)
 		meta_reader(P(i).fd, P(i).comment, COMMENT_LENGTH);
 		lseek(P(i).fd, sizeof(int), SEEK_CUR);
 		ret = meta_reader(P(i).fd, P(i).source_code, MEM_SIZE);
-		(ret > P(i).prog_size || ret > CHAMP_MAX_SIZE
+		(ret > (int)P(i).prog_size || ret > CHAMP_MAX_SIZE
 		|| P(i).prog_size > CHAMP_MAX_SIZE) ? put_error(2,
 		P(i).filename, P(i).prog_size, CHAMP_MAX_SIZE) : 0;
 		P(i).is_alive = true;
@@ -51,7 +51,7 @@ void		fill_arena(t_vm *v)
 	arena = v->arena;
 	while (++i < v->player_amount)
 	{
-		init_car(arena, P(i).name, v, false);
+		init_car(arena, P(i).name, v);
 		ft_memcpy(arena, P(i).source_code, P(i).prog_size);
 		arena += increase_on * sizeof(char);
 	}

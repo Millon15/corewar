@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/17 19:18:56 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/18 19:40:36 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ struct				s_info
 	unsigned int	cur_cycle;
 	int				cycle_to_delta;
 	int				cycle_to_die;
-	unsigned int	winner;
+	int				winner;
 };
 
 /*
@@ -248,8 +248,7 @@ struct				s_carriage
 t_car				*get_last_car(t_vm *v);
 void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
 void				delete_this_car(t_car **cur_car, t_vm *v);
-void				init_car(unsigned char *where, unsigned int whom, t_vm *v,
-	bool are_initialized_colors);
+void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
 void				print_arena(unsigned char *arena, unsigned char to_equate,
 	t_car *self, t_vm *v);
 void				move_pc(t_car *self, t_vm *v, unsigned int padding,
@@ -283,6 +282,11 @@ void				perform_next_comm(t_car *self, t_vm *v);
 int					vnp_codage(t_car *self, const t_op *cur, t_vm *v);
 void				get_winner(t_vm *v);
 
+void				kill_process(int *last_check, t_vm *v);
+bool				nbr_live_exec(t_car *car);
+void				make_live_nil(t_vm *v);
+int					ft_abs(int x);
+
 /*
 ** Operations functions
 */
@@ -306,6 +310,7 @@ void				lldi(t_car *self, t_vm *v);
 void				op_fork(t_car *self, t_vm *v);
 void				or(t_car *self, t_vm *v);
 void				st(t_car *self, t_vm *v);
+long				assign_arg(long arg);
 int					set_val_neg(t_car *self, t_vm *v, long arg_sum);
 int					set_val(t_car *self, t_vm *v, long arg_sum);
 void				sti(t_car *self, t_vm *v);
@@ -330,14 +335,5 @@ unsigned int		get_raw_num(const unsigned char *arena,
 bool				put_usage(const int errnum);
 bool				put_error(const int errnum, const char *errstr,
 	const int i1, const int i2);
-
-/*
-** do al stuf; if you nkow da wae!
-*/
-
-void				kill_process(unsigned int *last_check, t_vm *v);
-bool				nbr_live_exec(t_car *car);
-void				make_live_nil(t_vm *v);
-int					ft_abs(int x);
 
 #endif
