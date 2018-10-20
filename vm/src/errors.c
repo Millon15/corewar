@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 16:45:51 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 20:14:07 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/20 13:50:23 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static const char	g_usage[] = "Usage: ./corewar "
 "\t\t\t\t- 1\t: Show lives\n"
 "\t\t\t\t- 2\t: Show cycles\n"
 "\t\t\t\t- 4\t: Show operations (Params are NOT litteral ...)\n"
-"\t\t\t\t- 8\t: Show deaths\n"
-"\t\t\t\t- 16\t: Show PC movements (Except for jumps)\n";
+"\t\t\t\t- 8\t: Show deaths\n";
 
 bool				put_usage(const int errnum)
 {
