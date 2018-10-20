@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/14 23:46:41 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 19:22:56 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/20 13:58:21 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static inline bool		init(t_vm *v)
 		pref = "skibidi/";
 	else
 		pref = NULL;
-	pref = ft_strjoin("afplay /Users/vbrazas/projects/corewar/vm/music/", pref);
+	pref = ft_strjoin("afplay $HOME/projects/corewar/vm/music/", pref);
 	M.play_start = ft_strjoin(pref, "start.mp3 &> /dev/null &");
 	M.play_die = ft_strjoin(pref, "die.mp3 &> /dev/null &");
 	M.play_end = ft_strjoin(pref, "end.mp3 &> /dev/null &");
