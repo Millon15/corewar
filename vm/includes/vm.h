@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/21 05:04:23 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 09:55:05 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,188 +16,12 @@
 # include <curses.h>
 # include <time.h>
 # include <libftprintf.h>
-# include <op.h>
 
-typedef struct s_args			t_args;
-typedef struct s_player			t_player;
-typedef struct s_corewar		t_vm;
-typedef struct s_operations		t_op;
-typedef struct s_carriage		t_car;
-typedef struct s_info			t_info;
-typedef struct s_curses			t_curses;
-typedef struct s_colors			t_colors;
-typedef struct s_widgets		t_widgets;
-typedef struct s_music			t_music;
-
-/*
-** Music structure
-*/
-
-# define M					v->music
-# define MSTART				1
-# define MDIE				2
-# define MEND				4
-
-typedef struct		s_single_music_info
-{
-	unsigned char	start_duration;
-	unsigned char	die_duration;
-	char			*play_start;
-	char			*play_die;
-	char			*play_end;
-
-}					t_smi;
-
-struct				s_music
-{
-	unsigned char	music;
-	unsigned char	to_wait;
-	t_smi			*cmi;
-
-	time_t			playing;
-};
-
-/*
-** Color pair defines
-*/
-
-# define BORDER						31
-# define MAIN						32
-# define INFO						33
-# define COLOR_REDDY				34
-# define COLOR_DARK					40
-# define COLOR_ORANGE				41
-# define STAT						42
-# define COLOR_DELTA				10
-# define CLR_CYCTOWAIT				50
-
-/*
-** ncurses visualizer info
-*/
-
-# define EXIT_KEY					27
-# define RUN						' '
-# define PASS_OVER					's'
-# define RUN_SLOWER					'q'
-# define RUN_QUICKER				'r'
-# define RUN_SLOWER2				'w'
-# define RUN_QUICKER2				'e'
-
-# define BORDC						'*'
-# define SQMAX_VAL					777
-# define TOT_LIVES_TERM				1000
-# define SQBIG_VAL					10
-# define SQSMALL_VAL				1
-# define COLOR_AMOUNT				(MAX_PLAYERS + 1)
-# define COMMON_HEIGHT				(MEM_SIZE / 64 + 4)
-# define MW_WIDTH					(64 * 3 + 7)
-# define IW_WIDTH					(MW_WIDTH / 3)
-# define SW_WIDTH					(MW_WIDTH + IW_WIDTH - 1)
-# define START_CYCLES_PER_SEC		50
-# define START_ROW					2
-
-# define ALIGN_CENTER(width, len)	(((width)-(len))?(((width)-(len))/2):0)
-
-struct				s_widgets
-{
-	int				totliv_in_cp;
-	int				totliv_in_lp;
-
-	int				pval[MAX_PLAYERS];
-	int				last_pval[MAX_PLAYERS];
-};
-
-struct				s_colors
-{
-	unsigned char	main;
-	unsigned char	bold;
-	unsigned char	undrln;
-};
-
-# define N			v->ncurses
-
-struct				s_curses
-{
-	bool			is_run;
-	char			c;
-	int				cycpersec;
-	clock_t			t;
-
-	WINDOW			*mainw;
-	WINDOW			*infow;
-	WINDOW			*statw;
-
-	t_colors		clr[MEM_SIZE];
-
-	short			ccolors[COLOR_AMOUNT];
-	short			pcolors[COLOR_AMOUNT];
-	short			scolors[COLOR_AMOUNT];
-
-	t_widgets		w;
-};
-
-void				visualize_the_game(t_vm *v);
-void				init_windows(t_vm *v);
-void				set_start_vis_cycle(t_vm *v);
-void				put_car_color_to_arena(t_vm *v);
-void				print_one_cycle(t_vm *v, const bool is_pass_cycle);
-void				print_widgets(t_vm *v, int *row);
-void				print_info(t_vm *v, const bool is_print_full_info);
-void				print_stats(t_vm *v);
-void				deinit_windows(t_vm *v);
-void				put_border(WINDOW *win);
-void				play_music(t_vm *v, int flag);
-
-/*
-** Info structure
-*/
-
-# define I			v->info
-# define PC_IND		(self->pc - v->arena)
-
-struct				s_info
-{
-	unsigned int	cursors;
-	unsigned int	cur_cycle;
-	int				cycle_to_delta;
-	int				cycle_to_die;
-	int				winner;
-};
-
-/*
-** Structure of passed args
-*/
-
-# define A					v->args
-# define IS_VERB(x)			(!A.is_ncurses && (A.verbose_value & (x)))
-
-struct				s_args
-{
-	unsigned int	is_ncurses : 1;
-	unsigned int	is_nostat : 1;
-	unsigned int	is_dump : 1;
-	unsigned int	is_stealth : 1;
-	unsigned int	vis_start_value;
-	unsigned int	dump_value;
-	unsigned int	verbose_value;
-};
-
-/*
-** Operations structure
-*/
-
-struct				s_operations
-{
-	char			*name;
-	unsigned char	nb_arg;
-	unsigned char	args[3];
-	unsigned char	opcode;
-	unsigned int	cycles;
-	char			*description;
-	bool			octal;
-	bool			label;
-	void			(*f)(t_car *car, t_vm *v);
-};
+# include "op.h"
+# include "typedefs.h"
+# include "infargsop.h"
+# include "ncurses.h"
+# include "music.h"
 
 /*
 ** Structure of the single player
@@ -253,10 +77,10 @@ t_car				*get_last_car(t_vm *v);
 void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
 void				delete_this_car(t_car **cur_car, t_vm *v);
 void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
-void				print_arena(unsigned char *arena, unsigned char to_equate,
-	t_car *self, t_vm *v);
-void				move_pc(t_car *self, t_vm *v, unsigned int padding,
-	bool is_jump_car);
+void				print_arena(unsigned char *arena, unsigned char to_equate
+	, t_car *self, t_vm *v);
+void				move_pc(t_car *self, t_vm *v, unsigned int padding
+	, bool is_jump_car);
 
 /*
 ** Main corewar structure
@@ -290,37 +114,6 @@ void				kill_process(int *last_check, t_vm *v);
 bool				nbr_live_exec(t_car *car);
 void				make_live_nil(t_vm *v);
 int					ft_abs(int x);
-
-/*
-** Operations functions
-*/
-
-# define PUMPKIN		(res << (8 * i)) >> (8 * (size - 1))
-# define SPACE_TO_END	(MEM_SIZE - PC_IND)
-# define SHORT_RANGE	(USHRT_MAX + 1)
-# define FPOS			16962
-# define TNTZEROS		2900
-# define FPOS1			21530
-
-void				add(t_car *self, t_vm *v);
-void				aff(t_car *self, t_vm *v);
-void				and(t_car *self, t_vm *v);
-void				ld(t_car *self, t_vm *v);
-void				ldi(t_car *self, t_vm *v);
-void				lfork(t_car *self, t_vm *v);
-void				live(t_car *self, t_vm *v);
-void				lld(t_car *self, t_vm *v);
-void				lldi(t_car *self, t_vm *v);
-void				op_fork(t_car *self, t_vm *v);
-void				or(t_car *self, t_vm *v);
-void				st(t_car *self, t_vm *v);
-long				assign_arg(long arg);
-int					set_val_neg(t_car *self, t_vm *v, long arg_sum);
-int					set_val(t_car *self, t_vm *v, long arg_sum);
-void				sti(t_car *self, t_vm *v);
-void				sub(t_car *self, t_vm *v);
-void				xor(t_car *self, t_vm *v);
-void				zjmp(t_car *self, t_vm *v);
 
 /*
 ** Utils

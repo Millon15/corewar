@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   typedefs.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/01 09:28:43 by vbrazas           #+#    #+#             */
-/*   Updated: 2017/11/12 18:23:54 by vbrazas          ###   ########.fr       */
+/*   Created: 2018/10/21 09:38:08 by vbrazas           #+#    #+#             */
+/*   Updated: 2018/10/21 09:38:34 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef TYPEDEFS_H
+# define TYPEDEFS_H
 
-void	ft_putnbr(int n)
-{
-	char	buf[12];
-	long	i;
-	long	nn;
-	short	j;
+typedef struct s_args			t_args;
+typedef struct s_player			t_player;
+typedef struct s_corewar		t_vm;
+typedef struct s_operations		t_op;
+typedef struct s_carriage		t_car;
+typedef struct s_info			t_info;
+typedef struct s_curses			t_curses;
+typedef struct s_colors			t_colors;
+typedef struct s_widgets		t_widgets;
+typedef struct s_music			t_music;
 
-	i = 10;
-	j = 2;
-	nn = n;
-	if (n < 0)
-	{
-		nn = -nn;
-		j++;
-	}
-	while (nn / i > 0 && ++j)
-		i *= 10;
-	j = 0;
-	if (n < 0)
-		buf[j++] = '-';
-	while ((i /= 10) > 0)
-		buf[j++] = (nn / i) % 10 + '0';
-	buf[j] = '\0';
-	ft_putstr(buf);
-}
+#endif
