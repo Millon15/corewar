@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:51:41 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/18 19:32:10 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/20 21:34:25 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void		lfork(t_car *self, t_vm *v)
 	else if (argv_nil >= SPACE_TO_END && tmp %
 	IDX_MOD != tmp % MEM_SIZE)
 		argv_nil -= MEM_SIZE;
-	if (A.verbose_value & 4)
+	if (IS_VERB(4))
 		tmp > FPOS1 ? ft_printf("P %4d | lfork"
 		" %d (%d)\n", self->id, argv_nil, PC_IND + argv_nil)
 		: ft_printf("P %4d | lfork %d (%d)\n", self->id,

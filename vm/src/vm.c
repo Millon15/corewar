@@ -6,20 +6,20 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:56:16 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/18 17:26:31 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:23:14 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline void		end_the_game(t_vm *v)
+static void			end_the_game(t_vm *v)
 {
 	get_winner(v);
 	ft_printf("Contestant %d, \"%s\", has won !\n"
 	, I.winner + 1, P(I.winner).prog_name);
 }
 
-static inline void		start_the_game(t_vm *v)
+static void			start_the_game(t_vm *v)
 {
 	int				i;
 
@@ -31,13 +31,14 @@ static inline void		start_the_game(t_vm *v)
 		P(i).prog_name, P(i).comment);
 }
 
-void					pass_one_cycle(t_vm *v)
+void				pass_one_cycle(t_vm *v)
 {
-	t_car					*cur_car;
-	static int				last_check = 0;
+	t_car			*cur_car;
+	static int		last_check = 0;
 
-	!(A.verbose_value & 2) ? ++I.cur_cycle :
-	ft_printf("It is now cycle %d\n", ++I.cur_cycle);
+	I.cur_cycle++;
+	if (IS_VERB(2))
+		ft_printf("It is now cycle %d\n", I.cur_cycle);
 	last_check++;
 	cur_car = v->head;
 	while (cur_car)
@@ -51,7 +52,7 @@ void					pass_one_cycle(t_vm *v)
 		if (nbr_live_exec(v->head) || I.cycle_to_delta <= (int)I.cur_cycle)
 		{
 			I.cycle_to_die -= CYCLE_DELTA;
-			if (A.verbose_value & 2 && v->head)
+			if (IS_VERB(2) && v->head)
 				ft_printf("Cycle to die is now %d\n", I.cycle_to_die);
 			I.cycle_to_delta = I.cur_cycle + I.cycle_to_die * MAX_CHECKS;
 		}
@@ -59,7 +60,7 @@ void					pass_one_cycle(t_vm *v)
 	}
 }
 
-static inline void		play_the_game(t_vm *v)
+static void			play_the_game(t_vm *v)
 {
 	I.cycle_to_die = CYCLE_TO_DIE;
 	I.cycle_to_delta = CYCLE_TO_DIE * MAX_CHECKS;
@@ -78,11 +79,12 @@ static inline void		play_the_game(t_vm *v)
 	else
 		while (v->head)
 			pass_one_cycle(v);
+	end_the_game(v);
 }
 
-int						main(int ac, char **av)
+int					main(int ac, char **av)
 {
-	t_vm		*v;
+	register t_vm	*v;
 
 	v = (t_vm *)ft_memalloc(sizeof(t_vm));
 	ft_bzero(&(v->args), sizeof(v->args));
@@ -91,6 +93,5 @@ int						main(int ac, char **av)
 	fill_players(v);
 	fill_arena(v);
 	play_the_game(v);
-	end_the_game(v);
 	return (0);
 }

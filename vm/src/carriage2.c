@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 19:15:48 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/17 22:22:14 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:15:25 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static bool			pass_arg_if_invalid(t_car *self, const t_op *cur)
 {
-	int		i;
-	int		padding;
-	int		num;
+	int				i;
+	int				padding;
+	int				num;
 
 	i = -1;
 	padding = 0;
@@ -36,10 +36,9 @@ static bool			pass_arg_if_invalid(t_car *self, const t_op *cur)
 	return (true);
 }
 
-static inline int	help_vnp_args(t_car *self, const t_op *cur
-	, int i)
+static int			help_vnp_args(t_car *self, const t_op *cur, int i)
 {
-	int		padding;
+	int				padding;
 
 	padding = -1;
 	if (!(self->args[i] == cur->args[i] - (self->args[i] ^ cur->args[i]))
@@ -56,12 +55,12 @@ static inline int	help_vnp_args(t_car *self, const t_op *cur
 	return (padding);
 }
 
-static inline int	vnp_args(t_car *self, const t_op *cur, t_vm *v)
+static int			vnp_args(t_car *self, const t_op *cur, t_vm *v)
 {
-	int						padding;
-	int						i;
-	int						pc_padding;
-	bool					inv_arg_fl;
+	int				padding;
+	int				i;
+	int				pc_padding;
+	bool			inv_arg_fl;
 
 	i = -1;
 	pc_padding = 0;
@@ -81,10 +80,10 @@ static inline int	vnp_args(t_car *self, const t_op *cur, t_vm *v)
 	return ((inv_arg_fl == true) ? -1 : 0);
 }
 
-static inline int	assign_car_args(t_car *self, const t_op *cur, t_vm *v
+static int			assign_car_args(t_car *self, const t_op *cur, t_vm *v
 	, unsigned char cod[3])
 {
-	int		i;
+	int				i;
 
 	i = -1;
 	while (++i < 3)
@@ -106,9 +105,9 @@ static inline int	assign_car_args(t_car *self, const t_op *cur, t_vm *v
 
 int					vnp_codage(t_car *self, const t_op *cur, t_vm *v)
 {
-	unsigned char			codage;
-	unsigned char			cod[3];
-	int						i;
+	unsigned char	codage;
+	unsigned char	cod[3];
+	int				i;
 
 	i = 0;
 	ft_bzero((void *)cod, 3);

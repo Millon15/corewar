@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/18 19:40:36 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 05:04:23 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,26 @@ typedef struct s_music			t_music;
 */
 
 # define M					v->music
-# define VENOM_START_DUR	14
-# define SKIBIDI_START_DUR	8
-# define VENOM_DIE_DUR		14
-# define SKIBIDI_DIE_DUR	4
 # define MSTART				1
 # define MDIE				2
 # define MEND				4
 
-struct				s_music
+typedef struct		s_single_music_info
 {
-	unsigned char	is_music : 1;
-	unsigned char	is_venom : 1;
-	unsigned char	is_skibidi : 1;
-	unsigned char	to_wait;
+	unsigned char	start_duration;
+	unsigned char	die_duration;
 	char			*play_start;
 	char			*play_die;
 	char			*play_end;
+
+}					t_smi;
+
+struct				s_music
+{
+	unsigned char	music;
+	unsigned char	to_wait;
+	t_smi			*cmi;
+
 	time_t			playing;
 };
 
@@ -165,7 +168,8 @@ struct				s_info
 ** Structure of passed args
 */
 
-# define A			v->args
+# define A					v->args
+# define IS_VERB(x)			(!A.is_ncurses && (A.verbose_value & (x)))
 
 struct				s_args
 {

@@ -6,13 +6,13 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:45 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/18 19:41:07 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:15:47 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline void		set_args(long *args, t_car *self)
+static void			set_args(long *args, t_car *self)
 {
 	if (args[0] >= IDX_MOD)
 		args[0] = assign_arg(args[0]);
@@ -22,10 +22,10 @@ static inline void		set_args(long *args, t_car *self)
 		args[1] = assign_arg(args[1]);
 }
 
-static inline void		load_va_v(t_car *self, t_vm *v, long *args)
+static void			load_va_v(t_car *self, t_vm *v, long *args)
 {
-	long				arg_sum;
-	unsigned char		*pc;
+	long			arg_sum;
+	unsigned char	*pc;
 
 	arg_sum = (args[0] + args[1]) + PC_IND;
 	if (arg_sum < 0)
@@ -33,7 +33,7 @@ static inline void		load_va_v(t_car *self, t_vm *v, long *args)
 	else
 		pc = &v->arena[arg_sum % MEM_SIZE];
 	self->reg[self->arg_val[2]] = get_raw_num(pc, REG_SIZE, v);
-	if (A.verbose_value & 4)
+	if (IS_VERB(4))
 	{
 		ft_printf("P %4d | lldi %d %d r%d\n", self->id, args[0],
 		args[1], self->arg_val[2]);
@@ -42,10 +42,10 @@ static inline void		load_va_v(t_car *self, t_vm *v, long *args)
 	}
 }
 
-void					lldi(t_car *self, t_vm *v)
+void				lldi(t_car *self, t_vm *v)
 {
-	unsigned char		*pc;
-	long				args[2];
+	unsigned char	*pc;
+	long			args[2];
 
 	ft_bzero((void *)args, sizeof(long) * 2);
 	if (self->args[0] == T_IND)

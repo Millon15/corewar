@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   live.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:40:10 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 22:37:57 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/20 21:34:31 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		live(t_car *self, t_vm *v)
 	i = -1;
 	self->nb_lives++;
 	self->live_cycle = I.cur_cycle;
-	if (A.verbose_value & 4)
+	if (IS_VERB(4))
 		ft_printf("P %4d | live %d\n", self->id, self->arg_val[0]);
 	while (++i < v->player_amount)
 		if (self->arg_val[0] == v->player[i].name)
@@ -30,7 +30,7 @@ void		live(t_car *self, t_vm *v)
 			P(i).points = I.cur_cycle;
 			P(i).lives_in_cp++;
 			P(i).total_lives++;
-			if (A.verbose_value & 1)
+			if (IS_VERB(1))
 				ft_printf("Player %d (%s) is said to be alive\n"
 				, i + 1, P(i).prog_name);
 			break ;

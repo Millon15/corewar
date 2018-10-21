@@ -6,7 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-#    Updated: 2018/10/18 19:40:58 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/10/21 05:02:23 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ LIB_PATH := ../ft_printf/
 OBJ_PATH := .obj/
 
 CC := clang
-CFLAGS := -Wall -Werror -Wextra
+CFLAGS := -g -Wall -Werror -Wextra
 IFLAGS := -I $(INC_PATH) -I $(LIB_PATH)
 LFLAGS := -lncurses
 
@@ -42,8 +42,9 @@ OBJS := $(addprefix $(OBJ_PATH), $(SRCS:%.c=%.o))
 all: $(NAME)
 
 $(NAME): $(LIB) $(OBJ_PATH) $(OBJS)
+	@ sed -i "" -e 's|"afplay .*"|"afplay $(shell pwd)/music/"|g' src/visualizer/v_music.c
 	$(CC) $(CFLAGS) $(IFLAGS) $(LFLAGS) $(OBJS) $(LIB) -o $(NAME)
-$(LIB): 
+$(LIB):
 	make -C $(LIB_PATH)
 
 $(OBJ_PATH):

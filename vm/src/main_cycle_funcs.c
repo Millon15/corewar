@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/18 17:26:55 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 04:39:48 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void		kill_process(int *last_check, t_vm *v)
 		if ((int)I.cur_cycle - car->live_cycle >= I.cycle_to_die
 		|| I.cycle_to_die < 0)
 		{
-			if (A.verbose_value & 8)
+			if (IS_VERB(8))
 				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n"
 				, car->id, I.cur_cycle - car->live_cycle, I.cycle_to_die);
 			delete_this_car(&car, v);
@@ -33,7 +33,7 @@ void		kill_process(int *last_check, t_vm *v)
 		}
 		car = car->next;
 	}
-	if (I.cycle_to_die > 100 && was_one_death && A.is_ncurses && M.is_music)
+	if (was_one_death)
 		play_music(v, MDIE);
 	*last_check = 0;
 }

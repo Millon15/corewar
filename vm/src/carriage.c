@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/17 19:18:23 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:09:33 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static const t_op	g_func_tab[17] =
 	{0, 0, {0}, 0, 0, 0, 0, 0, NULL}
 };
 
-static inline void	carriage_refresh(t_car *self)
+static void			carriage_refresh(t_car *self)
 {
 	ft_bzero(&self->args, sizeof(self->args));
 	ft_bzero(&self->arg_val, sizeof(self->arg_val));

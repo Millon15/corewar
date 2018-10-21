@@ -6,13 +6,13 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/12 02:41:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 17:31:44 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:17:11 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline void		print_winner(t_vm *v)
+static void		print_winner(t_vm *v)
 {
 	const char	press[] = "Press any key to finish";
 	const char	the_winner[] = "The winner is Player No ";
@@ -32,10 +32,10 @@ static inline void		print_winner(t_vm *v)
 		;
 }
 
-void					deinit_windows(t_vm *v)
+void			deinit_windows(t_vm *v)
 {
 	print_one_cycle(v, false);
-	(M.is_music) ? play_music(v, MEND) : false;
+	play_music(v, MEND);
 	if (N->c != EXIT_KEY)
 		print_winner(v);
 	delwin(N->mainw);

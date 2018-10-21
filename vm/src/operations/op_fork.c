@@ -6,15 +6,15 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/18 19:32:43 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:16:41 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
-#define FPC_IND	(pc - v->arena)
-#define FPC_END	(MEM_SIZE - FPC_IND)
+#define FPC_IND			(pc - v->arena)
+#define FPC_END			(MEM_SIZE - FPC_IND)
 
-static inline unsigned char	*set_arg(long t, long *arg,
+static unsigned char	*set_arg(long t, long *arg,
 t_car *self, t_vm *v)
 {
 	unsigned char	*pc;
@@ -44,12 +44,12 @@ t_car *self, t_vm *v)
 	return (pc);
 }
 
-static inline void			print_v(t_car *self, t_vm *v,
+static void				print_v(t_car *self, t_vm *v,
 long arg, unsigned char *pc)
 {
-	int			pos;
-	const int	tmp = self->arg_val[0];
-	int			valmints;
+	int					pos;
+	const int			tmp = self->arg_val[0];
+	int					valmints;
 
 	valmints = tmp - SHORT_RANGE;
 	if ((ft_abs(tmp - SHORT_RANGE) <= MEM_SIZE * 2 &&
@@ -59,7 +59,7 @@ long arg, unsigned char *pc)
 		pos = arg;
 	else
 		pos = pc - self->pc;
-	if (A.verbose_value & 4)
+	if (IS_VERB(4))
 	{
 		if (arg > 0)
 			ft_printf("P %4d | fork %d (%d)\n",
@@ -70,11 +70,11 @@ long arg, unsigned char *pc)
 	}
 }
 
-void						op_fork(t_car *self, t_vm *v)
+void					op_fork(t_car *self, t_vm *v)
 {
-	unsigned char	*pc;
-	long			tmp;
-	long			arg;
+	unsigned char		*pc;
+	long				tmp;
+	long				arg;
 
 	arg = self->arg_val[0] % IDX_MOD;
 	tmp = self->arg_val[0];

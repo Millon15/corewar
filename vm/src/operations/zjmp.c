@@ -6,18 +6,18 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:34 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/18 19:37:46 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:17:00 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline void		jump_car(t_car *self, t_vm *v, int val,
+static void		jump_car(t_car *self, t_vm *v, int val,
 bool is_jump_car)
 {
-	int					res;
-	int					valmints;
-	const int			tmp = self->arg_val[0];
+	int			res;
+	int			valmints;
+	const int	tmp = self->arg_val[0];
 
 	res = (val - PC_IND > MEM_SIZE / 2) ?
 	(-1 * (MEM_SIZE - val % MEM_SIZE + PC_IND)) : (val % MEM_SIZE);
@@ -34,17 +34,16 @@ bool is_jump_car)
 	((tmp > MEM_SIZE) && !(tmp
 	% IDX_MOD) && !(tmp % MEM_SIZE)))
 		res = valmints;
-	if (A.verbose_value & 4)
-		ft_printf("P %4d | zjmp %d %s\n", self->id,
-		tmp <= MEM_SIZE * 2
-		? tmp : res, (self->carry ==
-		true) ? "OK" : "FAILED");
+	if (IS_VERB(4))
+		ft_printf("P %4d | zjmp %d %s\n", self->id
+		, (tmp <= MEM_SIZE * 2) ? tmp : res
+		, (self->carry == true) ? "OK" : "FAILED");
 }
 
-void					zjmp(t_car *self, t_vm *v)
+void			zjmp(t_car *self, t_vm *v)
 {
-	int					fa;
-	long				tmp;
+	int			fa;
+	long		tmp;
 
 	tmp = self->arg_val[0];
 	if ((tmp > SHORT_RANGE / 2 && tmp <= SHORT_RANGE + MEM_SIZE)

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/30 17:22:50 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 19:50:47 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:21:08 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 #define STAT_STR_LENGTH		25
 #define OFFSET				55
 
-static inline void		print_stats_directly(t_vm *v, int i, int row
+static void					print_stats_directly(t_vm *v, int i, int row
 	, double all_pl_lives)
 {
-	int					min;
-	int					coef;
-	static const int	clean_delim = SW_WIDTH - 2;
-	const double		var =
+	int						min;
+	int						coef;
+	static const int		clean_delim = SW_WIDTH - 2;
+	const double			var =
 
-	(all_pl_lives == 0) ? 0 : (double)P(i).total_lives / all_pl_lives;
+	(all_pl_lives == 0) ? 0.0 : (double)P(i).total_lives / all_pl_lives;
 	min = OFFSET;
 	wmove(N->statw, row, min);
 	while (++min <= clean_delim)
@@ -38,11 +38,11 @@ static inline void		print_stats_directly(t_vm *v, int i, int row
 	wattroff(N->statw, COLOR_PAIR(N->scolors[i]));
 }
 
-inline void				print_stats(t_vm *v)
+void						print_stats(t_vm *v)
 {
-	int					row;
-	int					i;
-	double				all_pl_lives;
+	int						row;
+	int						i;
+	double					all_pl_lives;
 
 	i = -1;
 	all_pl_lives = 0;

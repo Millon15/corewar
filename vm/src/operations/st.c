@@ -6,15 +6,15 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:40:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/18 19:36:01 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:22:39 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline int	calc_fa(int tmp)
+static int				calc_fa(int tmp)
 {
-	int	first_arg;
+	int					first_arg;
 
 	if ((ft_abs(tmp - SHORT_RANGE) <= IDX_MOD) || (ft_abs(tmp - SHORT_RANGE)
 	<= IDX_MOD) || (tmp > SHORT_RANGE / 2 && tmp < SHORT_RANGE - MEM_SIZE * 2
@@ -41,8 +41,7 @@ static inline int	calc_fa(int tmp)
 	return (first_arg);
 }
 
-static inline int	assign_pc_ind(int first_arg, t_car *self,
-t_vm *v)
+static int				assign_pc_ind(int first_arg, t_car *self, t_vm *v)
 {
 	int					pc_index;
 
@@ -71,7 +70,7 @@ t_vm *v)
 	return (pc_index);
 }
 
-static inline void	output_to_arena(int first_arg, t_car *self, t_vm *v)
+static void				output_to_arena(int first_arg, t_car *self, t_vm *v)
 {
 	int					i;
 	int					pc_index;
@@ -88,7 +87,7 @@ static inline void	output_to_arena(int first_arg, t_car *self, t_vm *v)
 		print_arena(v->arena + (pc_index + i) % MEM_SIZE, PUMPKIN, self, v);
 }
 
-static inline void	alter_for_verbose(int tmp, int *first_arg)
+static void				alter_for_verbose(int tmp, int *first_arg)
 {
 	if ((tmp > SHORT_RANGE / 2 && tmp <= SHORT_RANGE
 	&& tmp % IDX_MOD == IDX_MOD / 2) || (tmp > MEM_SIZE && !(tmp % IDX_MOD)
@@ -105,7 +104,7 @@ static inline void	alter_for_verbose(int tmp, int *first_arg)
 		*first_arg = tmp;
 }
 
-void				st(t_car *self, t_vm *v)
+void					st(t_car *self, t_vm *v)
 {
 	int					first_arg;
 	const unsigned int	res = self->reg[self->arg_val[0]];
@@ -123,7 +122,7 @@ void				st(t_car *self, t_vm *v)
 	}
 	else if (self->args[1] == T_REG)
 		self->reg[tmp] = res;
-	if (A.verbose_value & 4)
+	if (IS_VERB(4))
 		ft_printf("P %4d | st r%d %d\n", self->id, self->arg_val[0],
 		(tmp <= MEM_SIZE) ? tmp : first_arg);
 	move_pc(self, v, self->pc_padding, false);

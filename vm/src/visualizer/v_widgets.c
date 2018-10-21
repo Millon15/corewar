@@ -6,17 +6,17 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 17:41:42 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/18 19:37:54 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:23:48 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
-#define WIDGET_LENGTH				50
+#define WIDGET_LENGTH	50
 
-static inline int	calc_value(double lives_in_cp, double totliv_in_cp)
+static int				calc_value(double lives_in_cp, double totliv_in_cp)
 {
-	double	val;
-	int		res;
+	double				val;
+	int					res;
 
 	if ((int)totliv_in_cp == 0)
 		return (0);
@@ -27,11 +27,11 @@ static inline int	calc_value(double lives_in_cp, double totliv_in_cp)
 	return (res);
 }
 
-static inline void	print_widget(t_vm *v, int row, int *pval, int totliv)
+static void				print_widget(t_vm *v, int row, int *pval, int totliv)
 {
-	int		i;
-	int		j;
-	int		cnt;
+	int					i;
+	int					j;
+	int					cnt;
 
 	j = 0;
 	i = -1;
@@ -56,10 +56,10 @@ static inline void	print_widget(t_vm *v, int row, int *pval, int totliv)
 	wprintw(N->infow, "%c", ']');
 }
 
-void				print_widgets(t_vm *v, int *row)
+void					print_widgets(t_vm *v, int *row)
 {
-	int			i;
-	static int	period = CYCLE_TO_DIE;
+	int					i;
+	static int			period = CYCLE_TO_DIE;
 
 	if (period != I.cycle_to_die)
 	{

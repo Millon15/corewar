@@ -6,13 +6,14 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 21:53:27 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/14 23:46:30 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:18:06 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
+#define CLOCK_FORMULA	(N->t + CLOCKS_PER_SEC / N->cycpersec)
 
-inline void				put_car_color_to_arena(t_vm *v)
+void					put_car_color_to_arena(t_vm *v)
 {
 	t_car	*self;
 
@@ -25,9 +26,9 @@ inline void				put_car_color_to_arena(t_vm *v)
 	}
 }
 
-inline void				set_start_vis_cycle(t_vm *v)
+void					set_start_vis_cycle(t_vm *v)
 {
-	int					i;
+	int				i;
 
 	while (I.cycle_to_die > 0 && v->head && A.vis_start_value--)
 	{
@@ -56,8 +57,6 @@ static bool				quicker_slower(t_vm *v)
 		N->cycpersec = SQMAX_VAL;
 	return (true);
 }
-
-#define CLOCK_FORMULA	(N->t + CLOCKS_PER_SEC / N->cycpersec)
 
 void					visualize_the_game(t_vm *v)
 {

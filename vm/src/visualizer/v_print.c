@@ -6,16 +6,16 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 01:41:00 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 20:12:12 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:18:57 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
-#define CLEAR_LINE					20
-#define MW_ROW_LENGTH				64
-#define PRINT_WIDGET				(!(I.cur_cycle % 10))
+#define CLEAR_LINE		20
+#define MW_ROW_LENGTH	64
+#define PRINT_WIDGET	(!(I.cur_cycle % 10))
 
-static inline void		print_main(t_vm *v)
+static void				print_main(t_vm *v)
 {
 	int					row;
 	int					i;
@@ -41,7 +41,7 @@ static inline void		print_main(t_vm *v)
 	wrefresh(N->mainw);
 }
 
-static inline void		print_full_info(t_vm *v, int row, int i)
+static void				print_full_info(t_vm *v, int row, int i)
 {
 	while (++i < v->player_amount)
 	{
@@ -65,10 +65,10 @@ static inline void		print_full_info(t_vm *v, int row, int i)
 	CLEAR_LINE, MAX_CHECKS);
 }
 
-inline void				print_info(t_vm *v, const bool is_print_full_info)
+void					print_info(t_vm *v, const bool is_print_full_info)
 {
-	int			row;
-	int			i;
+	int					row;
+	int					i;
 
 	row = START_ROW;
 	i = -1;

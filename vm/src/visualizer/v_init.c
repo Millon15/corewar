@@ -6,13 +6,13 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 18:14:56 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 20:15:59 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:24:16 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline void		put_colors(t_vm *v)
+static void			put_colors(t_vm *v)
 {
 	int				i;
 	t_colors		*from;
@@ -39,7 +39,7 @@ static inline void		put_colors(t_vm *v)
 	}
 }
 
-static inline void		init_colors(t_vm *v)
+static void			init_colors(t_vm *v)
 {
 	int				i;
 	int				j;
@@ -67,7 +67,7 @@ static inline void		init_colors(t_vm *v)
 	}
 }
 
-void					put_border(WINDOW *win)
+void				put_border(WINDOW *win)
 {
 	wattron(win, COLOR_PAIR(BORDER));
 	wborder(win, BORDC, BORDC, BORDC, BORDC,
@@ -75,7 +75,7 @@ void					put_border(WINDOW *win)
 	wattroff(win, COLOR_PAIR(BORDER));
 }
 
-static inline void		init_visualizer(t_vm *v)
+static void			init_visualizer(t_vm *v)
 {
 	N = (t_curses *)ft_memalloc(sizeof(t_curses));
 	ft_bzero(&N->w, sizeof(t_widgets));
@@ -95,10 +95,10 @@ static inline void		init_visualizer(t_vm *v)
 	init_pair(STAT, COLOR_WHITE, COLOR_BLACK);
 	init_colors(v);
 	put_colors(v);
-	(M.is_music) ? play_music(v, MSTART) : false;
+	play_music(v, MSTART);
 }
 
-void					init_windows(t_vm *v)
+void				init_windows(t_vm *v)
 {
 	init_visualizer(v);
 	N->mainw = newwin(COMMON_HEIGHT, MW_WIDTH, 0, 0);

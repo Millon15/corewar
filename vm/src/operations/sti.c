@@ -6,13 +6,13 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/18 19:39:09 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:16:03 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline void		set_args(long *args, t_car *self)
+static void			set_args(long *args, t_car *self)
 {
 	if (args[0] >= IDX_MOD)
 		args[0] = assign_arg(args[0]);
@@ -22,9 +22,9 @@ static inline void		set_args(long *args, t_car *self)
 		args[1] = assign_arg(args[1]);
 }
 
-static inline void		set_va_v(long arg_sum, t_car *self, t_vm *v, long *args)
+static void			set_va_v(long arg_sum, t_car *self, t_vm *v, long *args)
 {
-	int			module;
+	int				module;
 
 	if (arg_sum < 0)
 		module = set_val_neg(self, v, arg_sum % IDX_MOD);
@@ -32,7 +32,7 @@ static inline void		set_va_v(long arg_sum, t_car *self, t_vm *v, long *args)
 		module = set_val(self, v, arg_sum);
 	if (!module && !arg_sum)
 		module = PC_IND;
-	if (A.verbose_value & 4)
+	if (IS_VERB(4))
 	{
 		ft_printf("P %4d | sti r%d %d %d\n", self->id,
 		self->arg_val[0], args[0], args[1]);
@@ -43,11 +43,11 @@ static inline void		set_va_v(long arg_sum, t_car *self, t_vm *v, long *args)
 	}
 }
 
-void					sti(t_car *self, t_vm *v)
+void				sti(t_car *self, t_vm *v)
 {
-	unsigned char		*pc;
-	int					arg_sum;
-	long				args[2];
+	unsigned char	*pc;
+	int				arg_sum;
+	long			args[2];
 
 	ft_bzero((void *)args, sizeof(long) * 2);
 	if (self->args[1] == T_IND)

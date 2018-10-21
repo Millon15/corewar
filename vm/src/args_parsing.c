@@ -6,13 +6,13 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 20:05:52 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/17 22:15:12 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/10/21 06:08:44 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline void		open_one_file(char *av, int np, t_vm *v)
+static void		open_one_file(char *av, int np, t_vm *v)
 {
 	if ((v->player[np].fd = open(av, O_RDONLY)) == -1)
 		put_error(0, av, 0, 0);
@@ -20,7 +20,7 @@ static inline void		open_one_file(char *av, int np, t_vm *v)
 	(++v->player_amount > MAX_PLAYERS) ? put_usage(3) : false;
 }
 
-static inline void		help_handle_n(char **av, int j, t_vm *v)
+static void		help_handle_n(char **av, int j, t_vm *v)
 {
 	int					np;
 
@@ -42,7 +42,7 @@ static inline void		help_handle_n(char **av, int j, t_vm *v)
 	}
 }
 
-static inline void		handle_n(char **av, t_vm *v, int i)
+static void		handle_n(char **av, t_vm *v, int i)
 {
 	static int	max_np;
 	int			np;
@@ -67,7 +67,7 @@ static inline void		handle_n(char **av, t_vm *v, int i)
 		put_usage(5);
 }
 
-static inline int		help_check_and_obtain_args(char **av, int i, t_vm *v)
+static int		help_check_and_obtain_args(char **av, int i, t_vm *v)
 {
 	if (ft_strequ(av[i], "--ncurses"))
 		A.is_ncurses = true;
@@ -83,19 +83,19 @@ static inline int		help_check_and_obtain_args(char **av, int i, t_vm *v)
 	else if (ft_strequ(av[i], "--stealth"))
 		(!A.is_ncurses) ? put_usage(8) : (A.is_stealth = true);
 	else if (ft_strequ(av[i], "--venom"))
-		(M.is_music = true)
-		&& (M.is_venom = true);
+		(!A.is_ncurses) ? put_usage(9) : (M.music = 1);
 	else if (ft_strequ(av[i], "--skibidi"))
-		(M.is_music = true)
-		&& (M.is_skibidi = true);
+		(!A.is_ncurses) ? put_usage(10) : (M.music = 2);
+	else if (ft_strequ(av[i], "--bigshaq"))
+		(!A.is_ncurses) ? put_usage(11) : (M.music = 3);
 	else if (ft_strequ(av[i], "--no-stat"))
-		(A.is_nostat = true);
+		(!A.is_ncurses) ? put_usage(12) : (A.is_nostat = true);
 	else
 		return (-1);
 	return (i);
 }
 
-inline void				check_and_obtain_args(int ac, char **av, t_vm *v)
+void			check_and_obtain_args(int ac, char **av, t_vm *v)
 {
 	int		i;
 	int		j;

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ld.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:40:36 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/16 23:25:20 by akupriia         ###   ########.fr       */
+/*   Updated: 2018/10/21 06:10:52 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static inline int	calc_fa(int tmp)
+static int			calc_fa(int tmp)
 {
-	int	first_arg;
+	int				first_arg;
 
 	if (tmp > IDX_MOD && !(tmp % IDX_MOD))
 		first_arg = 0;
@@ -60,7 +60,7 @@ void				ld(t_car *self, t_vm *v)
 		self->reg[self->arg_val[1]] = get_raw_num(pc, REG_SIZE, v);
 	}
 	self->carry = self->reg[self->arg_val[1]] ? false : true;
-	if (A.verbose_value & 4)
+	if (IS_VERB(4))
 		ft_printf("P %4d | ld %d r%d\n", self->id,
 		self->reg[self->arg_val[1]], self->arg_val[1]);
 	move_pc(self, v, self->pc_padding, false);
