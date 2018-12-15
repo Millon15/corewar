@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 07:04:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/21 09:49:16 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/12/15 19:13:48 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 # define RUN_QUICKER2				'e'
 
 # define BORDC						'*'
-# define SQMAX_VAL					777
+# define SQMAX_VAL					1000
 # define TOT_LIVES_TERM				1000
 # define SQBIG_VAL					10
 # define SQSMALL_VAL				1

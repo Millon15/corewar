@@ -6,7 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-#    Updated: 2018/10/21 05:02:23 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/12/15 19:14:38 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ CFLAGS := -g -Wall -Werror -Wextra
 IFLAGS := -I $(INC_PATH) -I $(LIB_PATH)
 LFLAGS := -lncurses
 
-HFILES :=		vm op
+HFILES :=		vm op infargsop music ncurses typedefs
 OPERATIONS :=	add aff and ld ldi lfork live lld lldi op_fork or st sti sti_utils sub xor zjmp
 FILES :=		vm errors utils args_parsing fill_the_map carriage carriage2 carriage_utils carriage_utils2 main_cycle_funcs
 VISUALIZER :=	v_main v_init v_print v_widgets v_deinit v_print_stat v_music

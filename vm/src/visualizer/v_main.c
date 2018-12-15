@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 21:53:27 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/21 06:18:06 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/12/15 19:11:21 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,15 @@ void					set_start_vis_cycle(t_vm *v)
 
 static bool				quicker_slower(t_vm *v)
 {
-	if (N->c == RUN_QUICKER)
-		N->cycpersec += SQBIG_VAL;
-	else if (N->c == RUN_SLOWER)
-		N->cycpersec -= SQBIG_VAL;
-	else if (N->c == RUN_QUICKER2)
-		N->cycpersec += SQSMALL_VAL;
-	else if (N->c == RUN_SLOWER2)
-		N->cycpersec -= SQSMALL_VAL;
-	else
+	if (!(
+		((N->c == RUN_QUICKER) && (N->cycpersec += SQBIG_VAL)) ||
+		((N->c == RUN_SLOWER) && (N->cycpersec -= SQBIG_VAL)) ||
+		((N->c == RUN_QUICKER2) && (N->cycpersec += SQSMALL_VAL)) ||
+		((N->c == RUN_SLOWER2) && (N->cycpersec -= SQSMALL_VAL))
+	))
 		return (false);
-	if (N->cycpersec <= 1)
-		N->cycpersec = 1;
-	else if (N->cycpersec > SQMAX_VAL)
-		N->cycpersec = SQMAX_VAL;
+	(N->cycpersec < 1) && (N->cycpersec = 1);
+	(N->cycpersec > SQMAX_VAL) && (N->cycpersec = SQMAX_VAL);
 	return (true);
 }
 
@@ -69,14 +64,17 @@ void					visualize_the_game(t_vm *v)
 			print_info(v, false);
 		}
 		else if (N->c == PASS_OVER)
+		{
+			N->is_run = false;
 			print_one_cycle(v, true);
+		}
+		else if (quicker_slower(v))
+			print_info(v, false);
 		else if (N->is_run && clock() >= CLOCK_FORMULA)
 		{
 			N->t = clock();
 			print_one_cycle(v, true);
 		}
-		else if (quicker_slower(v))
-			print_info(v, false);
 	}
 	deinit_windows(v);
 }
