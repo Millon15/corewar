@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 19:40:49 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/17 22:17:47 by vbrazas          ###   ########.fr       */
+/*   Updated: 2019/02/03 22:49:02 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ unsigned int	read_raw_num(const int fd, const int chars_to_read)
 	return (res);
 }
 
-unsigned int	get_raw_num(const unsigned char *arena,
+int					get_raw_num(const unsigned char *arena,
 	int bytes_to_read, const t_vm *v)
 {
 	const unsigned char		*end_of_arena = v->arena + MEM_SIZE;
-	unsigned int			res;
+	int						res;
 	int						b;
 
 	if (bytes_to_read > (int)sizeof(res))
@@ -82,3 +82,22 @@ unsigned int	get_raw_num(const unsigned char *arena,
 	}
 	return (res);
 }
+
+/*
+**int				get_raw_num(const unsigned char *arena, int bytes_to_read, const t_vm *v)
+**{
+**	const unsigned char		*end_of_arena = v->arena + MEM_SIZE;
+**	int						result;
+**	bool					sign;
+**	int						i;
+**
+**	result = 0;
+**	sign = (bool)(*arena & 0x80);
+**	i = -1;
+**	while (--bytes_to_read)
+**		result += sign ? ((arena[bytes_to_read - 1] ^ 0xFF) << (++i * 8))
+**		: (arena[bytes_to_read - 1] << (++i * 8));
+**	sign ? result = ~(result) : 1;
+**	return (result);
+**}
+*/

@@ -3,62 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ld.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:40:36 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/21 06:10:52 by vbrazas          ###   ########.fr       */
+/*   Updated: 2019/02/03 22:31:25 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static int			calc_fa(int tmp)
-{
-	int				first_arg;
+#define IND(x)		(x - 1)
 
-	if (tmp > IDX_MOD && !(tmp % IDX_MOD))
-		first_arg = 0;
-	else if ((tmp > SHORT_RANGE / 2) && (tmp % IDX_MOD == tmp % MEM_SIZE)
-	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD)
-		first_arg = tmp - SHORT_RANGE;
-	else if ((tmp > IDX_MOD && tmp > MEM_SIZE && tmp <= MEM_SIZE * 2)
-	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp % SHORT_RANGE >= FPOS && tmp
-	% SHORT_RANGE <= FPOS1) || (tmp > MEM_SIZE && tmp < FPOS && (tmp -
-	SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD) || ((tmp - SHORT_RANGE)
-	% IDX_MOD == tmp % IDX_MOD - IDX_MOD && tmp > SHORT_RANGE / 2 &&
-	ft_abs(tmp - SHORT_RANGE) > MEM_SIZE))
-		first_arg = tmp;
-	else
+// inline int8_t	get_byte(t_vm *vm, int32_t pc, int32_t step)
+// {
+// 	return (vm->arena[calc_addr(pc + step)]);
+// }
+
+int			get_op_arg(t_vm *v, t_car *self, int index, bool mod)
+{
+	int			value;
+	int			addr;
+
+	value = 0;
+	if (self->args[index] & T_REG || self->args[index] & T_DIR)
+		value = self->arg_val[index];
+	else if (self->args[index] & T_IND)
 	{
-		first_arg = (tmp > IDX_MOD) ?
-		tmp % IDX_MOD : tmp;
-		if (tmp > MEM_SIZE)
-			first_arg -= IDX_MOD;
+		addr = self->arg_val[index];
+		value = get_raw_num(&v->arena[PC_IND + (mod ? (addr % IDX_MOD) : addr) % MEM_SIZE] ,REG_SIZE, v);
 	}
-	return (first_arg);
+	return (value);
 }
 
 void				ld(t_car *self, t_vm *v)
 {
-	unsigned char	*pc;
-	long			tmp;
-	long			first_arg;
-
-	tmp = self->arg_val[0];
-	if (self->args[0] == T_DIR)
-		self->reg[self->arg_val[1]] = tmp;
-	else if (self->args[0] == T_IND)
-	{
-		first_arg = calc_fa(tmp);
-		first_arg %= IDX_MOD;
-		if (first_arg > MEM_SIZE - PC_IND)
-			pc = &v->arena[first_arg - (MEM_SIZE - PC_IND)];
-		else if (first_arg < 0 && ft_abs(first_arg) > PC_IND)
-			pc = &v->arena[PC_IND + first_arg + MEM_SIZE];
-		else
-			pc = &v->arena[PC_IND + first_arg];
-		self->reg[self->arg_val[1]] = get_raw_num(pc, REG_SIZE, v);
-	}
+	self->reg[self->arg_val[1]] = get_op_arg(v, self, 0, true);
 	self->carry = self->reg[self->arg_val[1]] ? false : true;
 	if (IS_VERB(4))
 		ft_printf("P %4d | ld %d r%d\n", self->id,
