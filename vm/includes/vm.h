@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2019/02/03 22:36:48 by akupriia         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:35:15 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void				dump_printer(const void *to_print, const int nbytes);
 unsigned int		read_raw_num(const int fd, const int chars_to_read);
 int					get_raw_num(const unsigned char *arena,
 	const int bytes_to_read, const t_vm *v);
+int					obtain_argval(t_vm *v, t_car *self, int index, bool mod);
 
 /*
 ** Put Error functions

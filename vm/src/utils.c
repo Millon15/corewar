@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/04 19:40:49 by vbrazas           #+#    #+#             */
-/*   Updated: 2019/02/03 22:49:02 by akupriia         ###   ########.fr       */
+/*   Updated: 2019/02/04 21:43:35 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,12 @@ int					get_raw_num(const unsigned char *arena,
 	const unsigned char		*end_of_arena = v->arena + MEM_SIZE;
 	int						res;
 	int						b;
+	bool					sign;
 
 	if (bytes_to_read > (int)sizeof(res))
 		return (0);
+	// sign = (bool)(*arena & 0x80);
+	sign = 0;
 	res = 0;
 	b = 0;
 	while (b < bytes_to_read)
@@ -78,9 +81,26 @@ int					get_raw_num(const unsigned char *arena,
 			b = 0;
 		}
 		res <<= 8;
-		res |= arena[b++];
+		res |= !sign ? arena[b++] : arena[b++] ^ 0xFF;
 	}
+	sign ? res = ~(res) : 1;
 	return (res);
+}
+
+int			obtain_argval(t_vm *v, t_car *self, int index, bool mod)
+{
+	int			value;
+	int			addr;
+
+	value = 0;
+	if (self->args[index] == T_REG || self->args[index] == T_DIR)
+		value = self->arg_val[index];
+	else if (self->args[index] == T_IND)
+	{
+		addr = self->arg_val[index];
+		value = get_raw_num(&v->arena[(PC_IND + (mod ? (addr % IDX_MOD) : addr)) % MEM_SIZE], REG_SIZE, v);
+	}
+	return (value);
 }
 
 /*
