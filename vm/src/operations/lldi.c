@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:45 by vbrazas           #+#    #+#             */
-/*   Updated: 2019/02/07 14:53:10 by akupriia         ###   ########.fr       */
+/*   Updated: 2019/02/07 15:05:24 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void				lldi(t_car *self, t_vm *v)
 	f_arg + s_arg)], REG_SIZE, v);
 	self->pc_ind = PC_IND;
 	if (IS_VERB(4))
-		verbose_lldi(self, f_arg, s_arg, REG_N(self->arg_val[2]));
+		verbose_lldi(self, f_arg, s_arg, self->arg_val[2]);
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }

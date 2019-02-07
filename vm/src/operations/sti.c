@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:55 by vbrazas           #+#    #+#             */
-/*   Updated: 2019/02/07 14:45:06 by akupriia         ###   ########.fr       */
+/*   Updated: 2019/02/07 15:05:33 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void				sti(t_car *self, t_vm *v)
 		% IDX_MOD + i), TO_ARENA, self, v);
 	self->pc_ind = PC_IND;
 	if (IS_VERB(4))
-		verbose_sti(self, REG_N(self->arg_val[0]), s_arg, t_arg);
+		verbose_sti(self, self->arg_val[0], s_arg, t_arg);
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }
