@@ -30,7 +30,7 @@ This repository includes submodule. So if you want to clone it, you can use the 
 
 ```git clone --recurse-submodules <repository url>```
 
-To get the executables `asm` & `corewar, simply run ```make```
+To get the executables `asm` & `corewar`, simply run ```make```
 
 ---
 
@@ -60,13 +60,19 @@ Usage: ./corewar [-v N] [(-d|-dump) N] [--ncurses [--stealth] [--start-in N] [(-
 				- 4	: Show operations (Params are NOT litteral ...)
 				- 8	: Show deaths
 ```
+
 ---
 
 ## Visualisation
 
 The best visualizer performance is with iTerm (make sure you've got the latest version).
 
+```Random bots combination midgame screenshot```
+
 ![CoreWar screenshot #1](/images/CoreScreen.png)
+
+
+```Random bots combination endgame screenshot```
 
 ![CoreWar screenshot #2](/images/CoreScreenFinal.png)
 
