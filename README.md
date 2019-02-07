@@ -1,7 +1,9 @@
 # corewar
 
-```Corewar``` is a School 42 project. It is the final project of the Algorithms branch.  
-The purpose of this project is an implementation of the programming game “Core War”.  
+## ```Corewar``` is a School 42 project. It is the final project of the Algorithms branch.
+
+### The purpose of this project is an implementation of the programming game “Core War”.
+
 _Done by two ~~awesome~~ restless individuals:_  
 [me](https://github.com/ArtemisKS) & Vitas Brazas (aka [millon15](https://github.com/millon15))
 
