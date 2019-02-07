@@ -6,25 +6,33 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:40:59 by vbrazas           #+#    #+#             */
-/*   Updated: 2019/02/04 22:09:53 by akupriia         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:53:58 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-void					st(t_car *self, t_vm *v)
+inline static void	verbose_st(int car_id, int reg, int val)
 {
-	int					pc;
-	int					i;
-	const int			res = self->reg[self->arg_val[0]];
+	ft_printf("P %4d | st r%d %d\n", car_id, reg, val);
+}
+
+void				st(t_car *self, t_vm *v)
+{
+	int				pc;
+	int				i;
+	const int		res = self->reg[self->arg_val[0]];
 
 	i = -1;
 	pc = self->arg_val[1];
-	if (self->args[1] == T_IND)
+	if (self->args[1] == T_REG)
 		self->reg[pc] = res;
 	else
 		while (++i < 4)
-			print_arena(v->arena + (PC_IND + pc % IDX_MOD + i) % MEM_SIZE, TO_ARENA, self, v);
+			print_arena(v->arena + find_addr(PC_IND + pc % IDX_MOD + i),
+			TO_ARENA, self, v);
+	if (IS_VERB(4))
+		verbose_st(self->id, REG_N(self->arg_val[0]), pc);
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }

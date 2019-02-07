@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 17:34:06 by vbrazas           #+#    #+#             */
-/*   Updated: 2019/02/04 21:49:11 by akupriia         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:58:26 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void				perform_next_comm(t_car *self, t_vm *v)
 			self->cycles_to_wait = g_func_tab[self->cur_operation].cycles;
 	if (--self->cycles_to_wait == 0)
 	{
-		if (vnp_codage(self, &g_func_tab[self->cur_operation], v) < 0)
+		if (vnp_codage(self, v) < 0)
 		{
 			move_pc(self, v, self->pc_padding, false);
 			self->pc_padding = 0;
@@ -43,4 +43,11 @@ void				perform_next_comm(t_car *self, t_vm *v)
 		g_func_tab[self->cur_operation].f(self, v);
 		carriage_refresh(self);
 	}
+}
+
+int					find_addr(int res)
+{
+	res %= MEM_SIZE;
+	(res < 0) ? res += MEM_SIZE : 1;
+	return (res);
 }

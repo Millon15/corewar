@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 23:28:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2019/02/04 23:08:24 by akupriia         ###   ########.fr       */
+/*   Updated: 2019/02/06 20:58:56 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void				move_pc(t_car *self, t_vm *v, unsigned int padding,
 		N->clr[PC_IND].main -=
 		(N->clr[PC_IND].main >= N->ccolors[0]) ? COLOR_DELTA : 0;
 	self->pc = (is_jump_car == false) ?
-	(v->arena + (PC_IND + padding) % MEM_SIZE) :
-	(v->arena + padding % MEM_SIZE);
+	(v->arena + find_addr(PC_IND + padding)) :
+	(v->arena + find_addr(padding));
 	if (A.is_ncurses)
 		N->clr[PC_IND].main +=
 		(N->clr[PC_IND].main < N->ccolors[0]) ? COLOR_DELTA : 0;

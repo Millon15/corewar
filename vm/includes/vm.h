@@ -6,7 +6,7 @@
 /*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2019/02/04 21:35:15 by akupriia         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:22:17 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,21 @@ struct				s_carriage
 	int				reg[REG_NUMBER + 1];
 	unsigned int	args[3];
 	int				arg_val[3];
+	int				pc_ind;
 
 	t_car			*prev;
 	t_car			*next;
 };
 
 t_car				*get_last_car(t_vm *v);
-void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
+void				copy_car(t_car *self, t_vm *v, int arena_pos);
 void				delete_this_car(t_car **cur_car, t_vm *v);
-void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
+void				init_car(unsigned char *where, int whom, t_vm *v);
 void				print_arena(unsigned char *arena, unsigned char to_equate
 	, t_car *self, t_vm *v);
 void				move_pc(t_car *self, t_vm *v, unsigned int padding
 	, bool is_jump_car);
+int					find_addr(int res);
 
 /*
 ** Main corewar structure
@@ -107,7 +109,7 @@ void				fill_arena(t_vm *v);
 
 void				pass_one_cycle(t_vm *v);
 void				perform_next_comm(t_car *self, t_vm *v);
-int					vnp_codage(t_car *self, const t_op *cur, t_vm *v);
+int					vnp_codage(t_car *self, t_vm *v);
 void				get_winner(t_vm *v);
 
 void				kill_process(int *last_check, t_vm *v);
@@ -134,7 +136,7 @@ bool				put_usage(const int errnum);
 bool				put_error(const int errnum, const char *errstr,
 	const int i1, const int i2);
 
-static const t_op	g_func_tab[17] =
+static const t_op			g_func_tab[17] =
 {
 	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0, &live},
 	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0, &ld},

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 19:15:48 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/21 06:15:25 by vbrazas          ###   ########.fr       */
+/*   Updated: 2019/02/06 20:10:05 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int			vnp_args(t_car *self, const t_op *cur, t_vm *v)
 		if ((padding = help_vnp_args(self, cur, i)) == -1)
 			return (-1);
 		self->arg_val[i] = get_raw_num(v->arena
-		+ (PC_IND + self->pc_padding + pc_padding) % MEM_SIZE, padding, v);
+		+ find_addr(PC_IND + self->pc_padding + pc_padding), padding, v);
 		if (self->args[i] == T_REG
 		&& (self->arg_val[i] > 16 || self->arg_val[i] < 1))
 			inv_arg_fl = true;
@@ -103,15 +103,16 @@ static int			assign_car_args(t_car *self, const t_op *cur, t_vm *v
 	return (vnp_args(self, cur, v));
 }
 
-int					vnp_codage(t_car *self, const t_op *cur, t_vm *v)
+int					vnp_codage(t_car *self, t_vm *v)
 {
+	const t_op		*cur = g_func_tab + self->cur_operation;
 	unsigned char	codage;
 	unsigned char	cod[3];
 	int				i;
 
 	i = 0;
 	ft_bzero((void *)cod, 3);
-	codage = (cur->octal) ? (*(v->arena + ((PC_IND + 1) % MEM_SIZE)) >> 2) : 0;
+	codage = (cur->octal) ? (*(v->arena + find_addr(PC_IND + 1)) >> 2) : 0;
 	self->pc_padding = 2;
 	if (codage == 0x0 && cur->octal)
 		return (-1);

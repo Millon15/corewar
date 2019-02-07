@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_cycle_funcs.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 20:29:14 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/21 04:39:48 by vbrazas          ###   ########.fr       */
+/*   Updated: 2019/02/07 14:51:27 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void		kill_process(int *last_check, t_vm *v)
 		|| I.cycle_to_die < 0)
 		{
 			if (IS_VERB(8))
-				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n"
-				, car->id, I.cur_cycle - car->live_cycle, I.cycle_to_die);
+				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
+				car->id, I.cur_cycle - car->live_cycle, I.cycle_to_die);
 			delete_this_car(&car, v);
 			was_one_death = true;
 			continue ;

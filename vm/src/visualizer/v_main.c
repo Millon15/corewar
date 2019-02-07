@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   v_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/16 21:53:27 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/12/15 19:11:21 by vbrazas          ###   ########.fr       */
+/*   Updated: 2019/02/07 14:55:03 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ static bool				quicker_slower(t_vm *v)
 		((N->c == RUN_QUICKER) && (N->cycpersec += SQBIG_VAL)) ||
 		((N->c == RUN_SLOWER) && (N->cycpersec -= SQBIG_VAL)) ||
 		((N->c == RUN_QUICKER2) && (N->cycpersec += SQSMALL_VAL)) ||
-		((N->c == RUN_SLOWER2) && (N->cycpersec -= SQSMALL_VAL))
-	))
+		((N->c == RUN_SLOWER2) && (N->cycpersec -= SQSMALL_VAL))))
 		return (false);
 	(N->cycpersec < 1) && (N->cycpersec = 1);
 	(N->cycpersec > SQMAX_VAL) && (N->cycpersec = SQMAX_VAL);
