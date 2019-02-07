@@ -1,8 +1,8 @@
 # corewar
 
-## ```Corewar``` is a School 42 project. It is the final project of the Algorithms branch.
+## ```Corewar``` is a School 42 project. It is the final project of the Algorithms branch
 
-### The purpose of this project is an implementation of the programming game “Core War”.
+### The purpose of this project is an implementation of the programming game “Core War”
 
 _Done by two ~~awesome~~ restless individuals:_  
 [me](https://github.com/ArtemisKS) & Vitas Brazas (aka [millon15](https://github.com/millon15))
@@ -18,7 +18,7 @@ This project consists of five parts:
 - ```Virtual Machine(THE ARENA)```
 - ```Visualizer```
 
-Project has one developed champion: bot_kompot.s. It is located in the project's root directory.
+Project has one developed champion: `bot_kompot.s`. It is located in the project's root directory.
 
 Assembler is the module of program `asm`
 
@@ -41,7 +41,7 @@ To get the executables `asm` & `corewar`, simply run ```make```
 ### `asm`
 
 ```
-Usage: ./asm (champion.cor)
+Usage: ./asm champion.cor
 ```
 
 ### `Corewar`
@@ -72,7 +72,6 @@ The best visualizer performance is with iTerm (make sure you've got the latest v
 ```Random bots combination midgame screenshot```
 
 ![CoreWar screenshot #1](/images/CoreScreen.png)
-
 
 ```Random bots combination endgame screenshot```
 
