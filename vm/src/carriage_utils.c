@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   carriage_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 21:59:05 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/17 22:22:44 by vbrazas          ###   ########.fr       */
+/*   Updated: 2019/02/07 14:51:00 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,23 @@ t_car			*get_last_car(t_vm *v)
 	return (tmp);
 }
 
-void			copy_car(t_car *self, t_vm *v, unsigned char *pc)
+void			copy_car(t_car *self, t_vm *v, int arena_pos)
 {
-	t_car		*first;
-	int			i;
+	t_car			*new;
+	int				i;
+	unsigned char	*pc;
 
+	pc = v->arena + (arena_pos);
 	init_car(pc, self->name, v);
-	first = v->head;
-	first->carry = self->carry;
-	first->live_cycle = self->live_cycle;
+	new = v->head;
+	new->carry = self->carry;
+	new->live_cycle = self->live_cycle;
 	i = -1;
 	while (++i < REG_NUMBER + 1)
-		first->reg[i] = self->reg[i];
+		new->reg[i] = self->reg[i];
 }
 
-void			init_car(unsigned char *where, unsigned int name, t_vm *v)
+void			init_car(unsigned char *where, int name, t_vm *v)
 {
 	const t_car		*next = v->head;
 	t_car			**tmp;
@@ -73,6 +75,7 @@ void			init_car(unsigned char *where, unsigned int name, t_vm *v)
 	(*tmp)->pc = where;
 	(*tmp)->live_cycle = I.cur_cycle;
 	(*tmp)->id = ++id;
+	(*tmp)->pc_ind = where - v->arena;
 	ft_bzero(&(*tmp)->args, sizeof((*tmp)->args));
 	ft_bzero(&(*tmp)->arg_val, sizeof((*tmp)->arg_val));
 	ft_bzero(&(*tmp)->reg, sizeof((*tmp)->reg));

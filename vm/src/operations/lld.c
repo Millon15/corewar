@@ -3,61 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   lld.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:50:31 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/21 06:11:11 by vbrazas          ###   ########.fr       */
+/*   Updated: 2019/02/07 14:52:43 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static int			calc_fa(int tmp)
+inline static void	verbose_lld(int car_id, int val, int reg)
 {
-	int				first_arg;
-
-	if (tmp > IDX_MOD && !(tmp % IDX_MOD))
-		first_arg = 0;
-	else if ((tmp > SHORT_RANGE / 2) && (tmp % IDX_MOD == tmp % MEM_SIZE)
-	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD)
-		first_arg = tmp - SHORT_RANGE;
-	else if ((tmp > IDX_MOD && tmp > MEM_SIZE && tmp <= MEM_SIZE * 2)
-	|| (tmp % IDX_MOD == tmp % MEM_SIZE) || (tmp % SHORT_RANGE >= FPOS &&
-	tmp % SHORT_RANGE <= FPOS1) || (tmp > MEM_SIZE && tmp < FPOS
-	&& (tmp - SHORT_RANGE) % IDX_MOD == tmp % IDX_MOD - IDX_MOD))
-		first_arg = tmp;
-	else
-	{
-		first_arg = (tmp > IDX_MOD) ?
-		tmp % IDX_MOD : tmp;
-		if (tmp > MEM_SIZE)
-			first_arg -= IDX_MOD;
-	}
-	return (first_arg);
+	ft_printf("P %4d | lld %d r%d\n", car_id, val, reg);
 }
 
 void				lld(t_car *self, t_vm *v)
 {
-	unsigned char	*pc;
-	long			tmp;
-	long			first_arg;
+	int		f_arg;
 
-	tmp = self->arg_val[0];
-	if (self->args[0] == T_DIR)
-		self->reg[self->arg_val[1]] = tmp;
-	else if (self->args[0] == T_IND)
-	{
-		first_arg = calc_fa(tmp);
-		if (first_arg > MEM_SIZE - PC_IND)
-			pc = &v->arena[first_arg - MEM_SIZE - PC_IND];
-		else
-			pc = &v->arena[PC_IND + first_arg];
-		self->reg[self->arg_val[1]] = get_raw_num(pc, REG_SIZE, v);
-	}
-	self->carry = self->reg[self->arg_val[1]] ? false : true;
+	f_arg = obtain_argval(v, self, 0, false);
+	self->reg[self->arg_val[1]] = f_arg;
+	self->carry = f_arg ? false : true;
 	if (IS_VERB(4))
-		ft_printf("P %4d | lld %d r%d\n", self->id,
-		self->reg[self->arg_val[1]], self->arg_val[1]);
+		verbose_lld(self->id, f_arg, self->arg_val[1]);
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }

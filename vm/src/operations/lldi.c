@@ -3,65 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   lldi.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 19:49:45 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/21 06:15:47 by vbrazas          ###   ########.fr       */
+/*   Updated: 2019/02/07 15:05:24 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vm.h>
 
-static void			set_args(long *args, t_car *self)
+inline static void	verbose_lldi(t_car *self, int v1, int v2, int reg)
 {
-	if (args[0] >= IDX_MOD)
-		args[0] = assign_arg(args[0]);
-	args[1] = self->args[1] == T_REG ?
-	self->reg[self->arg_val[1]] : self->arg_val[1];
-	if (args[1] >= IDX_MOD)
-		args[1] = assign_arg(args[1]);
-}
-
-static void			load_va_v(t_car *self, t_vm *v, long *args)
-{
-	long			arg_sum;
-	unsigned char	*pc;
-
-	arg_sum = (args[0] + args[1]) + PC_IND;
-	if (arg_sum < 0)
-		pc = &v->arena[MEM_SIZE - ft_abs(arg_sum) % MEM_SIZE];
-	else
-		pc = &v->arena[arg_sum % MEM_SIZE];
-	self->reg[self->arg_val[2]] = get_raw_num(pc, REG_SIZE, v);
-	if (IS_VERB(4))
-	{
-		ft_printf("P %4d | lldi %d %d r%d\n", self->id, args[0],
-		args[1], self->arg_val[2]);
-		ft_printf("%8c -> load from %d + %d = %d (with pc %d)\n", '|',
-		args[0], args[1], args[0] + args[1], arg_sum);
-	}
+	ft_printf("P %4d | ldi %d %d r%d\n", self->id, v1, v2, reg);
+	ft_printf("%8c -> load from %d + %d = %d (with pc and mod %d)\n", '|', v1,
+	v2, v1 + v2, self->pc_ind + (v1 + v2));
 }
 
 void				lldi(t_car *self, t_vm *v)
 {
-	unsigned char	*pc;
-	long			args[2];
+	int		f_arg;
+	int		s_arg;
 
-	ft_bzero((void *)args, sizeof(long) * 2);
-	if (self->args[0] == T_IND)
-	{
-		self->arg_val[0] %= IDX_MOD;
-		if (self->arg_val[0] > MEM_SIZE - PC_IND)
-			pc = &v->arena[self->arg_val[0] - MEM_SIZE - PC_IND];
-		else
-			pc = &self->pc[self->arg_val[0]];
-		args[0] = get_raw_num(pc, REG_SIZE, v);
-	}
-	else
-		args[0] = (self->args[0] == T_REG)
-		? self->reg[self->arg_val[0]] : self->arg_val[0];
-	set_args(args, self);
-	load_va_v(self, v, args);
+	f_arg = obtain_argval(v, self, 0, true);
+	s_arg = obtain_argval(v, self, 1, true);
+	self->reg[self->arg_val[2]] = get_raw_num(&v->arena[find_addr(PC_IND +
+	f_arg + s_arg)], REG_SIZE, v);
+	self->pc_ind = PC_IND;
+	if (IS_VERB(4))
+		verbose_lldi(self, f_arg, s_arg, self->arg_val[2]);
 	move_pc(self, v, self->pc_padding, false);
 	self->pc_padding = 0;
 }

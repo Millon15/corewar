@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   infargsop.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/21 07:05:28 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/21 09:49:18 by vbrazas          ###   ########.fr       */
+/*   Updated: 2019/02/06 18:04:22 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # define I				v->info
 # define PC_IND			(self->pc - v->arena)
+# define REG_N(x)		(x)
 
 struct					s_info
 {
@@ -51,12 +52,8 @@ struct					s_args
 ** Operations structure
 */
 
-# define PUMPKIN		(res << (8 * i)) >> (8 * (size - 1))
+# define TO_ARENA		(res << (8 * i)) >> (8 * (sizeof(int) - 1))
 # define SPACE_TO_END	(MEM_SIZE - PC_IND)
-# define SHORT_RANGE	(USHRT_MAX + 1)
-# define FPOS			16962
-# define TNTZEROS		2900
-# define FPOS1			21530
 
 struct					s_operations
 {

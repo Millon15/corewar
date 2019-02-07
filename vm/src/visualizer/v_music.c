@@ -26,7 +26,7 @@ static bool			init(t_vm *v)
 	t_smi			*const t = (g_all_music_info + M.music);
 
 	TMP = ft_strjoin(
-	"afplay /Users/vbrazas/projects/archive/corewar/vm/music/"
+	"afplay /Users/akupriia/projects/corewar/vm/music/"
 	, TMP);
 	t->play_die = ft_strjoin(TMP, "die.mp3 &> /dev/null &");
 	t->play_end = ft_strjoin(TMP, "end.mp3 &> /dev/null &");

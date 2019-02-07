@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
+/*   By: akupriia <akupriia@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:57:01 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/10/21 09:55:05 by vbrazas          ###   ########.fr       */
+/*   Updated: 2019/02/07 14:22:17 by akupriia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ struct				s_player
 	bool			is_alive;
 	int				fd;
 
-	unsigned int	name;
+	int				name;
 	unsigned int	lives_in_cp;
 	unsigned int	magic;
 	unsigned int	points;
@@ -56,7 +56,7 @@ struct				s_player
 struct				s_carriage
 {
 	bool			carry;
-	unsigned int	name;
+	int				name;
 	int				cycles_to_wait;
 	int				cur_operation;
 	int				nb_lives;
@@ -65,22 +65,24 @@ struct				s_carriage
 	int				live_cycle;
 
 	unsigned char	*pc;
-	unsigned int	reg[REG_NUMBER + 1];
+	int				reg[REG_NUMBER + 1];
 	unsigned int	args[3];
-	unsigned int	arg_val[3];
+	int				arg_val[3];
+	int				pc_ind;
 
 	t_car			*prev;
 	t_car			*next;
 };
 
 t_car				*get_last_car(t_vm *v);
-void				copy_car(t_car *cc, t_vm *v, unsigned char *pc);
+void				copy_car(t_car *self, t_vm *v, int arena_pos);
 void				delete_this_car(t_car **cur_car, t_vm *v);
-void				init_car(unsigned char *where, unsigned int whom, t_vm *v);
+void				init_car(unsigned char *where, int whom, t_vm *v);
 void				print_arena(unsigned char *arena, unsigned char to_equate
 	, t_car *self, t_vm *v);
 void				move_pc(t_car *self, t_vm *v, unsigned int padding
 	, bool is_jump_car);
+int					find_addr(int res);
 
 /*
 ** Main corewar structure
@@ -107,7 +109,7 @@ void				fill_arena(t_vm *v);
 
 void				pass_one_cycle(t_vm *v);
 void				perform_next_comm(t_car *self, t_vm *v);
-int					vnp_codage(t_car *self, const t_op *cur, t_vm *v);
+int					vnp_codage(t_car *self, t_vm *v);
 void				get_winner(t_vm *v);
 
 void				kill_process(int *last_check, t_vm *v);
@@ -122,8 +124,9 @@ int					ft_abs(int x);
 int					meta_reader(const int fd, void *read_in, const int nbytes);
 void				dump_printer(const void *to_print, const int nbytes);
 unsigned int		read_raw_num(const int fd, const int chars_to_read);
-unsigned int		get_raw_num(const unsigned char *arena,
+int					get_raw_num(const unsigned char *arena,
 	const int bytes_to_read, const t_vm *v);
+int					obtain_argval(t_vm *v, t_car *self, int index, bool mod);
 
 /*
 ** Put Error functions
@@ -132,5 +135,32 @@ unsigned int		get_raw_num(const unsigned char *arena,
 bool				put_usage(const int errnum);
 bool				put_error(const int errnum, const char *errstr,
 	const int i1, const int i2);
+
+static const t_op			g_func_tab[17] =
+{
+	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0, &live},
+	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0, &ld},
+	{"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 0, &st},
+	{"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition", 1, 0, &add},
+	{"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "soustraction", 1, 0, &sub},
+	{"and", 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6,
+		"et (and  r1, r2, r3   r1&r2 -> r3", 1, 0, &and},
+	{"or", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6,
+		"ou  (or   r1, r2, r3   r1 | r2 -> r3", 1, 0, &or},
+	{"xor", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 8, 6,
+		"ou (xor  r1, r2, r3   r1^r2 -> r3", 1, 0, &xor},
+	{"zjmp", 1, {T_DIR}, 9, 20, "jump if zero", 0, 1, &zjmp},
+	{"ldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25,
+		"load index", 1, 1, &ldi},
+	{"sti", 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 11, 25,
+		"store index", 1, 1, &sti},
+	{"fork", 1, {T_DIR}, 12, 800, "fork", 0, 1, &op_fork},
+	{"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load", 1, 0, &lld},
+	{"lldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 14, 50,
+		"long load index", 1, 1, &lldi},
+	{"lfork", 1, {T_DIR}, 15, 1000, "long fork", 0, 1, &lfork},
+	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0, &aff},
+	{0, 0, {0}, 0, 0, 0, 0, 0, NULL}
+};
 
 #endif
